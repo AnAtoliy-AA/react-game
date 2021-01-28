@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { generateCells } from '../../utils';
+import CellButton from '../CellButton/CellButton';
 import './GameBody.scss';
 
 const GameBody: React.FC = () => {
-    return <div className="GameBody">GameBody</div>;
+    const [cells, setCells] = useState(generateCells());
+
+    const renderCells = (): React.ReactNode => {
+        return cells.map((row, rowIndex) => row.map((cell, colIndex) => <CellButton key={`${rowIndex}${colIndex}`} />));
+    };
+
+    return <div className="GameBody">{renderCells()}</div>;
 };
 
 export default GameBody;
