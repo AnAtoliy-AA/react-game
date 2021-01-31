@@ -5,7 +5,6 @@ import './GameBody.scss';
 
 const GameBody: React.FC = () => {
     const [cells, setCells] = useState(generateCells());
-
     const renderCells = (): React.ReactNode => {
         return cells.map((row, rowIndex) => row.map((cell, colIndex) => <CellButton key={`${rowIndex}${colIndex}`} />));
     };

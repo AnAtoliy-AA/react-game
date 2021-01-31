@@ -1,5 +1,5 @@
 import { Cell, CellState, CellValue } from './../types';
-import { MAX_COLS, MAX_ROWS } from './../constants';
+import { MAX_COLS, MAX_ROWS, N_OF_BOMBS } from './../constants';
 
 export const generateCells = (): Cell[][] => {
     const cells: Cell[][] = [];
@@ -11,6 +11,21 @@ export const generateCells = (): Cell[][] => {
                 value: CellValue.empty,
                 state: CellState.visible,
             });
+        }
+    }
+
+    let bombsPlaced = 0;
+    while (bombsPlaced < N_OF_BOMBS) {
+        const randomRow = Math.floor(Math.random() * MAX_ROWS);
+        const randomCol = Math.floor(Math.random() * MAX_COLS);
+        const currentCell = cells[randomRow][randomCol];
+
+        if (currentCell.value !== CellValue.bomb) {
+            cells[randomRow][randomCol] = {
+                ...cells[randomRow][randomCol],
+                value: CellValue.bomb,
+            };
+            bombsPlaced++;
         }
     }
 

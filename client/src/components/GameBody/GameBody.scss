@@ -1,9 +1,9 @@
 @import "../../styles/index.scss";
 
 .GameBody {
-    background-color: $secondary-color;
+    @include borders($secondary-color, $primary-color);
+    // background-color: $secondary-color;
     margin-top: 16px;
-    border: 4px solid $primary-color;
     display: grid;
     grid-template-rows: repeat(9, 1fr);
     grid-template-columns: repeat(9, 1fr);

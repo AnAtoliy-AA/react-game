@@ -1,8 +1,10 @@
 @import "../../styles/index.scss";
 
 .Button {
-    background-color: $primary-color;
+  @include borders;
+  @include buttons;
+    // background-color: $primary-color;
   width: 30px;
   height: 30px;
-  border: 2px solid $secondary-color;
+
 }
