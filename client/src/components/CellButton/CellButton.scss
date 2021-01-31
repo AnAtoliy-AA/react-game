@@ -3,8 +3,44 @@
 .Button {
   @include borders;
   @include buttons;
-    // background-color: $primary-color;
   width: 30px;
   height: 30px;
+  font-weight: bold;
 
+  &.visible {
+    border-color: $display-background-color;
+    border-width: 1px;
+  }
+
+  &.value-1 {
+    color: $first-button-value;
+  }
+
+  &.value-2 {
+    color: $second-button-value;
+  }
+
+  &.value-3 {
+    color: $third-button-value;
+  }
+
+  &.value-4 {
+    color: $fourth-button-value;
+  }
+
+  &.value-5 {
+    color: $fifth-button-value;
+  }
+
+  &.value-6 {
+    color: $sixth-button-value;
+  }
+
+  &.value-7 {
+    color: $seventh-button-value;
+  }
+
+  &.value-8 {
+    color: $eights-button-value;
+  }
 }

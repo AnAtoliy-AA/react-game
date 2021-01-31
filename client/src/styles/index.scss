@@ -2,6 +2,14 @@ $primary-color: grey;
 $secondary-color:white;
 $display-color: red;
 $display-background-color: black;
+$first-button-value: blue;
+$second-button-value: green;
+$third-button-value: red;
+$fourth-button-value: purple;
+$fifth-button-value: maroon;
+$sixth-button-value: turquoise;
+$seventh-button-value: black;
+$eights-button-value: gray;
 
 @mixin borders($left-top: $primary-color, $right-bottom: $secondary-color) {
     border-top-color: $left-top;

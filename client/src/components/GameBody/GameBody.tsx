@@ -6,7 +6,17 @@ import './GameBody.scss';
 const GameBody: React.FC = () => {
     const [cells, setCells] = useState(generateCells());
     const renderCells = (): React.ReactNode => {
-        return cells.map((row, rowIndex) => row.map((cell, colIndex) => <CellButton key={`${rowIndex}${colIndex}`} />));
+        return cells.map((row, rowIndex) =>
+            row.map((cell, colIndex) => (
+                <CellButton
+                    key={`${rowIndex}${colIndex}`}
+                    state={cell.state}
+                    value={cell.value}
+                    row={rowIndex}
+                    col={colIndex}
+                />
+            )),
+        );
     };
 
     return <div className="GameBody">{renderCells()}</div>;
