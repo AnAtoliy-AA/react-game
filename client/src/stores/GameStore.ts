@@ -1,3 +1,5 @@
+import { generateCells } from './../utils/index';
+import { Cell } from './../types/index';
 import { action, observable } from 'mobx';
 import { Face } from '../types';
 
@@ -10,12 +12,30 @@ export class GameStore {
         this.isGameStarted = !this.isGameStarted;
     }
 
+    @action
+    setIsGameStarted(value: boolean): void {
+        this.isGameStarted = value;
+    }
+
     @observable
     FaceButtonValue: Face = Face.smile;
 
     @action
-    setFaceButtonValue(value: Face) {
+    setFaceButtonValue(value: Face): void {
         this.FaceButtonValue = value;
+    }
+
+    @observable
+    gameCells: Cell[][] = generateCells();
+
+    @action
+    setCells(cells: Cell[][]): void {
+        this.gameCells = cells;
+    }
+
+    @action
+    setStartCells(): void {
+        this.gameCells = generateCells();
     }
 
     @observable

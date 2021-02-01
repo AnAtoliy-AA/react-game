@@ -17,9 +17,16 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value }) => {
     const handleMouseDown = (): void => {
         gameStore.setFaceButtonValue(Face.find);
     };
-    gameStore.toggleIsCellClicked();
     const handleMouseUp = (): void => {
         gameStore.setFaceButtonValue(Face.smile);
+    };
+
+    const handleCellClick = (rowParam: number, colParam: number): void => {
+        if (!gameStore.isGameStarted) {
+            // gameStore.setIsGameStarted(true);
+            gameStore.toggleIsGameStarted();
+            console.log(rowParam, colParam);
+        }
     };
 
     const renderContent = (): React.ReactNode => {
@@ -51,6 +58,7 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value }) => {
             className={`Button ${state === CellState.visible && 'visible'} value-${value}`}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
+            onClick={() => handleCellClick(row, col)}
         >
             {renderContent()}
         </div>

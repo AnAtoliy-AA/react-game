@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Cell } from '../../types';
-import { generateCells } from '../../utils';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import { useStore } from '../../hooks/hooks';
 import CellButton from '../CellButton/CellButton';
 import './GameBody.scss';
 
 const GameBody: React.FC = () => {
-    const [cells, setCells] = useState<Cell[][]>(generateCells());
+    const gameStore = useStore('gameStore');
     const renderCells = (): React.ReactNode => {
-        return cells.map((row, rowIndex) =>
+        return gameStore.gameCells.map((row, rowIndex) =>
             row.map((cell, colIndex) => (
                 <CellButton
                     key={`${rowIndex}${colIndex}`}
@@ -23,4 +23,4 @@ const GameBody: React.FC = () => {
     return <div className="GameBody">{renderCells()}</div>;
 };
 
-export default GameBody;
+export default observer(GameBody);

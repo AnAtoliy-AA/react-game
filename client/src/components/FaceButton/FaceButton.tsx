@@ -6,7 +6,16 @@ import './FaceButton.scss';
 const FaceButton: React.FC = observer(() => {
     const gameStore = useStore('gameStore');
 
-    return <div className="FaceButton">{gameStore.FaceButtonValue}</div>;
+    const handleOnFaceClick = (): void => {
+        gameStore.setIsGameStarted(false);
+        gameStore.setStartCells();
+    };
+
+    return (
+        <div className="FaceButton" onClick={handleOnFaceClick}>
+            {gameStore.FaceButtonValue}
+        </div>
+    );
 });
 
 export default FaceButton;
