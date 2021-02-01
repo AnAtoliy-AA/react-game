@@ -2,6 +2,7 @@ import React from 'react';
 import { useStore } from '../../hooks/hooks';
 
 import { CellState, CellValue, Face } from '../../types';
+import { openMultipleEmptyCells } from '../../utils';
 import './CellButton.scss';
 
 interface ButtonProps {
@@ -23,9 +24,25 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value }) => {
 
     const handleCellClick = (rowParam: number, colParam: number): void => {
         if (!gameStore.isGameStarted) {
-            // gameStore.setIsGameStarted(true);
-            gameStore.toggleIsGameStarted();
-            console.log(rowParam, colParam);
+            gameStore.setIsGameStarted(true);
+            //TODO: first bomb click
+            // gameStore.toggleIsGameStarted();
+        }
+        const currentCell = gameStore.gameCells[rowParam][colParam];
+        let newCells = gameStore.gameCells.slice();
+
+        if ([CellState.flagged, CellState.visible].includes(currentCell.state)) {
+            return;
+        }
+
+        if (currentCell.value === CellValue.bomb) {
+            //TODO
+        } else if (currentCell.value === CellValue.empty) {
+            newCells = openMultipleEmptyCells(newCells, rowParam, colParam);
+            gameStore.setCells(newCells);
+        } else {
+            newCells[rowParam][colParam].state = CellState.visible;
+            gameStore.setCells(newCells);
         }
     };
 
