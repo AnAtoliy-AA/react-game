@@ -29,6 +29,29 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value }) => {
         }
     };
 
+    const handleCellContext = (rowParam: number, colParam: number) => (
+        e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    ): void => {
+        e.preventDefault();
+
+        if (!gameStore.isGameStarted) {
+            return;
+        }
+
+        const currentCells = gameStore.gameCells.slice();
+        const currentCell = gameStore.gameCells[rowParam][colParam];
+
+        if (currentCell.state === CellState.visible) {
+            return;
+        } else if (currentCell.state === CellState.default) {
+            currentCells[rowParam][colParam].state = CellState.flagged;
+            gameStore.setCells(currentCells);
+        } else if (currentCell.state === CellState.flagged) {
+            currentCells[rowParam][colParam].state = CellState.default;
+            gameStore.setCells(currentCells);
+        }
+    };
+
     const renderContent = (): React.ReactNode => {
         if (state === CellState.visible) {
             if (value === CellValue.bomb) {
@@ -59,6 +82,7 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value }) => {
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onClick={() => handleCellClick(row, col)}
+            onContextMenu={handleCellContext(row, col)}
         >
             {renderContent()}
         </div>
