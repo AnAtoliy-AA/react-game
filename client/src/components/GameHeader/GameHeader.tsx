@@ -27,7 +27,7 @@ const GameHeader: React.FC = () => {
 
     return (
         <div className="GameHeader">
-            <NumberDisplay value={0} />
+            <NumberDisplay value={gameStore.bombCount} />
             <FaceButton />
             <NumberDisplay value={time} />
         </div>

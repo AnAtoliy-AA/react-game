@@ -46,9 +46,11 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value }) => {
         } else if (currentCell.state === CellState.default) {
             currentCells[rowParam][colParam].state = CellState.flagged;
             gameStore.setCells(currentCells);
+            gameStore.decrementBombCounter();
         } else if (currentCell.state === CellState.flagged) {
             currentCells[rowParam][colParam].state = CellState.default;
             gameStore.setCells(currentCells);
+            gameStore.incrementBombCounter();
         }
     };
 

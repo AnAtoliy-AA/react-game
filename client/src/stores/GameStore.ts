@@ -2,6 +2,7 @@ import { generateCells } from './../utils/index';
 import { Cell } from './../types/index';
 import { action, observable } from 'mobx';
 import { Face } from '../types';
+import { N_OF_BOMBS } from '../constants';
 
 export class GameStore {
     @observable
@@ -39,10 +40,15 @@ export class GameStore {
     }
 
     @observable
-    isCellClicked = false;
+    bombCount: number = N_OF_BOMBS;
 
     @action
-    toggleIsCellClicked(): void {
-        this.isCellClicked = !this.isCellClicked;
+    incrementBombCounter(): void {
+        this.bombCount++;
+    }
+
+    @action
+    decrementBombCounter(): void {
+        this.bombCount--;
     }
 }
