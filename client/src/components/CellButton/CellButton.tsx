@@ -1,5 +1,7 @@
 import React from 'react';
-import { CellState, CellValue } from '../../types';
+import { useStore } from '../../hooks/hooks';
+
+import { CellState, CellValue, Face } from '../../types';
 import './CellButton.scss';
 
 interface ButtonProps {
@@ -11,6 +13,15 @@ interface ButtonProps {
 
 // eslint-disable-next-line react/prop-types
 const CellButton: React.FC<ButtonProps> = ({ row, col, state, value }) => {
+    const gameStore = useStore('gameStore');
+    const handleMouseDown = (): void => {
+        gameStore.setFaceButtonValue(Face.find);
+    };
+    gameStore.toggleIsCellClicked();
+    const handleMouseUp = (): void => {
+        gameStore.setFaceButtonValue(Face.smile);
+    };
+
     const renderContent = (): React.ReactNode => {
         if (state === CellState.visible) {
             if (value === CellValue.bomb) {
@@ -35,7 +46,15 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value }) => {
         return null;
     };
 
-    return <div className={`Button ${state === CellState.visible && 'visible'} value-${value}`}>{renderContent()}</div>;
+    return (
+        <div
+            className={`Button ${state === CellState.visible && 'visible'} value-${value}`}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+        >
+            {renderContent()}
+        </div>
+    );
 };
 
 export default CellButton;
