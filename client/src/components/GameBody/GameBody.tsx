@@ -13,6 +13,7 @@ const GameBody: React.FC = () => {
                     key={`${rowIndex}${colIndex}`}
                     state={cell.state}
                     value={cell.value}
+                    danger={cell.danger}
                     row={rowIndex}
                     col={colIndex}
                 />

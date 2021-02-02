@@ -1,19 +1,21 @@
 import React from 'react';
+import { MAX_COLS, MAX_ROWS } from '../../constants';
 import { useStore } from '../../hooks/hooks';
 
-import { CellState, CellValue, Face } from '../../types';
+import { Cell, CellState, CellValue, Face } from '../../types';
 import { openMultipleEmptyCells } from '../../utils';
 import './CellButton.scss';
 
 interface ButtonProps {
     row: number;
     col: number;
+    danger?: boolean;
     state: CellState;
     value: CellValue;
 }
 
 // eslint-disable-next-line react/prop-types
-const CellButton: React.FC<ButtonProps> = ({ row, col, state, value }) => {
+const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger }) => {
     const gameStore = useStore('gameStore');
     const handleMouseDown = (): void => {
         gameStore.setFaceButtonValue(Face.find);
@@ -24,10 +26,20 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value }) => {
 
     const handleCellClick = (rowParam: number, colParam: number): void => {
         if (!gameStore.isGameStarted) {
+            let isFirstCellABomb = gameStore.gameCells[rowParam][colParam].value === CellValue.bomb;
+            while (isFirstCellABomb) {
+                gameStore.setStartCells();
+
+                if (gameStore.gameCells[rowParam][colParam].value !== CellValue.bomb) {
+                    isFirstCellABomb = false;
+                    break;
+                }
+            }
+
+            gameStore.setIsGameLost(false);
             gameStore.setIsGameStarted(true);
-            //TODO: first bomb click
-            // gameStore.toggleIsGameStarted();
         }
+
         const currentCell = gameStore.gameCells[rowParam][colParam];
         let newCells = gameStore.gameCells.slice();
 
@@ -36,14 +48,51 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value }) => {
         }
 
         if (currentCell.value === CellValue.bomb) {
-            //TODO
+            gameStore.setIsGameLost(true);
+            gameStore.setFaceButtonValue(Face.loose);
+            gameStore.setIsGameStarted(false);
+            newCells[rowParam][colParam].danger = true;
+            newCells = showAllBombs();
+            gameStore.setCells(newCells);
+            return;
         } else if (currentCell.value === CellValue.empty) {
             newCells = openMultipleEmptyCells(newCells, rowParam, colParam);
-            gameStore.setCells(newCells);
+            // gameStore.setCells(newCells);
         } else {
             newCells[rowParam][colParam].state = CellState.visible;
-            gameStore.setCells(newCells);
+            // gameStore.setCells(newCells);
         }
+
+        let safeOpenCellsExists = false;
+
+        for (let row = 0; row < MAX_ROWS; row++) {
+            for (let col = 0; col < MAX_COLS; col++) {
+                const currentCell = newCells[row][col];
+
+                if (currentCell.value !== CellValue.bomb && currentCell.state !== CellState.visible) {
+                    safeOpenCellsExists = true;
+                    break;
+                }
+            }
+        }
+
+        if (!safeOpenCellsExists) {
+            newCells = newCells.map((row) =>
+                // eslint-disable-next-line react/prop-types
+                row.map((cell) => {
+                    if (cell.value === CellValue.bomb) {
+                        return {
+                            ...cell,
+                            state: CellState.flagged,
+                        };
+                    }
+                    return cell;
+                }),
+            );
+            gameStore.setIsGameWon(true);
+        }
+
+        gameStore.setCells(newCells);
     };
 
     const handleCellContext = (rowParam: number, colParam: number) => (
@@ -69,6 +118,23 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value }) => {
             gameStore.setCells(currentCells);
             gameStore.incrementBombCounter();
         }
+    };
+
+    const showAllBombs = (): Cell[][] => {
+        const currentCells = gameStore.gameCells.slice();
+
+        return currentCells.map((row) =>
+            // eslint-disable-next-line react/prop-types
+            row.map((cell) => {
+                if (cell.value === CellValue.bomb) {
+                    return {
+                        ...cell,
+                        state: CellState.visible,
+                    };
+                }
+                return cell;
+            }),
+        );
     };
 
     const renderContent = (): React.ReactNode => {
@@ -97,7 +163,7 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value }) => {
 
     return (
         <div
-            className={`Button ${state === CellState.visible && 'visible'} value-${value}`}
+            className={`Button ${state === CellState.visible && 'visible'} value-${value} ${danger ? 'danger' : ''}`}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onClick={() => handleCellClick(row, col)}

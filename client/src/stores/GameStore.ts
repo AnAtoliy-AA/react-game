@@ -51,4 +51,20 @@ export class GameStore {
     decrementBombCounter(): void {
         this.bombCount--;
     }
+
+    @observable
+    isGameLost = false;
+
+    @action
+    setIsGameLost(value: boolean): void {
+        this.isGameLost = value;
+    }
+
+    @observable
+    isGameWon = false;
+
+    @action
+    setIsGameWon(value: boolean): void {
+        this.isGameWon = value;
+    }
 }

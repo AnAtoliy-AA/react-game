@@ -43,4 +43,8 @@
   &.value-8 {
     color: $eights-button-value;
   }
+
+  &.danger {
+    background-color: $display-color;
+  }
 }
