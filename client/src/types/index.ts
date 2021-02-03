@@ -24,4 +24,4 @@ export enum Face {
     win = '😎',
 }
 
-export type Cell = { value: CellValue; state: CellState; danger?: boolean };
+export type Cell = { value: CellValue; state: CellState; danger?: boolean; checked?: boolean };

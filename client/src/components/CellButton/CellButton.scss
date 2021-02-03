@@ -47,4 +47,10 @@
   &.danger {
     background-color: $display-color;
   }
+  &.touched {
+    background-color: $second-button-value;
+  }
+  &.checked {
+    background-color: $second-button-value;
+  }
 }

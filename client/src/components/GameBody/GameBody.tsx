@@ -14,6 +14,7 @@ const GameBody: React.FC = () => {
                     state={cell.state}
                     value={cell.value}
                     danger={cell.danger}
+                    checked={cell.checked}
                     row={rowIndex}
                     col={colIndex}
                 />

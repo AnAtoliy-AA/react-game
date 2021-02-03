@@ -3,25 +3,50 @@ import { MAX_COLS, MAX_ROWS } from '../../constants';
 import { useStore } from '../../hooks/hooks';
 
 import { Cell, CellState, CellValue, Face } from '../../types';
-import { openMultipleEmptyCells } from '../../utils';
+import { checkMultipleVisibleCells, openMultipleEmptyCells, toggleStyleAllAdjacentCells } from '../../utils';
 import './CellButton.scss';
 
 interface ButtonProps {
     row: number;
     col: number;
     danger?: boolean;
+    checked?: boolean;
     state: CellState;
     value: CellValue;
 }
 
+enum MouseButtons {
+    LeftButton = 1,
+    RightButton,
+}
+
 // eslint-disable-next-line react/prop-types
-const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger }) => {
+const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger, checked }) => {
     const gameStore = useStore('gameStore');
-    const handleMouseDown = (): void => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handleMouseDown = (
+        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+        rowParam: number,
+        colParam: number,
+    ): void => {
         gameStore.setFaceButtonValue(Face.find);
+        if (event.button === MouseButtons.RightButton) {
+            if (!gameStore.isGameStarted) {
+                return;
+            } else toggleStyleAllAdjacentCells(gameStore.gameCells, rowParam, colParam, true);
+        }
     };
-    const handleMouseUp = (): void => {
+    const handleMouseUp = (
+        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+        rowParam: number,
+        colParam: number,
+    ): void => {
         gameStore.setFaceButtonValue(Face.smile);
+        if (event.button === MouseButtons.RightButton) {
+            if (!gameStore.isGameStarted) {
+                return;
+            } else toggleStyleAllAdjacentCells(gameStore.gameCells, rowParam, colParam, false);
+        }
     };
 
     const handleCellClick = (rowParam: number, colParam: number): void => {
@@ -108,6 +133,8 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger }) =
         const currentCell = gameStore.gameCells[rowParam][colParam];
 
         if (currentCell.state === CellState.visible) {
+            checkMultipleVisibleCells(currentCells, rowParam, colParam);
+            checkIfGameLost();
             return;
         } else if (currentCell.state === CellState.default) {
             currentCells[rowParam][colParam].state = CellState.flagged;
@@ -137,6 +164,25 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger }) =
         );
     };
 
+    const checkIfGameLost = (): void => {
+        const currentCells = gameStore.gameCells.slice();
+
+        currentCells.forEach((row) =>
+            // eslint-disable-next-line react/prop-types
+            row.forEach((cell) => {
+                if (cell.value === CellValue.bomb && cell.state === CellState.visible) {
+                    gameStore.setIsGameLost(true);
+                }
+            }),
+        );
+    };
+
+    if (gameStore.isGameLost) {
+        gameStore.setFaceButtonValue(Face.loose);
+        gameStore.setIsGameStarted(false);
+        console.log('LASHARA', gameStore.isGameLost);
+    }
+
     const renderContent = (): React.ReactNode => {
         if (state === CellState.visible) {
             if (value === CellValue.bomb) {
@@ -163,9 +209,11 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger }) =
 
     return (
         <div
-            className={`Button ${state === CellState.visible && 'visible'} value-${value} ${danger ? 'danger' : ''}`}
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
+            className={`Button ${state === CellState.visible && 'visible'} value-${value} ${danger ? 'danger' : ''} ${
+                checked ? 'checked' : ''
+            }`}
+            onMouseDown={(event) => handleMouseDown(event, row, col)}
+            onMouseUp={(event) => handleMouseUp(event, row, col)}
             onClick={() => handleCellClick(row, col)}
             onContextMenu={handleCellContext(row, col)}
         >
