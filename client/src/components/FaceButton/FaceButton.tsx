@@ -8,15 +8,15 @@ const FaceButton: React.FC = observer(() => {
     const gameStore = useStore('gameStore');
 
     const handleOnFaceClick = (): void => {
-        gameStore.setIsGameStarted(false);
-        gameStore.setStartCells();
-        gameStore.setDefaultBombCount();
-        gameStore.setIsGameWon(false);
-        gameStore.setFaceButtonValue(Face.smile);
+        gameStore.setDefaultStartGameValues();
     };
 
     if (gameStore.isGameWon) {
         gameStore.setFaceButtonValue(Face.win);
+    }
+
+    if (gameStore.isGameLost) {
+        gameStore.setFaceButtonValue(Face.loose);
     }
 
     return (

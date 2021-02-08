@@ -80,4 +80,16 @@ export class GameStore {
     setIsGameWon(value: boolean): void {
         this.isGameWon = value;
     }
+
+    @action
+    setDefaultStartGameValues(): void {
+        this.setStartCells();
+        this.setIsGameLost(false);
+        this.setIsGameWon(false);
+        this.setDefaultBombCount();
+        this.setIsGameStarted(false);
+        //TODO
+        this.setGameTime(0);
+        this.setFaceButtonValue(Face.smile);
+    }
 }
