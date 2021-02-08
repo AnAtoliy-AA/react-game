@@ -1,2 +1,5 @@
 /node_modules
 client/.eslintcache
+config/keys.dev.js
+client/etc
+config.env

@@ -9,6 +9,8 @@ import Footer from '../Footer/Footer';
 import './App.scss';
 import MainScreen from '../MainScreen/MainScreen';
 import StartScreen from '../StartScreen/StartScreen';
+import Login from '../Login/Login';
+import Register from '../Register/Register';
 
 const App: React.FC = () => {
     const gameStore = useStore('gameStore');
@@ -20,9 +22,9 @@ const App: React.FC = () => {
                 <Header />
                 <StartScreen />
                 <Route exact path="/login">
-                    {/* {authStore.isAuth ? <Redirect to="/main" /> : <Login />} */}
+                    {authStore.isAuth ? <Redirect to="/main" /> : <Login />}
                 </Route>
-                {/* <Route path="/register" component={Register} /> */}
+                <Route path="/register" component={Register} />
                 <Route exact path="/main">
                     {!authStore.isAuth ? <Redirect to="/login" /> : <MainScreen />}
                 </Route>

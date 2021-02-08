@@ -5,7 +5,7 @@ export class AuthStore {
     token = '';
 
     @observable
-    isAuth = true;
+    isAuth = false;
 
     @action
     setToken(token: string): void {
