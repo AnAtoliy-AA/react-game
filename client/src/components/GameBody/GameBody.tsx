@@ -7,6 +7,7 @@ import { MAX_COLS, MAX_ROWS } from '../../constants';
 
 import { Cell, CellState, CellValue, Face } from '../../types';
 import { checkMultipleVisibleCells, openMultipleEmptyCells, toggleStyleAllAdjacentCells } from '../../utils';
+import { Grid } from '@material-ui/core';
 
 enum MouseButtons {
     LeftButton = 1,
@@ -15,6 +16,7 @@ enum MouseButtons {
 
 const GameBody: React.FC = () => {
     const gameStore = useStore('gameStore');
+    const gameSettingsStore = useStore('gameSettingsStore');
     const handleMouseDown = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
         rowParam: number,
@@ -47,7 +49,10 @@ const GameBody: React.FC = () => {
         if (!gameStore.isGameStarted && !gameStore.isGameLost && !gameStore.isGameWon) {
             let isFirstCellABomb = gameStore.gameCells[rowParam][colParam].value === CellValue.bomb;
             while (isFirstCellABomb) {
-                gameStore.setStartCells();
+                gameStore.setStartCells(
+                    gameSettingsStore.gameSettings.fieldWidth,
+                    gameSettingsStore.gameSettings.fieldWidth,
+                );
 
                 if (gameStore.gameCells[rowParam][colParam].value !== CellValue.bomb) {
                     isFirstCellABomb = false;
@@ -179,29 +184,36 @@ const GameBody: React.FC = () => {
         );
     };
     const renderCells = (): React.ReactNode => {
-        return gameStore.gameCells.map((row, rowIndex) =>
-            row.map((cell, colIndex) => (
-                <div
-                    key={`${rowIndex}${colIndex}`}
-                    onMouseDown={(event) => handleMouseDown(event, rowIndex, colIndex)}
-                    onMouseUp={(event) => handleMouseUp(event, rowIndex, colIndex)}
-                    onClick={() => handleCellClick(rowIndex, colIndex)}
-                    onContextMenu={handleCellContext(rowIndex, colIndex)}
-                >
-                    <CellButton
-                        state={cell.state}
-                        value={cell.value}
-                        danger={cell.danger}
-                        checked={cell.checked}
-                        row={rowIndex}
-                        col={colIndex}
-                    />
-                </div>
-            )),
-        );
+        return gameStore.gameCells.map((row, rowIndex) => (
+            <Grid container key={`${rowIndex}`}>
+                {row.map((cell, colIndex) => (
+                    <Grid
+                        item
+                        key={`${rowIndex}${colIndex}`}
+                        onMouseDown={(event) => handleMouseDown(event, rowIndex, colIndex)}
+                        onMouseUp={(event) => handleMouseUp(event, rowIndex, colIndex)}
+                        onClick={() => handleCellClick(rowIndex, colIndex)}
+                        onContextMenu={handleCellContext(rowIndex, colIndex)}
+                    >
+                        <CellButton
+                            state={cell.state}
+                            value={cell.value}
+                            danger={cell.danger}
+                            checked={cell.checked}
+                            row={rowIndex}
+                            col={colIndex}
+                        />
+                    </Grid>
+                ))}
+            </Grid>
+        ));
     };
 
-    return <div className="GameBody">{renderCells()}</div>;
+    return (
+        <Grid className="GameBody" container justify="center">
+            {renderCells()}
+        </Grid>
+    );
 };
 
 export default observer(GameBody);

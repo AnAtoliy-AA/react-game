@@ -6,9 +6,13 @@ import './FaceButton.scss';
 
 const FaceButton: React.FC = observer(() => {
     const gameStore = useStore('gameStore');
+    const gameSettingsStore = useStore('gameSettingsStore');
 
     const handleOnFaceClick = (): void => {
-        gameStore.setDefaultStartGameValues();
+        gameStore.setDefaultStartGameValues(
+            gameSettingsStore.gameSettings.fieldWidth,
+            gameSettingsStore.gameSettings.fieldWidth,
+        );
     };
 
     if (gameStore.isGameWon) {

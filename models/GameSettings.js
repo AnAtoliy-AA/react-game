@@ -11,8 +11,11 @@ const gameSettingsSchema = new Schema({
       name: {
         type: String
       },
-      fieldSize: {
-        type: String
+      fieldWidth: {
+        type: Number
+      },
+      fieldHeight: {
+        type: Number
       },
       fieldStyle: {
         type: String

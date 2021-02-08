@@ -27,7 +27,7 @@ export class GameStore {
     }
 
     @observable
-    gameCells: Cell[][] = generateCells();
+    gameCells: Cell[][] = [];
 
     @action
     setCells(cells: Cell[][]): void {
@@ -35,8 +35,8 @@ export class GameStore {
     }
 
     @action
-    setStartCells(): void {
-        this.gameCells = generateCells();
+    setStartCells(width: number, height: number): void {
+        this.gameCells = generateCells(width, height);
     }
 
     @observable
@@ -82,8 +82,8 @@ export class GameStore {
     }
 
     @action
-    setDefaultStartGameValues(): void {
-        this.setStartCells();
+    setDefaultStartGameValues(width: number, height: number): void {
+        this.setStartCells(width, height);
         this.setIsGameLost(false);
         this.setIsGameWon(false);
         this.setDefaultBombCount();

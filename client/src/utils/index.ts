@@ -37,12 +37,12 @@ const grabAllAdjacentCells = (
     };
 };
 
-export const generateCells = (): Cell[][] => {
+export const generateCells = (width: number, height: number): Cell[][] => {
     const cells: Cell[][] = [];
 
-    for (let row = 0; row < MAX_ROWS; row++) {
+    for (let row = 0; row < width; row++) {
         cells.push([]);
-        for (let col = 0; col < MAX_COLS; col++) {
+        for (let col = 0; col < height; col++) {
             cells[row].push({
                 value: CellValue.empty,
                 state: CellState.default,

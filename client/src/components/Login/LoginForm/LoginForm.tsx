@@ -12,6 +12,7 @@ import { DEFAULT_FIELD_SIZE, DEFAULT_FIELD_STYLE } from '../../../constants';
 
 const LoginForm = observer(() => {
     const authStore = useStore('authStore');
+    const gameStore = useStore('gameStore');
     const gameSettingsStore = useStore('gameSettingsStore');
 
     const getSettings = async () => {
@@ -26,6 +27,10 @@ const LoginForm = observer(() => {
                 if (!response.data) {
                     setDefaultSettings();
                 } else gameSettingsStore.setGameSettings(response.data.list[0]);
+                gameStore.setDefaultStartGameValues(
+                    gameSettingsStore.gameSettings.fieldWidth,
+                    gameSettingsStore.gameSettings.fieldWidth,
+                );
             });
     };
 
@@ -50,7 +55,8 @@ const LoginForm = observer(() => {
                 // mainScreenStore.toggleIsNewTaskFormOpen();
             });
         gameSettingsStore.setGameSettings({
-            fieldSize: DEFAULT_FIELD_SIZE,
+            fieldWidth: 9,
+            fieldHeight: 9,
             fieldStyle: DEFAULT_FIELD_STYLE,
         });
     };

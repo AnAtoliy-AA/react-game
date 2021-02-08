@@ -22,6 +22,7 @@ export default GameSettings;
 export const GameSettingsForm = () => {
     const authStore = useStore('authStore');
     const gameSettingsStore = useStore('gameSettingsStore');
+    const gameStore = useStore('gameStore');
     const { handleSubmit } = useForm<User>();
     const onSubmit = () => {
         axios
@@ -29,7 +30,8 @@ export const GameSettingsForm = () => {
                 'api/settings',
                 {
                     list: {
-                        fieldSize: fieldSize || gameSettingsStore.gameSettings?.fieldSize,
+                        fieldWidth: fieldWidth || gameSettingsStore.gameSettings?.fieldWidth,
+                        fieldHeight: fieldWidth || gameSettingsStore.gameSettings?.fieldWidth,
                         fieldStyle: fieldStyle || gameSettingsStore.gameSettings?.fieldStyle,
                     },
                 },
@@ -42,11 +44,14 @@ export const GameSettingsForm = () => {
             .then((response) => {
                 // sendRequest();
                 gameSettingsStore.setGameSettings(response.data.list[0]);
-                // mainScreenStore.toggleIsNewTaskFormOpen();
+                gameStore.setDefaultStartGameValues(
+                    gameSettingsStore.gameSettings.fieldWidth,
+                    gameSettingsStore.gameSettings.fieldWidth,
+                );
             });
     };
 
-    const [fieldSize, setFieldSize] = React.useState('');
+    const [fieldWidth, setFieldSize] = React.useState('');
     const [fieldStyle, setFieldStyle] = React.useState('');
 
     const handleSizeChange = (event: any) => {
@@ -66,12 +71,12 @@ export const GameSettingsForm = () => {
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
                             name="fieldSize"
-                            value={fieldSize || gameSettingsStore.gameSettings?.fieldSize}
+                            value={fieldWidth || gameSettingsStore.gameSettings?.fieldWidth}
                             onChange={handleSizeChange}
                         >
-                            <MenuItem value={'Small'}>9x9</MenuItem>
-                            <MenuItem value={'Normal'}>15x15</MenuItem>
-                            <MenuItem value={'High'}>40X40</MenuItem>
+                            <MenuItem value={9}>9x9</MenuItem>
+                            <MenuItem value={15}>15x15</MenuItem>
+                            <MenuItem value={30}>30X30</MenuItem>
                         </Select>
                         <FormHelperText>Select task priority</FormHelperText>
                     </FormControl>
