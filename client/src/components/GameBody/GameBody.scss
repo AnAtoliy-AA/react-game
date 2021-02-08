@@ -1,7 +1,7 @@
 @import "../../styles/index.scss";
 
 .GameBody {
-    @include borders($secondary-color, $primary-color);
+    @include borders($additional-border-color, $primary-border-color);
     // background-color: $secondary-color;
     margin-top: 16px;
     display: grid;

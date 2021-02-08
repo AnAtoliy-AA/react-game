@@ -1,5 +1,7 @@
 $primary-color: grey;
 $secondary-color:white;
+$primary-border-color: #fff;
+$additional-border-color: #7b7b7b;
 $display-color: red;
 $display-background-color: black;
 $first-button-value: blue;
@@ -11,7 +13,7 @@ $sixth-button-value: turquoise;
 $seventh-button-value: black;
 $eights-button-value: gray;
 
-@mixin borders($left-top: $primary-color, $right-bottom: $secondary-color) {
+@mixin borders($left-top: $primary-border-color, $right-bottom: $additional-border-color) {
     border-top-color: $left-top;
     border-right-color: $right-bottom;
     border-bottom-color: $right-bottom;
