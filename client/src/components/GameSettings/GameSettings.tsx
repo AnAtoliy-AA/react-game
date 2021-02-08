@@ -41,6 +41,7 @@ export const GameSettingsForm = () => {
             )
             .then((response) => {
                 // sendRequest();
+                gameSettingsStore.setGameSettings(response.data.list[0]);
                 // mainScreenStore.toggleIsNewTaskFormOpen();
             });
     };
