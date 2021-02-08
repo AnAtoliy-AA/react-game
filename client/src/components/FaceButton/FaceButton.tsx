@@ -10,6 +10,7 @@ const FaceButton: React.FC = observer(() => {
     const handleOnFaceClick = (): void => {
         gameStore.setIsGameStarted(false);
         gameStore.setStartCells();
+        gameStore.setDefaultBombCount();
         gameStore.setIsGameWon(false);
         gameStore.setFaceButtonValue(Face.smile);
     };

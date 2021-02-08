@@ -52,6 +52,19 @@ export class GameStore {
         this.bombCount--;
     }
 
+    @action
+    setDefaultBombCount(): void {
+        this.bombCount = N_OF_BOMBS;
+    }
+
+    @observable
+    gameTime = 0;
+
+    @action
+    setGameTime(value: number): void {
+        this.gameTime = value;
+    }
+
     @observable
     isGameLost = false;
 

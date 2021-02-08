@@ -23,7 +23,6 @@ enum MouseButtons {
 // eslint-disable-next-line react/prop-types
 const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger, checked }) => {
     const gameStore = useStore('gameStore');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleMouseDown = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
         rowParam: number,
@@ -63,6 +62,10 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger, che
 
             gameStore.setIsGameLost(false);
             gameStore.setIsGameStarted(true);
+        }
+
+        if (gameStore.isGameLost) {
+            return;
         }
 
         const currentCell = gameStore.gameCells[rowParam][colParam];
@@ -180,7 +183,6 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger, che
     if (gameStore.isGameLost) {
         gameStore.setFaceButtonValue(Face.loose);
         gameStore.setIsGameStarted(false);
-        console.log('LASHARA', gameStore.isGameLost);
     }
 
     const renderContent = (): React.ReactNode => {
