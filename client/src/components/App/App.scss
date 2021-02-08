@@ -6,3 +6,9 @@
   background: $primary-color;
   padding: 16px;
 }
+
+.GameContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
