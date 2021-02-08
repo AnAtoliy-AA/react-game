@@ -1,0 +1,12 @@
+@import "../../styles/index.scss";
+
+.MainScreen {
+    @include borders;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: $primary-color;
+    padding: 16px;
+}
