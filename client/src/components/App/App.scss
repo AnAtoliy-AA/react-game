@@ -1,14 +1,12 @@
 @import "../../styles/index.scss";
 
-.App {
+.GameContainer {
   @include borders;
+   display: flex;
+   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   background: $primary-color;
   padding: 16px;
-}
-
-.GameContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }

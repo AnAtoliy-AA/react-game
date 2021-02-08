@@ -1,0 +1,22 @@
+@import "../../styles/index.scss";
+.Footer {
+    display: flex;
+    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px solid $additional-border-color;
+    margin: 5px;
+    background-color: $primary-color;
+}
+
+  .FooterLogo {
+    height: 25px;
+    pointer-events: none;
+  }
+  
+  .AboutMe {
+    display: flex;
+    flex-direction: row;
+    margin: 0px;
+  }
+  

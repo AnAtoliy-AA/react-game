@@ -1,0 +1,11 @@
+@import "../../styles/index.scss";
+.Header {
+    display: flex;
+    justify-content: space-between;
+    background-color: $primary-color;
+}
+
+.logo {
+    max-height: 10vh;
+    margin-left: 4vw;
+}
