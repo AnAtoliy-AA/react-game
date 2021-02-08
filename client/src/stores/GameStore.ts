@@ -92,4 +92,24 @@ export class GameStore {
         this.setGameTime(0);
         this.setFaceButtonValue(Face.smile);
     }
+
+    @action
+    setGameLostValues(): void {
+        this.setIsGameLost(true);
+        // this.setFaceButtonValue(Face.loose);
+        this.setIsGameStarted(false);
+    }
+    //TODO need it?
+    @action
+    setGameWinValues(): void {
+        this.setIsGameLost(false);
+        // this.setFaceButtonValue(Face.loose);
+        this.setIsGameStarted(true);
+    }
+
+    @action
+    setGameStartedValues(): void {
+        this.setIsGameLost(false);
+        this.setIsGameStarted(true);
+    }
 }

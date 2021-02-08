@@ -30,9 +30,7 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger, che
     ): void => {
         gameStore.setFaceButtonValue(Face.find);
         if (event.button === MouseButtons.RightButton) {
-            if (!gameStore.isGameStarted) {
-                return;
-            } else toggleStyleAllAdjacentCells(gameStore.gameCells, rowParam, colParam, true);
+            handleRightMouseButton(rowParam, colParam, true);
         }
     };
     const handleMouseUp = (
@@ -42,14 +40,19 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger, che
     ): void => {
         gameStore.setFaceButtonValue(Face.smile);
         if (event.button === MouseButtons.RightButton) {
-            if (!gameStore.isGameStarted) {
-                return;
-            } else toggleStyleAllAdjacentCells(gameStore.gameCells, rowParam, colParam, false);
+            handleRightMouseButton(rowParam, colParam, false);
         }
     };
 
-    const handleCellClick = (rowParam: number, colParam: number): void => {
+    const handleRightMouseButton = (rowParam: number, colParam: number, value: boolean) => {
         if (!gameStore.isGameStarted) {
+            return;
+        } else toggleStyleAllAdjacentCells(gameStore.gameCells, rowParam, colParam, value);
+        checkIfGameIsWon(gameStore.gameCells);
+    };
+
+    const handleCellClick = (rowParam: number, colParam: number): void => {
+        if (!gameStore.isGameStarted && !gameStore.isGameLost && !gameStore.isGameWon) {
             let isFirstCellABomb = gameStore.gameCells[rowParam][colParam].value === CellValue.bomb;
             while (isFirstCellABomb) {
                 gameStore.setStartCells();
@@ -60,11 +63,11 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger, che
                 }
             }
 
-            gameStore.setIsGameLost(false);
-            gameStore.setIsGameStarted(true);
+            gameStore.setGameStartedValues();
         }
 
-        if (gameStore.isGameLost) {
+        //TODO NEED IT??
+        if (gameStore.isGameLost || gameStore.isGameWon) {
             return;
         }
 
@@ -76,26 +79,30 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger, che
         }
 
         if (currentCell.value === CellValue.bomb) {
-            gameStore.setIsGameLost(true);
-            gameStore.setFaceButtonValue(Face.loose);
-            gameStore.setIsGameStarted(false);
+            gameStore.setGameLostValues();
             newCells[rowParam][colParam].danger = true;
             newCells = showAllBombs();
             gameStore.setCells(newCells);
             return;
         } else if (currentCell.value === CellValue.empty) {
             newCells = openMultipleEmptyCells(newCells, rowParam, colParam);
-            // gameStore.setCells(newCells);
+            gameStore.setCells(newCells);
         } else {
             newCells[rowParam][colParam].state = CellState.visible;
-            // gameStore.setCells(newCells);
+            gameStore.setCells(newCells);
         }
 
+        checkIfGameIsWon(newCells);
+
+        // gameStore.setCells(newCells);
+    };
+
+    const checkIfGameIsWon = (cells: Cell[][]) => {
         let safeOpenCellsExists = false;
 
         for (let row = 0; row < MAX_ROWS; row++) {
             for (let col = 0; col < MAX_COLS; col++) {
-                const currentCell = newCells[row][col];
+                const currentCell = cells[row][col];
 
                 if (currentCell.value !== CellValue.bomb && currentCell.state !== CellState.visible) {
                     safeOpenCellsExists = true;
@@ -105,7 +112,7 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger, che
         }
 
         if (!safeOpenCellsExists) {
-            newCells = newCells.map((row) =>
+            cells = cells.map((row: Cell[]) =>
                 // eslint-disable-next-line react/prop-types
                 row.map((cell) => {
                     if (cell.value === CellValue.bomb) {
@@ -119,8 +126,7 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger, che
             );
             gameStore.setIsGameWon(true);
         }
-
-        gameStore.setCells(newCells);
+        gameStore.setCells(cells);
     };
 
     const handleCellContext = (rowParam: number, colParam: number) => (
@@ -128,7 +134,7 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger, che
     ): void => {
         e.preventDefault();
 
-        if (!gameStore.isGameStarted) {
+        if (!gameStore.isGameStarted || gameStore.isGameLost || gameStore.isGameWon) {
             return;
         }
 
@@ -148,6 +154,7 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger, che
             gameStore.setCells(currentCells);
             gameStore.incrementBombCounter();
         }
+        checkIfGameIsWon(gameStore.gameCells);
     };
 
     const showAllBombs = (): Cell[][] => {
@@ -174,16 +181,17 @@ const CellButton: React.FC<ButtonProps> = ({ row, col, state, value, danger, che
             // eslint-disable-next-line react/prop-types
             row.forEach((cell) => {
                 if (cell.value === CellValue.bomb && cell.state === CellState.visible) {
-                    gameStore.setIsGameLost(true);
+                    gameStore.setGameLostValues();
                 }
             }),
         );
     };
 
-    if (gameStore.isGameLost) {
-        gameStore.setFaceButtonValue(Face.loose);
-        gameStore.setIsGameStarted(false);
-    }
+    // // //TODO need it?
+    // if (gameStore.isGameLost) {
+    //     gameStore.setFaceButtonValue(Face.loose);
+    //     gameStore.setIsGameStarted(false);
+    // }
 
     const renderContent = (): React.ReactNode => {
         if (state === CellState.visible) {
