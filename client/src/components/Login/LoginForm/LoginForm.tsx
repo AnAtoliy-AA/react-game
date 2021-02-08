@@ -8,12 +8,51 @@ import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
 import './LoginForm.scss';
 import { User } from '../../../shared/interfaces';
 import { useStore } from '../../../hooks/hooks';
+import { DEFAULT_FIELD_SIZE, DEFAULT_FIELD_STYLE } from '../../../constants';
 
 const LoginForm = observer(() => {
     const authStore = useStore('authStore');
+    const gameSettingsStore = useStore('gameSettingsStore');
 
-    const sendRequest = async () => {
+    const getSettings = async () => {
         console.log('sss');
+        axios
+            .get('/api/settings', {
+                headers: {
+                    authorization: authStore.token,
+                },
+            })
+            .then((response) => {
+                if (!response.data) {
+                    setDefaultSettings();
+                } else gameSettingsStore.setGameSettings(response.data.list[0]);
+            });
+    };
+
+    const setDefaultSettings = () => {
+        axios
+            .post(
+                'api/settings',
+                {
+                    list: {
+                        fieldSize: DEFAULT_FIELD_SIZE,
+                        fieldStyle: DEFAULT_FIELD_STYLE,
+                    },
+                },
+                {
+                    headers: {
+                        authorization: authStore.token,
+                    },
+                },
+            )
+            .then((response) => {
+                // sendRequest();
+                // mainScreenStore.toggleIsNewTaskFormOpen();
+            });
+        gameSettingsStore.setGameSettings({
+            fieldSize: DEFAULT_FIELD_SIZE,
+            fieldStyle: DEFAULT_FIELD_STYLE,
+        });
     };
 
     const { register, handleSubmit, errors } = useForm<User>();
@@ -26,7 +65,7 @@ const LoginForm = observer(() => {
             .then((response: { data: { token: string } }) => {
                 authStore.setToken(response.data.token);
                 authStore.setIsAuth(true);
-                sendRequest();
+                getSettings();
             });
     };
     return (

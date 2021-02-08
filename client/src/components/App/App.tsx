@@ -11,6 +11,7 @@ import MainScreen from '../MainScreen/MainScreen';
 import StartScreen from '../StartScreen/StartScreen';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
+import GameSettings from '../GameSettings/GameSettings';
 
 const App: React.FC = () => {
     const gameStore = useStore('gameStore');
@@ -27,6 +28,9 @@ const App: React.FC = () => {
                 <Route path="/register" component={Register} />
                 <Route exact path="/main">
                     {!authStore.isAuth ? <Redirect to="/login" /> : <MainScreen />}
+                </Route>
+                <Route exact path="/settings">
+                    {!authStore.isAuth ? <Redirect to="/main" /> : <GameSettings />}
                 </Route>
                 {gameStore.isGameLost && <div>LOST</div>}
                 {gameStore.isGameWon && <div>WON</div>}

@@ -1,3 +1,5 @@
 export const MAX_ROWS = 9;
 export const MAX_COLS = 9;
 export const N_OF_BOMBS = 10;
+export const DEFAULT_FIELD_SIZE = 'Normal';
+export const DEFAULT_FIELD_STYLE = 'Classic';

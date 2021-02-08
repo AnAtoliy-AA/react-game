@@ -1,9 +1,11 @@
 import React from 'react';
+import { GameSettingsStore } from './GameSettingsStore';
 import { AuthStore } from './AuthStore';
 import { GameStore } from './GameStore';
 export const stores = Object.freeze({
     gameStore: new GameStore(),
     authStore: new AuthStore(),
+    gameSettingsStore: new GameSettingsStore(),
 });
 
 export const storesContext = React.createContext(stores);
