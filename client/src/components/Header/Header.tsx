@@ -10,7 +10,7 @@ const Header: React.FC = () => {
         <div className="Header">
             <div>
                 <NavLink to="/main">
-                    <img className="logo" src="logo_main.jpg" alt="Minesweeper" />
+                    <img className="logo" src="../../assets/images/minesweeper_classic.jpg" alt="Minesweeper" />
                 </NavLink>
             </div>
             {authStore.isAuth ? (
