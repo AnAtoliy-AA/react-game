@@ -3,7 +3,6 @@ import React from 'react';
 import { useStore } from '../../hooks/hooks';
 import CellButton from '../CellButton/CellButton';
 import './GameBody.scss';
-import { MAX_COLS, MAX_ROWS } from '../../constants';
 
 import { Cell, CellState, CellValue, Face } from '../../types';
 import { checkMultipleVisibleCells, openMultipleEmptyCells, toggleStyleAllAdjacentCells } from '../../utils';
@@ -41,7 +40,15 @@ const GameBody: React.FC = () => {
     const handleRightMouseButton = (rowParam: number, colParam: number, value: boolean) => {
         if (!gameStore.isGameStarted) {
             return;
-        } else toggleStyleAllAdjacentCells(gameStore.gameCells, rowParam, colParam, value);
+        } else
+            toggleStyleAllAdjacentCells(
+                gameStore.gameCells,
+                rowParam,
+                colParam,
+                value,
+                gameSettingsStore.gameSettings.fieldHeight,
+                gameSettingsStore.gameSettings.fieldWidth,
+            );
         checkIfGameIsWon(gameStore.gameCells);
     };
 
@@ -50,8 +57,9 @@ const GameBody: React.FC = () => {
             let isFirstCellABomb = gameStore.gameCells[rowParam][colParam].value === CellValue.bomb;
             while (isFirstCellABomb) {
                 gameStore.setStartCells(
+                    gameSettingsStore.gameSettings.fieldHeight,
                     gameSettingsStore.gameSettings.fieldWidth,
-                    gameSettingsStore.gameSettings.fieldWidth,
+                    gameSettingsStore.gameSettings.bombsQuantity,
                 );
 
                 if (gameStore.gameCells[rowParam][colParam].value !== CellValue.bomb) {
@@ -82,7 +90,13 @@ const GameBody: React.FC = () => {
             gameStore.setCells(newCells);
             return;
         } else if (currentCell.value === CellValue.empty) {
-            newCells = openMultipleEmptyCells(newCells, rowParam, colParam);
+            newCells = openMultipleEmptyCells(
+                newCells,
+                rowParam,
+                colParam,
+                gameSettingsStore.gameSettings.fieldHeight,
+                gameSettingsStore.gameSettings.fieldWidth,
+            );
             gameStore.setCells(newCells);
         } else {
             newCells[rowParam][colParam].state = CellState.visible;
@@ -97,8 +111,8 @@ const GameBody: React.FC = () => {
     const checkIfGameIsWon = (cells: Cell[][]) => {
         let safeOpenCellsExists = false;
 
-        for (let row = 0; row < MAX_ROWS; row++) {
-            for (let col = 0; col < MAX_COLS; col++) {
+        for (let row = 0; row < gameSettingsStore.gameSettings.fieldHeight; row++) {
+            for (let col = 0; col < gameSettingsStore.gameSettings.fieldWidth; col++) {
                 const currentCell = cells[row][col];
 
                 if (currentCell.value !== CellValue.bomb && currentCell.state !== CellState.visible) {
@@ -139,7 +153,13 @@ const GameBody: React.FC = () => {
         const currentCell = gameStore.gameCells[rowParam][colParam];
 
         if (currentCell.state === CellState.visible) {
-            checkMultipleVisibleCells(currentCells, rowParam, colParam);
+            checkMultipleVisibleCells(
+                currentCells,
+                rowParam,
+                colParam,
+                gameSettingsStore.gameSettings.fieldHeight,
+                gameSettingsStore.gameSettings.fieldWidth,
+            );
             checkIfGameLost();
             return;
         } else if (currentCell.state === CellState.default) {

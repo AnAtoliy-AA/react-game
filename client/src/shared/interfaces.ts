@@ -5,7 +5,9 @@ export interface User {
 
 export interface GameSettings {
     _id?: string;
+    fieldSize: string;
     fieldWidth: number;
     fieldHeight: number;
+    bombsQuantity: number;
     fieldStyle: string;
 }

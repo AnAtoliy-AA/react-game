@@ -2,7 +2,6 @@ import { generateCells } from './../utils/index';
 import { Cell } from './../types/index';
 import { action, observable } from 'mobx';
 import { Face } from '../types';
-import { N_OF_BOMBS } from '../constants';
 
 export class GameStore {
     @observable
@@ -35,12 +34,12 @@ export class GameStore {
     }
 
     @action
-    setStartCells(width: number, height: number): void {
-        this.gameCells = generateCells(width, height);
+    setStartCells(height: number, width: number, bombsQuantity: number): void {
+        this.gameCells = generateCells(height, width, bombsQuantity);
     }
 
     @observable
-    bombCount: number = N_OF_BOMBS;
+    bombCount = 0;
 
     @action
     incrementBombCounter(): void {
@@ -53,8 +52,8 @@ export class GameStore {
     }
 
     @action
-    setDefaultBombCount(): void {
-        this.bombCount = N_OF_BOMBS;
+    setBombCount(value: number): void {
+        this.bombCount = value;
     }
 
     @observable
@@ -82,11 +81,11 @@ export class GameStore {
     }
 
     @action
-    setDefaultStartGameValues(width: number, height: number): void {
-        this.setStartCells(width, height);
+    setDefaultStartGameValues(height: number, width: number, bombsQuantity: number): void {
+        this.setStartCells(height, width, bombsQuantity);
         this.setIsGameLost(false);
         this.setIsGameWon(false);
-        this.setDefaultBombCount();
+        this.setBombCount(bombsQuantity);
         this.setIsGameStarted(false);
         //TODO
         this.setGameTime(0);

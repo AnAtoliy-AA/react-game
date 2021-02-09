@@ -10,8 +10,9 @@ const FaceButton: React.FC = observer(() => {
 
     const handleOnFaceClick = (): void => {
         gameStore.setDefaultStartGameValues(
+            gameSettingsStore.gameSettings.fieldHeight,
             gameSettingsStore.gameSettings.fieldWidth,
-            gameSettingsStore.gameSettings.fieldWidth,
+            gameSettingsStore.gameSettings.bombsQuantity,
         );
     };
 

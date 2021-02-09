@@ -8,7 +8,7 @@ import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
 import './LoginForm.scss';
 import { User } from '../../../shared/interfaces';
 import { useStore } from '../../../hooks/hooks';
-import { DEFAULT_FIELD_SIZE, DEFAULT_FIELD_STYLE } from '../../../constants';
+import { DEFAULT_FIELD_STYLE, FIELD_SIZES } from '../../../constants';
 
 const LoginForm = observer(() => {
     const authStore = useStore('authStore');
@@ -28,19 +28,23 @@ const LoginForm = observer(() => {
                     setDefaultSettings();
                 } else gameSettingsStore.setGameSettings(response.data.list[0]);
                 gameStore.setDefaultStartGameValues(
+                    gameSettingsStore.gameSettings.fieldHeight,
                     gameSettingsStore.gameSettings.fieldWidth,
-                    gameSettingsStore.gameSettings.fieldWidth,
+                    gameSettingsStore.gameSettings.bombsQuantity,
                 );
             });
     };
-
+    //TODO
     const setDefaultSettings = () => {
         axios
             .post(
                 'api/settings',
                 {
                     list: {
-                        fieldSize: DEFAULT_FIELD_SIZE,
+                        fieldSize: FIELD_SIZES.SMALL.name,
+                        fieldWidth: FIELD_SIZES.SMALL.fieldWidth,
+                        fieldHeight: FIELD_SIZES.SMALL.fieldHeight,
+                        bombsQuantity: FIELD_SIZES.SMALL.bombsQuantity,
                         fieldStyle: DEFAULT_FIELD_STYLE,
                     },
                 },
@@ -54,9 +58,12 @@ const LoginForm = observer(() => {
                 // sendRequest();
                 // mainScreenStore.toggleIsNewTaskFormOpen();
             });
+        //TODO
         gameSettingsStore.setGameSettings({
-            fieldWidth: 9,
-            fieldHeight: 9,
+            fieldSize: FIELD_SIZES.SMALL.name,
+            fieldWidth: FIELD_SIZES.SMALL.fieldWidth,
+            fieldHeight: FIELD_SIZES.SMALL.fieldHeight,
+            bombsQuantity: FIELD_SIZES.SMALL.bombsQuantity,
             fieldStyle: DEFAULT_FIELD_STYLE,
         });
     };

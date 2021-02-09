@@ -1,10 +1,12 @@
 import { Cell, CellState, CellValue } from './../types';
-import { MAX_COLS, MAX_ROWS, N_OF_BOMBS } from './../constants';
+// import { MAX_COLS, MAX_ROWS, N_OF_BOMBS } from './../constants';
 
 const grabAllAdjacentCells = (
     cells: Cell[][],
     rowIndex: number,
     colIndex: number,
+    fieldHeight: number,
+    fieldWidth: number,
 ): {
     topLeftCell: Cell | null;
     topCell: Cell | null;
@@ -17,13 +19,13 @@ const grabAllAdjacentCells = (
 } => {
     const topLeftCell = rowIndex > 0 && colIndex > 0 ? cells[rowIndex - 1][colIndex - 1] : null;
     const topCell = rowIndex > 0 ? cells[rowIndex - 1][colIndex] : null;
-    const topRightCell = rowIndex > 0 && colIndex < MAX_COLS - 1 ? cells[rowIndex - 1][colIndex + 1] : null;
+    const topRightCell = rowIndex > 0 && colIndex < fieldWidth - 1 ? cells[rowIndex - 1][colIndex + 1] : null;
     const leftCell = colIndex > 0 ? cells[rowIndex][colIndex - 1] : null;
-    const rightCell = colIndex < MAX_COLS - 1 ? cells[rowIndex][colIndex + 1] : null;
-    const bottomLeftCell = rowIndex < MAX_ROWS - 1 && colIndex > 0 ? cells[rowIndex + 1][colIndex - 1] : null;
-    const bottomCell = rowIndex < MAX_ROWS - 1 ? cells[rowIndex + 1][colIndex] : null;
+    const rightCell = colIndex < fieldWidth - 1 ? cells[rowIndex][colIndex + 1] : null;
+    const bottomLeftCell = rowIndex < fieldHeight - 1 && colIndex > 0 ? cells[rowIndex + 1][colIndex - 1] : null;
+    const bottomCell = rowIndex < fieldHeight - 1 ? cells[rowIndex + 1][colIndex] : null;
     const bottomRightCell =
-        rowIndex < MAX_ROWS - 1 && colIndex < MAX_COLS - 1 ? cells[rowIndex + 1][colIndex + 1] : null;
+        rowIndex < fieldHeight - 1 && colIndex < fieldWidth - 1 ? cells[rowIndex + 1][colIndex + 1] : null;
 
     return {
         topLeftCell,
@@ -37,12 +39,12 @@ const grabAllAdjacentCells = (
     };
 };
 
-export const generateCells = (width: number, height: number): Cell[][] => {
+export const generateCells = (fieldHeight: number, fieldWidth: number, bombsQuantity: number): Cell[][] => {
     const cells: Cell[][] = [];
 
-    for (let row = 0; row < width; row++) {
+    for (let row = 0; row < fieldHeight; row++) {
         cells.push([]);
-        for (let col = 0; col < height; col++) {
+        for (let col = 0; col < fieldWidth; col++) {
             cells[row].push({
                 value: CellValue.empty,
                 state: CellState.default,
@@ -51,9 +53,9 @@ export const generateCells = (width: number, height: number): Cell[][] => {
     }
 
     let bombsPlaced = 0;
-    while (bombsPlaced < N_OF_BOMBS) {
-        const randomRow = Math.floor(Math.random() * MAX_ROWS);
-        const randomCol = Math.floor(Math.random() * MAX_COLS);
+    while (bombsPlaced < bombsQuantity) {
+        const randomRow = Math.floor(Math.random() * fieldHeight);
+        const randomCol = Math.floor(Math.random() * fieldWidth);
         const currentCell = cells[randomRow][randomCol];
 
         if (currentCell.value !== CellValue.bomb) {
@@ -66,8 +68,8 @@ export const generateCells = (width: number, height: number): Cell[][] => {
         }
     }
 
-    for (let rowIndex = 0; rowIndex < MAX_ROWS; rowIndex++) {
-        for (let colIndex = 0; colIndex < MAX_COLS; colIndex++) {
+    for (let rowIndex = 0; rowIndex < fieldHeight; rowIndex++) {
+        for (let colIndex = 0; colIndex < fieldWidth; colIndex++) {
             const currentCell = cells[rowIndex][colIndex];
             if (currentCell.value === CellValue.bomb) {
                 continue;
@@ -83,7 +85,7 @@ export const generateCells = (width: number, height: number): Cell[][] => {
                 bottomLeftCell,
                 bottomCell,
                 bottomRightCell,
-            } = grabAllAdjacentCells(cells, rowIndex, colIndex);
+            } = grabAllAdjacentCells(cells, rowIndex, colIndex, fieldHeight, fieldWidth);
             if (topLeftCell?.value === CellValue.bomb) {
                 numberOfBombs++;
             }
@@ -121,7 +123,13 @@ export const generateCells = (width: number, height: number): Cell[][] => {
     return cells;
 };
 
-export const openMultipleEmptyCells = (cells: Cell[][], rowParam: number, colParam: number): Cell[][] => {
+export const openMultipleEmptyCells = (
+    cells: Cell[][],
+    rowParam: number,
+    colParam: number,
+    fieldHeight: number,
+    fieldWidth: number,
+): Cell[][] => {
     let newCells = cells.slice();
 
     newCells[rowParam][colParam].state = CellState.visible;
@@ -134,11 +142,11 @@ export const openMultipleEmptyCells = (cells: Cell[][], rowParam: number, colPar
         bottomLeftCell,
         bottomCell,
         bottomRightCell,
-    } = grabAllAdjacentCells(cells, rowParam, colParam);
+    } = grabAllAdjacentCells(cells, rowParam, colParam, fieldHeight, fieldWidth);
 
     if (topLeftCell?.state === CellState.default) {
         if (topLeftCell?.value === CellValue.empty) {
-            newCells = openMultipleEmptyCells(newCells, rowParam - 1, colParam - 1);
+            newCells = openMultipleEmptyCells(newCells, rowParam - 1, colParam - 1, fieldHeight, fieldWidth);
         } else {
             newCells[rowParam - 1][colParam - 1].state = CellState.visible;
             if (newCells[rowParam - 1][colParam - 1].value === CellValue.bomb) {
@@ -148,7 +156,7 @@ export const openMultipleEmptyCells = (cells: Cell[][], rowParam: number, colPar
 
     if (topCell?.state === CellState.default) {
         if (topCell?.value === CellValue.empty) {
-            newCells = openMultipleEmptyCells(newCells, rowParam - 1, colParam);
+            newCells = openMultipleEmptyCells(newCells, rowParam - 1, colParam, fieldHeight, fieldWidth);
         } else {
             newCells[rowParam - 1][colParam].state = CellState.visible;
             if (newCells[rowParam - 1][colParam].value === CellValue.bomb) {
@@ -158,7 +166,7 @@ export const openMultipleEmptyCells = (cells: Cell[][], rowParam: number, colPar
 
     if (topRightCell?.state === CellState.default) {
         if (topRightCell?.value === CellValue.empty) {
-            newCells = openMultipleEmptyCells(newCells, rowParam - 1, colParam + 1);
+            newCells = openMultipleEmptyCells(newCells, rowParam - 1, colParam + 1, fieldHeight, fieldWidth);
         } else {
             newCells[rowParam - 1][colParam + 1].state = CellState.visible;
             if (newCells[rowParam - 1][colParam + 1].value === CellValue.bomb) {
@@ -168,7 +176,7 @@ export const openMultipleEmptyCells = (cells: Cell[][], rowParam: number, colPar
 
     if (leftCell?.state === CellState.default) {
         if (leftCell?.value === CellValue.empty) {
-            newCells = openMultipleEmptyCells(newCells, rowParam, colParam - 1);
+            newCells = openMultipleEmptyCells(newCells, rowParam, colParam - 1, fieldHeight, fieldWidth);
         } else {
             newCells[rowParam][colParam - 1].state = CellState.visible;
             if (newCells[rowParam][colParam - 1].value === CellValue.bomb) {
@@ -178,7 +186,7 @@ export const openMultipleEmptyCells = (cells: Cell[][], rowParam: number, colPar
 
     if (rightCell?.state === CellState.default) {
         if (rightCell?.value === CellValue.empty) {
-            newCells = openMultipleEmptyCells(newCells, rowParam, colParam + 1);
+            newCells = openMultipleEmptyCells(newCells, rowParam, colParam + 1, fieldHeight, fieldWidth);
         } else {
             newCells[rowParam][colParam + 1].state = CellState.visible;
             if (newCells[rowParam][colParam + 1].value === CellValue.bomb) {
@@ -188,7 +196,7 @@ export const openMultipleEmptyCells = (cells: Cell[][], rowParam: number, colPar
 
     if (bottomLeftCell?.state === CellState.default) {
         if (bottomLeftCell?.value === CellValue.empty) {
-            newCells = openMultipleEmptyCells(newCells, rowParam + 1, colParam - 1);
+            newCells = openMultipleEmptyCells(newCells, rowParam + 1, colParam - 1, fieldHeight, fieldWidth);
         } else {
             newCells[rowParam + 1][colParam - 1].state = CellState.visible;
             if (newCells[rowParam + 1][colParam - 1].value === CellValue.bomb) {
@@ -198,7 +206,7 @@ export const openMultipleEmptyCells = (cells: Cell[][], rowParam: number, colPar
 
     if (bottomCell?.state === CellState.default) {
         if (bottomCell?.value === CellValue.empty) {
-            newCells = openMultipleEmptyCells(newCells, rowParam + 1, colParam);
+            newCells = openMultipleEmptyCells(newCells, rowParam + 1, colParam, fieldHeight, fieldWidth);
         } else {
             newCells[rowParam + 1][colParam].state = CellState.visible;
             if (newCells[rowParam + 1][colParam].value === CellValue.bomb) {
@@ -208,7 +216,7 @@ export const openMultipleEmptyCells = (cells: Cell[][], rowParam: number, colPar
 
     if (bottomRightCell?.state === CellState.default) {
         if (bottomRightCell?.value === CellValue.empty) {
-            newCells = openMultipleEmptyCells(newCells, rowParam + 1, colParam + 1);
+            newCells = openMultipleEmptyCells(newCells, rowParam + 1, colParam + 1, fieldHeight, fieldWidth);
         } else {
             newCells[rowParam + 1][colParam + 1].state = CellState.visible;
             if (newCells[rowParam + 1][colParam + 1].value === CellValue.bomb) {
@@ -219,7 +227,13 @@ export const openMultipleEmptyCells = (cells: Cell[][], rowParam: number, colPar
     return newCells;
 };
 
-export const checkMultipleVisibleCells = (cells: Cell[][], rowParam: number, colParam: number): Cell[][] => {
+export const checkMultipleVisibleCells = (
+    cells: Cell[][],
+    rowParam: number,
+    colParam: number,
+    fieldHeight: number,
+    fieldWidth: number,
+): Cell[][] => {
     const currentCell = cells[rowParam][colParam];
     const newCells = cells.slice();
 
@@ -232,7 +246,7 @@ export const checkMultipleVisibleCells = (cells: Cell[][], rowParam: number, col
         bottomLeftCell,
         bottomCell,
         bottomRightCell,
-    } = grabAllAdjacentCells(cells, rowParam, colParam);
+    } = grabAllAdjacentCells(cells, rowParam, colParam, fieldHeight, fieldWidth);
 
     let numberOfFlags = 0;
 
@@ -264,7 +278,7 @@ export const checkMultipleVisibleCells = (cells: Cell[][], rowParam: number, col
     if (numberOfFlags < currentCell.value) {
         console.log('LOOK Better');
         //TODO
-    } else openMultipleEmptyCells(cells, rowParam, colParam);
+    } else openMultipleEmptyCells(cells, rowParam, colParam, fieldHeight, fieldWidth);
 
     return newCells;
 };
@@ -274,6 +288,8 @@ export const toggleStyleAllAdjacentCells = (
     rowParam: number,
     colParam: number,
     isPressed: boolean,
+    fieldHeight: number,
+    fieldWidth: number,
 ): Cell[][] => {
     if (cells[rowParam][colParam].state === CellState.default) {
         return cells;
@@ -290,7 +306,7 @@ export const toggleStyleAllAdjacentCells = (
         bottomLeftCell,
         bottomCell,
         bottomRightCell,
-    } = grabAllAdjacentCells(cells, rowParam, colParam);
+    } = grabAllAdjacentCells(cells, rowParam, colParam, fieldHeight, fieldWidth);
 
     if (topLeftCell?.state === CellState.default) {
         newCells[rowParam - 1][colParam - 1].checked = isPressed;
