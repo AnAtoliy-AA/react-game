@@ -5,7 +5,7 @@ import './MainMenu.scss';
 const MainMenu: React.FC = () => {
     return (
         <div className="main-menu">
-            <NavLink to="/main" style={{ textDecoration: 'none' }}>
+            <NavLink to="/game" style={{ textDecoration: 'none' }}>
                 Start
             </NavLink>
             <NavLink to="/settings" style={{ textDecoration: 'none' }}>

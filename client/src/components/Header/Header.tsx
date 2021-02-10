@@ -10,7 +10,7 @@ const Header: React.FC = () => {
     return (
         <div className="header">
             <div>
-                <NavLink to="/start">
+                <NavLink to="/main">
                     <img className="logo" src={logo} alt="Minesweeper" />
                 </NavLink>
             </div>

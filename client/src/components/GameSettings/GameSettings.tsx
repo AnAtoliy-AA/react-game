@@ -125,6 +125,7 @@ export const GameSettingsForm = () => {
                         <FormHelperText>Select field style</FormHelperText>
                     </FormControl>
                 </div>
+                <div>Language</div>
                 <NavLink to="/start" style={{ textDecoration: 'none' }}>
                     <Button variant="contained" color="primary" size="small" startIcon={<BackspaceIcon />}>
                         Back
