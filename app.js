@@ -5,6 +5,7 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const authRoutes = require('./routes/auth')
 const gameSettings = require('./routes/gameSettings')
+const statistics = require('./routes/statistics')
 const keys = require('./config/keys')
 const app = express()
 
@@ -22,6 +23,7 @@ app.use(bodyParser.json())
 app.use(require('cors')())
 
 app.use('/api/auth', authRoutes)
+app.use('/api/statistics', statistics)
 app.use('/api/settings', gameSettings)
 
 if (process.env.NODE_ENV === 'production') {

@@ -16,6 +16,7 @@ import LostScreen from '../LostScreen/LostScreen';
 import WinScreen from '../WinScreen/WinScreen';
 import MainMenu from '../MainMenu/MainMenu';
 import GameScreen from '../GameScreen/GameScreen';
+import GameStatistic from '../GameStatistic/GameStatistic';
 
 const App: React.FC = () => {
     const gameStore = useStore('gameStore');
@@ -38,6 +39,9 @@ const App: React.FC = () => {
                     </Route>
                     <Route exact path="/settings">
                         {!authStore.isAuth ? <Redirect to="/login" /> : <GameSettings />}
+                    </Route>
+                    <Route exact path="/statistics">
+                        {!authStore.isAuth ? <Redirect to="/login" /> : <GameStatistic />}
                     </Route>
                     {gameStore.isGameLost && <LostScreen />}
                     {gameStore.isGameWon && <WinScreen />}

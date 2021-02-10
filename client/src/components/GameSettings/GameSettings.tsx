@@ -126,7 +126,7 @@ export const GameSettingsForm = () => {
                     </FormControl>
                 </div>
                 <div>Language</div>
-                <NavLink to="/start" style={{ textDecoration: 'none' }}>
+                <NavLink to="/main" style={{ textDecoration: 'none' }}>
                     <Button variant="contained" color="primary" size="small" startIcon={<BackspaceIcon />}>
                         Back
                     </Button>

@@ -7,6 +7,7 @@ import './GameBody.scss';
 import { Cell, CellState, CellValue, Face } from '../../types';
 import { checkMultipleVisibleCells, openMultipleEmptyCells, toggleStyleAllAdjacentCells } from '../../utils';
 import { Grid } from '@material-ui/core';
+import axios from 'axios';
 
 enum MouseButtons {
     LeftButton = 1,
@@ -16,6 +17,7 @@ enum MouseButtons {
 const GameBody: React.FC = () => {
     const gameStore = useStore('gameStore');
     const gameSettingsStore = useStore('gameSettingsStore');
+    const authStore = useStore('authStore');
     const handleMouseDown = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
         rowParam: number,
@@ -102,7 +104,7 @@ const GameBody: React.FC = () => {
             newCells[rowParam][colParam].state = CellState.visible;
             gameStore.setCells(newCells);
         }
-
+        gameStore.incrementGameMoves();
         checkIfGameIsWon(newCells);
 
         // gameStore.setCells(newCells);
@@ -171,6 +173,7 @@ const GameBody: React.FC = () => {
             gameStore.setCells(currentCells);
             gameStore.incrementBombCounter();
         }
+        gameStore.incrementGameMoves();
         checkIfGameIsWon(gameStore.gameCells);
     };
 
@@ -203,6 +206,26 @@ const GameBody: React.FC = () => {
             }),
         );
     };
+
+    const sendStatistics = () => {
+        axios.post(
+            'api/statistics',
+            {
+                list: {
+                    level: gameSettingsStore.gameSettings.fieldSize,
+                    statusWin: gameStore.isGameWon,
+                    statusLost: gameStore.isGameLost,
+                    gameMoves: gameStore.gameMoves,
+                    time: gameStore.gameTime,
+                },
+            },
+            {
+                headers: {
+                    authorization: authStore.token,
+                },
+            },
+        );
+    };
     const renderCells = (): React.ReactNode => {
         return gameStore.gameCells.map((row, rowIndex) => (
             <Grid container key={`${rowIndex}`} justify="center">
@@ -232,6 +255,7 @@ const GameBody: React.FC = () => {
     return (
         <Grid className="GameBody" justify="center">
             {renderCells()}
+            <button onClick={sendStatistics}>st</button>
         </Grid>
     );
 };

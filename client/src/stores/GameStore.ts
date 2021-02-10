@@ -65,6 +65,19 @@ export class GameStore {
     }
 
     @observable
+    gameMoves = 0;
+
+    @action
+    setDefaultGameMoves(): void {
+        this.gameMoves = 0;
+    }
+
+    @action
+    incrementGameMoves(): void {
+        this.gameMoves++;
+    }
+
+    @observable
     isGameLost = false;
 
     @action
@@ -89,6 +102,7 @@ export class GameStore {
         this.setIsGameStarted(false);
         //TODO
         this.setGameTime(0);
+        this.setDefaultGameMoves();
         this.setFaceButtonValue(Face.smile);
     }
 
