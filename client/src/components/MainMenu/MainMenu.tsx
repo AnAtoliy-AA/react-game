@@ -1,10 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './StartScreen.scss';
+import './MainMenu.scss';
 
-const StartScreen: React.FC = () => {
+const MainMenu: React.FC = () => {
     return (
-        <div className="start-screen">
+        <div className="main-menu">
             <NavLink to="/main" style={{ textDecoration: 'none' }}>
                 Start
             </NavLink>
@@ -18,4 +18,4 @@ const StartScreen: React.FC = () => {
     );
 };
 
-export default StartScreen;
+export default MainMenu;

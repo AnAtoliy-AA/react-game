@@ -1,13 +1,13 @@
 import React from 'react';
-import './MainScreen.scss';
+import './GameScreen.scss';
 import GameBody from '../GameBody/GameBody';
 import GameHeader from '../GameHeader/GameHeader';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 
-const MainScreen: React.FC = () => {
+const GameScreen: React.FC = () => {
     const handle = useFullScreenHandle();
     return (
-        <div className="MainScreen">
+        <div className="GameScreen">
             <button onClick={handle.enter}>Enter fullscreen</button>
             <FullScreen handle={handle}>
                 <GameHeader />
@@ -17,4 +17,4 @@ const MainScreen: React.FC = () => {
     );
 };
 
-export default MainScreen;
+export default GameScreen;

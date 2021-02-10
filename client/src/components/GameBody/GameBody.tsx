@@ -205,7 +205,7 @@ const GameBody: React.FC = () => {
     };
     const renderCells = (): React.ReactNode => {
         return gameStore.gameCells.map((row, rowIndex) => (
-            <Grid container key={`${rowIndex}`}>
+            <Grid container key={`${rowIndex}`} justify="center">
                 {row.map((cell, colIndex) => (
                     <Grid
                         item

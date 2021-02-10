@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
             <div className="about-me">
                 <a href="https://github.com/AnAtoliyAK">
                     <img src={gitLogo} className="footer-logo" alt="rs_logo" />
-                    AnAtoliyAA
+                    <span>AnAtoliyAA</span>
                 </a>
             </div>
             <div>2021</div>
