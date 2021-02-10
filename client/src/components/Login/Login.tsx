@@ -6,7 +6,7 @@ import LoginForm from './LoginForm/LoginForm';
 
 const Login = observer(() => {
     const authStore = useStore('authStore');
-    return <div className="Login">{!authStore.isAuth ? <LoginForm /> : 'you were logged in'}</div>;
+    return <div className="login-screen">{!authStore.isAuth ? <LoginForm /> : 'you were logged in'}</div>;
 });
 
 export default Login;

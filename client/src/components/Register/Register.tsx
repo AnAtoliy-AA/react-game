@@ -7,7 +7,7 @@ import axios from 'axios';
 import { User } from '../../shared/interfaces';
 
 const Register: React.FC = () => (
-    <div className="Register">
+    <div className="register">
         <RegisterForm />
     </div>
 );

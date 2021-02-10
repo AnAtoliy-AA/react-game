@@ -3,14 +3,15 @@ import { NavLink } from 'react-router-dom';
 import Alert from '@material-ui/lab/Alert';
 import { useStore } from '../../hooks/hooks';
 import './Header.scss';
+import logo from '../../assets/images/mines_logo.bmp';
 
 const Header: React.FC = () => {
     const authStore = useStore('authStore');
     return (
-        <div className="Header">
+        <div className="header">
             <div>
-                <NavLink to="/main">
-                    <img className="logo" src="../../assets/images/minesweeper_classic.jpg" alt="Minesweeper" />
+                <NavLink to="/start">
+                    <img className="logo" src={logo} alt="Minesweeper" />
                 </NavLink>
             </div>
             {authStore.isAuth ? (
@@ -19,9 +20,13 @@ const Header: React.FC = () => {
                 <Alert severity="error">Please login or register!</Alert>
             )}
             {!authStore.isAuth ? (
-                <div>
-                    <NavLink to="/login">Login</NavLink>
-                    <NavLink to="/register">Register</NavLink>
+                <div className="header-nav">
+                    <NavLink to="/login" style={{ textDecoration: 'none' }}>
+                        Login
+                    </NavLink>
+                    <NavLink to="/register" style={{ textDecoration: 'none' }}>
+                        Register
+                    </NavLink>
                 </div>
             ) : (
                 <NavLink to="/logout">Logout</NavLink>

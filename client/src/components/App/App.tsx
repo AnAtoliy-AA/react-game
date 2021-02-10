@@ -19,23 +19,27 @@ const App: React.FC = () => {
 
     return (
         <div className="App">
-            <BrowserRouter basename={process.env.PUBLIC_URL}>
-                <Header />
-                <StartScreen />
-                <Route exact path="/login">
-                    {authStore.isAuth ? <Redirect to="/main" /> : <Login />}
-                </Route>
-                <Route path="/register" component={Register} />
-                <Route exact path="/main">
-                    {!authStore.isAuth ? <Redirect to="/login" /> : <MainScreen />}
-                </Route>
-                <Route exact path="/settings">
-                    {!authStore.isAuth ? <Redirect to="/main" /> : <GameSettings />}
-                </Route>
-                {gameStore.isGameLost && <div>LOST</div>}
-                {gameStore.isGameWon && <div>WON</div>}
-                <Footer />
-            </BrowserRouter>
+            <div className="app-wrapper">
+                <BrowserRouter basename={process.env.PUBLIC_URL}>
+                    <Header />
+                    <Route exact path="/start">
+                        {!authStore.isAuth ? <Redirect to="/login" /> : <StartScreen />}
+                    </Route>
+                    <Route exact path="/login">
+                        {authStore.isAuth ? <Redirect to="/start" /> : <Login />}
+                    </Route>
+                    <Route path="/register" component={Register} />
+                    <Route exact path="/main">
+                        {!authStore.isAuth ? <Redirect to="/login" /> : <MainScreen />}
+                    </Route>
+                    <Route exact path="/settings">
+                        {!authStore.isAuth ? <Redirect to="/main" /> : <GameSettings />}
+                    </Route>
+                    {gameStore.isGameLost && <div>LOST</div>}
+                    {gameStore.isGameWon && <div>WON</div>}
+                    <Footer />
+                </BrowserRouter>
+            </div>
         </div>
     );
 };

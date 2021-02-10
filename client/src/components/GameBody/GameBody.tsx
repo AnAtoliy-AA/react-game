@@ -230,7 +230,7 @@ const GameBody: React.FC = () => {
     };
 
     return (
-        <Grid className="GameBody" container justify="center">
+        <Grid className="GameBody" justify="center">
             {renderCells()}
         </Grid>
     );

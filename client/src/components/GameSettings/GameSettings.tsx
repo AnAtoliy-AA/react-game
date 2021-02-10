@@ -7,10 +7,11 @@ import axios from 'axios';
 import './GameSettings.scss';
 import { useStore } from '../../hooks/hooks';
 import { FIELD_SIZES } from '../../constants';
+import { NavLink } from 'react-router-dom';
 
 const GameSettings: React.FC = () => {
     return (
-        <div className="GameSettings">
+        <div className="settings-screen">
             <GameSettingsForm />
         </div>
     );
@@ -89,7 +90,7 @@ export const GameSettingsForm = () => {
     };
     return (
         <div>
-            Register
+            Settings
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="field">
                     <FormControl variant="filled">
@@ -105,7 +106,7 @@ export const GameSettingsForm = () => {
                             <MenuItem value={FIELD_SIZES.MEDIUM.name}>16x16</MenuItem>
                             <MenuItem value={FIELD_SIZES.LARGE.name}>30X16</MenuItem>
                         </Select>
-                        <FormHelperText>Select task priority</FormHelperText>
+                        <FormHelperText>Select field size</FormHelperText>
                     </FormControl>
                 </div>
                 <div className="field">
@@ -121,12 +122,14 @@ export const GameSettingsForm = () => {
                             <MenuItem value={'Classic'}>Classic</MenuItem>
                             <MenuItem value={'Custom'}>Custom</MenuItem>
                         </Select>
-                        <FormHelperText>Select task priority</FormHelperText>
+                        <FormHelperText>Select field style</FormHelperText>
                     </FormControl>
                 </div>
-                <Button variant="contained" color="primary" size="small" startIcon={<BackspaceIcon />}>
-                    Back
-                </Button>
+                <NavLink to="/start" style={{ textDecoration: 'none' }}>
+                    <Button variant="contained" color="primary" size="small" startIcon={<BackspaceIcon />}>
+                        Back
+                    </Button>
+                </NavLink>
                 <Button variant="contained" color="primary" size="small" type="submit" startIcon={<SaveIcon />}>
                     Save
                 </Button>
