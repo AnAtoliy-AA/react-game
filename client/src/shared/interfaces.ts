@@ -11,3 +11,12 @@ export interface GameSettings {
     bombsQuantity: number;
     fieldStyle: string;
 }
+
+export interface GameStatistics {
+    _id?: string;
+    level: string;
+    statusWin: boolean;
+    statusLost: boolean;
+    gameMoves: number;
+    time: number;
+}

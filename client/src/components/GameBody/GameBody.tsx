@@ -89,6 +89,7 @@ const GameBody: React.FC = () => {
             gameStore.setGameLostValues();
             newCells[rowParam][colParam].danger = true;
             newCells = showAllBombs();
+            sendStatistics();
             gameStore.setCells(newCells);
             return;
         } else if (currentCell.value === CellValue.empty) {
@@ -138,6 +139,7 @@ const GameBody: React.FC = () => {
                 }),
             );
             gameStore.setIsGameWon(true);
+            sendStatistics();
         }
         gameStore.setCells(cells);
     };
@@ -201,6 +203,7 @@ const GameBody: React.FC = () => {
             // eslint-disable-next-line react/prop-types
             row.forEach((cell) => {
                 if (cell.value === CellValue.bomb && cell.state === CellState.visible) {
+                    // sendStatistics();
                     gameStore.setGameLostValues();
                 }
             }),
@@ -255,7 +258,6 @@ const GameBody: React.FC = () => {
     return (
         <Grid className="GameBody" justify="center">
             {renderCells()}
-            <button onClick={sendStatistics}>st</button>
         </Grid>
     );
 };

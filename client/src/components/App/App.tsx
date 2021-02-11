@@ -36,6 +36,8 @@ const App: React.FC = () => {
                     <Route path="/register" component={Register} />
                     <Route exact path="/game">
                         {!authStore.isAuth ? <Redirect to="/login" /> : <GameScreen />}
+                        {gameStore.isGameLost && <LostScreen />}
+                        {gameStore.isGameWon && <WinScreen />}
                     </Route>
                     <Route exact path="/settings">
                         {!authStore.isAuth ? <Redirect to="/login" /> : <GameSettings />}
@@ -43,8 +45,7 @@ const App: React.FC = () => {
                     <Route exact path="/statistics">
                         {!authStore.isAuth ? <Redirect to="/login" /> : <GameStatistic />}
                     </Route>
-                    {gameStore.isGameLost && <LostScreen />}
-                    {gameStore.isGameWon && <WinScreen />}
+
                     <Footer />
                 </BrowserRouter>
             </div>
