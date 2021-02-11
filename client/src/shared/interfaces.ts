@@ -10,6 +10,7 @@ export interface GameSettings {
     fieldHeight: number;
     bombsQuantity: number;
     fieldStyle: string;
+    gameSoundVolume: number;
 }
 
 export interface GameStatistics {

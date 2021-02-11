@@ -7,6 +7,7 @@ const initialState = {
     fieldHeight: 9,
     bombsQuantity: 10,
     fieldStyle: '',
+    gameSoundVolume: 0,
 };
 export class GameSettingsStore {
     @observable
@@ -15,5 +16,30 @@ export class GameSettingsStore {
     @action
     setGameSettings(gameSettings: GameSettings): void {
         this.gameSettings = gameSettings;
+    }
+
+    @observable
+    lastGameSoundVolume = this.gameSettings.gameSoundVolume;
+
+    @action
+    turnSoundOn(): void {
+        this.gameSettings.gameSoundVolume = this.lastGameSoundVolume;
+    }
+
+    @action
+    turnSoundOff(): void {
+        this.gameSettings.gameSoundVolume = 0;
+    }
+
+    @action
+    incrementSoundVolume(): void {
+        this.gameSettings.gameSoundVolume = +(this.gameSettings.gameSoundVolume + 0.1).toFixed(1);
+        this.lastGameSoundVolume = this.gameSettings.gameSoundVolume;
+    }
+
+    @action
+    decrementSoundVolume(): void {
+        this.gameSettings.gameSoundVolume = +(this.gameSettings.gameSoundVolume - 0.1).toFixed(1);
+        this.lastGameSoundVolume = this.gameSettings.gameSoundVolume;
     }
 }

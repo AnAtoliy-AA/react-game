@@ -25,6 +25,9 @@ const gameSettingsSchema = new Schema({
       },
       fieldStyle: {
         type: String
+      },
+      gameSoundVolume: {
+        type: Number
       }
     },
   ],

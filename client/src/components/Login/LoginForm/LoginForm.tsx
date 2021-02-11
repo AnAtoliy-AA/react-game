@@ -59,13 +59,13 @@ const LoginForm = observer(() => {
                 // mainScreenStore.toggleIsNewTaskFormOpen();
             });
         //TODO
-        gameSettingsStore.setGameSettings({
-            fieldSize: FIELD_SIZES.SMALL.name,
-            fieldWidth: FIELD_SIZES.SMALL.fieldWidth,
-            fieldHeight: FIELD_SIZES.SMALL.fieldHeight,
-            bombsQuantity: FIELD_SIZES.SMALL.bombsQuantity,
-            fieldStyle: DEFAULT_FIELD_STYLE,
-        });
+        // gameSettingsStore.setGameSettings({
+        //     fieldSize: FIELD_SIZES.SMALL.name,
+        //     fieldWidth: FIELD_SIZES.SMALL.fieldWidth,
+        //     fieldHeight: FIELD_SIZES.SMALL.fieldHeight,
+        //     bombsQuantity: FIELD_SIZES.SMALL.bombsQuantity,
+        //     fieldStyle: DEFAULT_FIELD_STYLE,
+        // });
     };
 
     const { register, handleSubmit, errors } = useForm<User>();

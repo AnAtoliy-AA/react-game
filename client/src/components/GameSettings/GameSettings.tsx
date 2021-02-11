@@ -8,6 +8,7 @@ import './GameSettings.scss';
 import { useStore } from '../../hooks/hooks';
 import { FIELD_SIZES } from '../../constants';
 import { NavLink } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 
 const GameSettings: React.FC = () => {
     return (
@@ -19,15 +20,18 @@ const GameSettings: React.FC = () => {
 
 export default GameSettings;
 
-export const GameSettingsForm = () => {
+export const GameSettingsForm = observer(() => {
     const authStore = useStore('authStore');
     const gameSettingsStore = useStore('gameSettingsStore');
     const gameStore = useStore('gameStore');
-    const [fieldSize, setFieldSize] = React.useState('');
+    const [fieldSize, setFieldSize] = React.useState(gameSettingsStore.gameSettings.fieldSize);
     const [fieldWidth, setFieldWidth] = React.useState(0);
     const [fieldHeight, setFieldHeight] = React.useState(0);
     const [bombsQuantity, setBombsQuantity] = React.useState(0);
-    const [fieldStyle, setFieldStyle] = React.useState('');
+    const [fieldStyle, setFieldStyle] = React.useState(gameSettingsStore.gameSettings.fieldStyle);
+    //TODO
+    const [gameSoundVolume, setGameSoundVolume] = React.useState(gameSettingsStore.gameSettings.gameSoundVolume);
+
     const { handleSubmit } = useForm();
     const onSubmit = () => {
         axios
@@ -40,6 +44,7 @@ export const GameSettingsForm = () => {
                         fieldHeight: fieldHeight,
                         bombsQuantity: bombsQuantity,
                         fieldStyle: fieldStyle,
+                        gameSoundVolume: gameSettingsStore.gameSettings.gameSoundVolume,
                     },
                 },
                 {
@@ -60,7 +65,6 @@ export const GameSettingsForm = () => {
     };
 
     const selectFieldSizeValues = (fieldSize: string) => {
-        console.log(fieldSize, fieldWidth, fieldHeight);
         switch (fieldSize) {
             case FIELD_SIZES.SMALL.name:
                 setFieldWidth(FIELD_SIZES.SMALL.fieldWidth);
@@ -78,7 +82,6 @@ export const GameSettingsForm = () => {
                 setBombsQuantity(FIELD_SIZES.LARGE.bombsQuantity);
                 break;
         }
-        console.log(fieldSize, fieldWidth, fieldHeight);
     };
 
     const handleSizeChange = (event: any) => {
@@ -87,6 +90,22 @@ export const GameSettingsForm = () => {
     };
     const handleStyleChange = (event: any) => {
         setFieldStyle(event.target.value);
+    };
+
+    const handleSoundOn = () => {
+        gameSettingsStore.turnSoundOn();
+    };
+
+    const handleSoundOff = () => {
+        gameSettingsStore.turnSoundOff();
+    };
+
+    const handleSoundUp = () => {
+        gameSettingsStore.incrementSoundVolume();
+    };
+
+    const handleSoundDown = () => {
+        gameSettingsStore.decrementSoundVolume();
     };
     return (
         <div>
@@ -125,6 +144,14 @@ export const GameSettingsForm = () => {
                         <FormHelperText>Select field style</FormHelperText>
                     </FormControl>
                 </div>
+                <div>
+                    TODO
+                    {gameSettingsStore.gameSettings.gameSoundVolume}
+                    <button onClick={handleSoundOn}>on</button>
+                    <button onClick={handleSoundOff}>off</button>
+                    <button onClick={handleSoundUp}>+</button>
+                    <button onClick={handleSoundDown}>-</button>
+                </div>
                 <div>Language</div>
                 <NavLink to="/main" style={{ textDecoration: 'none' }}>
                     <Button variant="contained" color="primary" size="small" startIcon={<BackspaceIcon />}>
@@ -137,4 +164,4 @@ export const GameSettingsForm = () => {
             </form>
         </div>
     );
-};
+});

@@ -8,6 +8,11 @@ import { Cell, CellState, CellValue, Face } from '../../types';
 import { checkMultipleVisibleCells, openMultipleEmptyCells, toggleStyleAllAdjacentCells } from '../../utils';
 import { Grid } from '@material-ui/core';
 import axios from 'axios';
+import useSound from 'use-sound';
+import lostSound from '../../assets/sounds/failure.mp3';
+import winSound from '../../assets/sounds/success.mp3';
+import bombSound from '../../assets/sounds/error.mp3';
+import clickSound from '../../assets/sounds/correct.mp3';
 
 enum MouseButtons {
     LeftButton = 1,
@@ -18,6 +23,9 @@ const GameBody: React.FC = () => {
     const gameStore = useStore('gameStore');
     const gameSettingsStore = useStore('gameSettingsStore');
     const authStore = useStore('authStore');
+    const [playLostSound] = useSound(lostSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
+    const [playWinSound] = useSound(winSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
+
     const handleMouseDown = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
         rowParam: number,
@@ -90,6 +98,7 @@ const GameBody: React.FC = () => {
             newCells[rowParam][colParam].danger = true;
             newCells = showAllBombs();
             sendStatistics();
+            playLostSound();
             gameStore.setCells(newCells);
             return;
         } else if (currentCell.value === CellValue.empty) {
@@ -140,6 +149,7 @@ const GameBody: React.FC = () => {
             );
             gameStore.setIsGameWon(true);
             sendStatistics();
+            playWinSound();
         }
         gameStore.setCells(cells);
     };
