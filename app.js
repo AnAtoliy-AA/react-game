@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const authRoutes = require('./routes/auth')
 const gameSettings = require('./routes/gameSettings')
 const statistics = require('./routes/statistics')
+const gameSave = require('./routes/gameSave')
 const keys = require('./config/keys')
 const app = express()
 
@@ -25,6 +26,7 @@ app.use(require('cors')())
 app.use('/api/auth', authRoutes)
 app.use('/api/statistics', statistics)
 app.use('/api/settings', gameSettings)
+app.use('/api/gamesave', gameSave)
 
 if (process.env.NODE_ENV === 'production') {
   app.use('/', express.static(path.join(__dirname, 'client', 'build')))

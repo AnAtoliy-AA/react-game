@@ -27,11 +27,36 @@ const LoginForm = observer(() => {
                 if (!response.data) {
                     setDefaultSettings();
                 } else gameSettingsStore.setGameSettings(response.data.list[0]);
-                gameStore.setDefaultStartGameValues(
-                    gameSettingsStore.gameSettings.fieldHeight,
-                    gameSettingsStore.gameSettings.fieldWidth,
-                    gameSettingsStore.gameSettings.bombsQuantity,
-                );
+                // gameStore.setDefaultStartGameValues(
+                //     gameSettingsStore.gameSettings.fieldHeight,
+                //     gameSettingsStore.gameSettings.fieldWidth,
+                //     gameSettingsStore.gameSettings.bombsQuantity,
+                // );
+            });
+    };
+
+    const getLastGame = async () => {
+        axios
+            .get('/api/gamesave', {
+                headers: {
+                    authorization: authStore.token,
+                },
+            })
+            .then((response) => {
+                if (!response.data) {
+                    // setDefaultSettings();
+                }
+                const lastSavedGame = response.data.list[0].savedGame;
+                const lastGameTime = response.data.list[0].gameTime;
+                const lastGameBombsCount = response.data.list[0].bombsCount;
+                gameStore.setCells(lastSavedGame);
+                gameStore.setGameTime(lastGameTime);
+                gameStore.setBombCount(lastGameBombsCount);
+                // gameStore.setDefaultStartGameValues(
+                //     gameSettingsStore.gameSettings.fieldHeight,
+                //     gameSettingsStore.gameSettings.fieldWidth,
+                //     gameSettingsStore.gameSettings.bombsQuantity,
+                // );
             });
     };
     //TODO
@@ -79,6 +104,7 @@ const LoginForm = observer(() => {
                 authStore.setToken(response.data.token);
                 authStore.setIsAuth(true);
                 getSettings();
+                getLastGame();
             });
     };
     return (

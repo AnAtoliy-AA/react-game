@@ -25,9 +25,9 @@ export const GameSettingsForm = observer(() => {
     const gameSettingsStore = useStore('gameSettingsStore');
     const gameStore = useStore('gameStore');
     const [fieldSize, setFieldSize] = React.useState(gameSettingsStore.gameSettings.fieldSize);
-    const [fieldWidth, setFieldWidth] = React.useState(0);
-    const [fieldHeight, setFieldHeight] = React.useState(0);
-    const [bombsQuantity, setBombsQuantity] = React.useState(0);
+    const [fieldWidth, setFieldWidth] = React.useState(gameSettingsStore.gameSettings.fieldWidth);
+    const [fieldHeight, setFieldHeight] = React.useState(gameSettingsStore.gameSettings.fieldHeight);
+    const [bombsQuantity, setBombsQuantity] = React.useState(gameSettingsStore.gameSettings.bombsQuantity);
     const [fieldStyle, setFieldStyle] = React.useState(gameSettingsStore.gameSettings.fieldStyle);
     //TODO
     const [gameSoundVolume, setGameSoundVolume] = React.useState(gameSettingsStore.gameSettings.gameSoundVolume);

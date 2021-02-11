@@ -13,6 +13,7 @@ import lostSound from '../../assets/sounds/failure.mp3';
 import winSound from '../../assets/sounds/success.mp3';
 import bombSound from '../../assets/sounds/error.mp3';
 import clickSound from '../../assets/sounds/correct.mp3';
+import { toJS } from 'mobx';
 
 enum MouseButtons {
     LeftButton = 1,
@@ -115,6 +116,7 @@ const GameBody: React.FC = () => {
             gameStore.setCells(newCells);
         }
         gameStore.incrementGameMoves();
+        saveGame(newCells);
         checkIfGameIsWon(newCells);
 
         // gameStore.setCells(newCells);
@@ -238,6 +240,40 @@ const GameBody: React.FC = () => {
                 },
             },
         );
+    };
+
+    const saveGame = (newCells: Cell[][]) => {
+        const savedGame = newCells.map((row) => {
+            return row.map((col) => {
+                return toJS(col);
+            });
+        });
+        const bombsCount = toJS(gameStore.bombCount);
+        const gameTime = toJS(gameStore.gameTime);
+        axios
+            .patch(
+                'api/gamesave',
+                {
+                    list: {
+                        savedGame: savedGame,
+                        bombsCount: bombsCount,
+                        gameTime: gameTime,
+                    },
+                },
+                {
+                    headers: {
+                        authorization: authStore.token,
+                    },
+                },
+            )
+            .then((response) => {
+                // gameSettingsStore.setGameSettings(response.data.list[0]);
+                // gameStore.setDefaultStartGameValues(
+                //     gameSettingsStore.gameSettings.fieldHeight,
+                //     gameSettingsStore.gameSettings.fieldWidth,
+                //     gameSettingsStore.gameSettings.bombsQuantity,
+                // );    // sendRequest();
+            });
     };
     const renderCells = (): React.ReactNode => {
         return gameStore.gameCells.map((row, rowIndex) => (
