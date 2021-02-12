@@ -125,4 +125,25 @@ export class GameStore {
         this.setIsGameLost(false);
         this.setIsGameStarted(true);
     }
+
+    @observable
+    activeCellRow = 0;
+
+    @observable
+    activeCellCol = 0;
+
+    @action
+    setActiveCellRow(value: number): void {
+        this.activeCellRow = value;
+    }
+
+    @action
+    setActiveCellCol(value: number): void {
+        this.activeCellCol = value;
+    }
+
+    @action
+    incrementActiveCellRow(): void {
+        this.activeCellRow++;
+    }
 }

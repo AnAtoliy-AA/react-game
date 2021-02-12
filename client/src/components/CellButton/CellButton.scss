@@ -53,4 +53,7 @@
   &.checked {
     background-color: $second-button-value;
   }
+  &.active {
+    background-color: $display-color;
+  }
 }

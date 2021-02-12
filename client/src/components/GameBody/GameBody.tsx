@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useStore } from '../../hooks/hooks';
 import CellButton from '../CellButton/CellButton';
 import './GameBody.scss';
@@ -14,11 +14,24 @@ import winSound from '../../assets/sounds/success.mp3';
 import bombSound from '../../assets/sounds/error.mp3';
 import clickSound from '../../assets/sounds/correct.mp3';
 import { toJS } from 'mobx';
+import { GameSettingsStore } from '../../stores/GameSettingsStore';
 
 enum MouseButtons {
     LeftButton = 1,
     RightButton,
 }
+
+const KEYBOARD_KEYS = {
+    START_KEYBOARD_USE: 'NumpadDivide',
+    STOP_KEYBOARD_USE: 'NumpadMultiply',
+    RESTART_GAME: 'NumpadEnter',
+    MOVE_UP: 'Numpad8',
+    MOVE_DOWN: 'Numpad2',
+    MOVE_LEFT: 'Numpad4',
+    MOVE_RIGHT: 'Numpad6',
+    LEFT_CLICK: 'Numpad5',
+    RIGHT_CLICK: 'Numpad0',
+};
 
 const GameBody: React.FC = () => {
     const gameStore = useStore('gameStore');
@@ -275,6 +288,110 @@ const GameBody: React.FC = () => {
                 // );    // sendRequest();
             });
     };
+
+    const useKey = (key: any, cb: any) => {
+        const callbackRef = useRef(cb);
+
+        useEffect(() => {
+            callbackRef.current = cb;
+        });
+
+        useEffect(() => {
+            const handle = (event: { code: any }) => {
+                if (event.code === key) {
+                    callbackRef.current(event);
+                }
+            };
+            document.addEventListener('keypress', handle);
+            return () => document.removeEventListener('keypress', handle);
+        }, [key]);
+    };
+
+    const handleRestartGame = () => {
+        console.log('ENTER');
+        gameStore.setDefaultStartGameValues(
+            gameSettingsStore.gameSettings.fieldHeight,
+            gameSettingsStore.gameSettings.fieldWidth,
+            gameSettingsStore.gameSettings.bombsQuantity,
+        );
+    };
+
+    const handleStartKeyboardUse = () => {
+        console.log('Start');
+        const newCells = gameStore.gameCells.slice();
+        newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = true;
+        gameStore.setCells(newCells);
+    };
+
+    const handleStopKeyboardUse = () => {
+        const newCells = gameStore.gameCells.slice();
+        newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = false;
+        gameStore.setCells(newCells);
+        console.log('Stop');
+    };
+
+    const handleMoveUp = () => {
+        if (gameStore.activeCellRow === 0) {
+            return;
+        } else {
+            const newCells = gameStore.gameCells.slice();
+            newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = false;
+            newCells[--gameStore.activeCellRow][gameStore.activeCellCol].active = true;
+            gameStore.setCells(newCells);
+        }
+    };
+    const handleMoveDown = () => {
+        if (gameStore.activeCellRow === gameSettingsStore.gameSettings.fieldHeight - 1) {
+            return;
+        } else {
+            const newCells = gameStore.gameCells.slice();
+            newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = false;
+            newCells[++gameStore.activeCellRow][gameStore.activeCellCol].active = true;
+            gameStore.setCells(newCells);
+        }
+    };
+
+    const handleMoveLeft = () => {
+        if (gameStore.activeCellCol === 0) {
+            return;
+        } else {
+            const newCells = gameStore.gameCells.slice();
+            newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = false;
+            newCells[gameStore.activeCellRow][--gameStore.activeCellCol].active = true;
+            gameStore.setCells(newCells);
+        }
+    };
+    const handleMoveRight = () => {
+        if (gameStore.activeCellCol === gameSettingsStore.gameSettings.fieldWidth - 1) {
+            return;
+        } else {
+            const newCells = gameStore.gameCells.slice();
+            newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = false;
+            newCells[gameStore.activeCellRow][++gameStore.activeCellCol].active = true;
+            gameStore.setCells(newCells);
+        }
+    };
+
+    const handleLeftClick = () => {
+        handleCellClick(gameStore.activeCellRow, gameStore.activeCellCol);
+    };
+
+    //TODO
+    const handleRightClick = () => {
+        handleCellContext(gameStore.activeCellRow, gameStore.activeCellCol);
+    };
+
+    useKey(KEYBOARD_KEYS.RESTART_GAME, handleRestartGame);
+    useKey(KEYBOARD_KEYS.START_KEYBOARD_USE, handleStartKeyboardUse);
+
+    useKey(KEYBOARD_KEYS.STOP_KEYBOARD_USE, handleStopKeyboardUse);
+    useKey(KEYBOARD_KEYS.MOVE_UP, handleMoveUp);
+    useKey(KEYBOARD_KEYS.MOVE_DOWN, handleMoveDown);
+    useKey(KEYBOARD_KEYS.MOVE_LEFT, handleMoveLeft);
+    useKey(KEYBOARD_KEYS.MOVE_RIGHT, handleMoveRight);
+    useKey(KEYBOARD_KEYS.LEFT_CLICK, handleLeftClick);
+    useKey(KEYBOARD_KEYS.RIGHT_CLICK, handleRightClick);
+
     const renderCells = (): React.ReactNode => {
         return gameStore.gameCells.map((row, rowIndex) => (
             <Grid container key={`${rowIndex}`} justify="center">
@@ -292,6 +409,7 @@ const GameBody: React.FC = () => {
                             value={cell.value}
                             danger={cell.danger}
                             checked={cell.checked}
+                            active={cell.active}
                             row={rowIndex}
                             col={colIndex}
                         />
@@ -302,7 +420,7 @@ const GameBody: React.FC = () => {
     };
 
     return (
-        <Grid className="GameBody" justify="center">
+        <Grid className="GameBody" container justify="center">
             {renderCells()}
         </Grid>
     );

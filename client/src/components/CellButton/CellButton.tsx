@@ -7,12 +7,13 @@ interface ButtonProps {
     col: number;
     danger?: boolean;
     checked?: boolean;
+    active?: boolean;
     state: CellState;
     value: CellValue;
 }
 
 // eslint-disable-next-line react/prop-types
-const CellButton: React.FC<ButtonProps> = ({ state, value, danger, checked }) => {
+const CellButton: React.FC<ButtonProps> = ({ state, value, danger, checked, active }) => {
     const renderContent = (): React.ReactNode => {
         if (state === CellState.visible) {
             if (value === CellValue.bomb) {
@@ -39,9 +40,8 @@ const CellButton: React.FC<ButtonProps> = ({ state, value, danger, checked }) =>
 
     return (
         <div
-            className={`Button ${state === CellState.visible && 'visible'} value-${value} ${danger ? 'danger' : ''} ${
-                checked ? 'checked' : ''
-            }`}
+            className={`Button ${state === CellState.visible && 'visible'} value-${value} ${danger ? 'danger' : ''}
+             ${active ? 'active' : ''} ${checked ? 'checked' : ''}`}
         >
             {renderContent()}
         </div>
