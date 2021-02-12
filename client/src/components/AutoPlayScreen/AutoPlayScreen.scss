@@ -1,0 +1,13 @@
+@import "../../styles/index.scss";
+
+.AutoPlayScreen {
+    @include borders;
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: $primary-color;
+    padding: 16px;
+}

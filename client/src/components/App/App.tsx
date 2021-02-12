@@ -17,6 +17,7 @@ import WinScreen from '../WinScreen/WinScreen';
 import MainMenu from '../MainMenu/MainMenu';
 import GameScreen from '../GameScreen/GameScreen';
 import GameStatistic from '../GameStatistic/GameStatistic';
+import AutoPlayScreen from '../AutoPlayScreen/AutoPlayScreen';
 
 const App: React.FC = () => {
     const gameStore = useStore('gameStore');
@@ -36,6 +37,11 @@ const App: React.FC = () => {
                     <Route path="/register" component={Register} />
                     <Route exact path="/game">
                         {!authStore.isAuth ? <Redirect to="/login" /> : <GameScreen />}
+                        {gameStore.isGameLost && <LostScreen />}
+                        {gameStore.isGameWon && <WinScreen />}
+                    </Route>
+                    <Route exact path="/autoplay">
+                        {!authStore.isAuth ? <Redirect to="/login" /> : <AutoPlayScreen />}
                         {gameStore.isGameLost && <LostScreen />}
                         {gameStore.isGameWon && <WinScreen />}
                     </Route>

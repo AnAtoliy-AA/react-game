@@ -8,6 +8,9 @@ const MainMenu: React.FC = () => {
             <NavLink to="/game" style={{ textDecoration: 'none' }}>
                 Start
             </NavLink>
+            <NavLink to="/autoplay" style={{ textDecoration: 'none' }}>
+                Autoplay
+            </NavLink>
             <NavLink to="/settings" style={{ textDecoration: 'none' }}>
                 Settings
             </NavLink>

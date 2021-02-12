@@ -1,7 +1,7 @@
 import { Cell, CellState, CellValue } from './../types';
 // import { MAX_COLS, MAX_ROWS, N_OF_BOMBS } from './../constants';
 
-const grabAllAdjacentCells = (
+export const grabAllAdjacentCells = (
     cells: Cell[][],
     rowIndex: number,
     colIndex: number,
