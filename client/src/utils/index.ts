@@ -276,7 +276,7 @@ export const checkMultipleVisibleCells = (
     }
 
     if (numberOfFlags < currentCell.value) {
-        console.log('LOOK Better');
+        // console.log('LOOK Better');
         //TODO
     } else openMultipleEmptyCells(cells, rowParam, colParam, fieldHeight, fieldWidth);
 

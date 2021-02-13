@@ -14,7 +14,6 @@ import {
     openMultipleEmptyCells,
     toggleStyleAllAdjacentCells,
 } from '../../utils';
-import { toJS } from 'mobx';
 
 const AUTO_PLAY_PARAMS = {
     FIELD_WIDTH: 9,
@@ -39,8 +38,7 @@ const AutoPlayScreen: React.FC = () => {
         handleAutoCellClick(gameStore.activeCellRow, gameStore.activeCellCol);
 
         // const currentCells = gameStore.gameCells.slice();
-
-        while (!gameStore.isGameWon || gameStore.bombCount !== 0) {
+        const timer = setInterval(() => {
             const currentCells = gameStore.gameCells.slice();
             currentCells.forEach((row, rowIndex) => {
                 row.forEach((col, colIndex) => {
@@ -62,11 +60,11 @@ const AutoPlayScreen: React.FC = () => {
                             AUTO_PLAY_PARAMS.FIELD_HEIGHT,
                             AUTO_PLAY_PARAMS.FIELD_WIDTH,
                         );
+                        gameStore.setCells(currentCells);
                         checkIfGameIsWon(currentCells);
                     }
                 });
             });
-
             if (gameStore.isGameWon || gameStore.bombCount === 0) {
                 currentCells.map((row, rowIndex) => {
                     row.map((col, colIndex) => {
@@ -76,11 +74,39 @@ const AutoPlayScreen: React.FC = () => {
                         ) {
                             currentCells[rowIndex][colIndex].state = CellState.visible;
                         }
+                        gameStore.setCells(currentCells);
                     });
                 });
-                break;
+                clearInterval(timer);
             }
-        }
+        }, 1000);
+        // while (!gameStore.isGameWon || gameStore.bombCount !== 0) {
+        //     const currentCells = gameStore.gameCells.slice();
+        //     currentCells.forEach((row, rowIndex) => {
+        //         row.forEach((col, colIndex) => {
+        //             if (
+        //                 // currentCells[rowIndex][colIndex].value === 1 &&
+        //                 currentCells[rowIndex][colIndex].state === CellState.visible
+        //             ) {
+        //                 checkAutoMultipleDefaultCells(
+        //                     currentCells,
+        //                     rowIndex,
+        //                     colIndex,
+        //                     AUTO_PLAY_PARAMS.FIELD_HEIGHT,
+        //                     AUTO_PLAY_PARAMS.FIELD_WIDTH,
+        //                 );
+        //                 checkMultipleVisibleCells(
+        //                     currentCells,
+        //                     rowIndex,
+        //                     colIndex,
+        //                     AUTO_PLAY_PARAMS.FIELD_HEIGHT,
+        //                     AUTO_PLAY_PARAMS.FIELD_WIDTH,
+        //                 );
+        //                 gameStore.setCells(currentCells);
+        //                 checkIfGameIsWon(currentCells);
+        //             }
+        //         });
+        //     });
     };
 
     const checkAutoMultipleDefaultCells = (
@@ -132,7 +158,6 @@ const AutoPlayScreen: React.FC = () => {
         }
 
         if (numberOfDefault === currentCell.value) {
-            console.log('HERE ONE BOMB', rowParam, colParam);
             if (topLeftCell?.state === CellState.default) {
                 newCells[rowParam - 1][colParam - 1].state = CellState.flagged;
                 gameStore.decrementBombCounter();
