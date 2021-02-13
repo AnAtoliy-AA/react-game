@@ -1,3 +1,5 @@
+@import "../../styles/index.scss";
+
 .main-menu {
     grid-area: main;
     display: flex;
@@ -5,4 +7,28 @@
     justify-content: center;
     flex-direction: column;
     justify-content: space-around;
+}
+
+.bg {
+    position: absolute;
+    top: 10vh;
+    left: 0;
+    width: 100vw;
+    height: 80vh;
+    background-size: cover;
+    background-position: center;
+    will-change: opacity;
+    z-index: -10;
+}
+
+.menu-container {
+    border: 4px sold red;
+    background-color: $primary-color;
+    padding: 1em;
+    border-radius: 1em;
+}
+
+.menu-nav {
+    text-decoration: none;
+
 }
