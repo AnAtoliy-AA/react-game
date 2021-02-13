@@ -6,6 +6,8 @@
   width: 30px;
   height: 30px;
   font-weight: bold;
+  font-size: 1.5em;
+  transition: all 0.7s ease-out;
 
   &.visible {
     border-color: $display-background-color;
@@ -55,5 +57,9 @@
   }
   &.active {
     background-color: $display-color;
+  }
+  &.custom {
+    // background-color: $custom-primary-color;
+    background-image: url('../../assets/images/custom-background.jpg');
   }
 }

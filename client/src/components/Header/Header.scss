@@ -5,16 +5,23 @@
     justify-content: space-between;
     align-items: center;
     background-color: $primary-color;
-}
 
-.logo {
-    max-height: 7vh;
-    margin-left: 4vw;
-}
-
-.header-nav {
-    display: flex;
-    justify-content: space-between;
-    width: 12vw;
-    margin-right: 4vw;
+    .logo {
+        max-height: 7vh;
+        margin-left: 4vw;
+        border-radius: 0.5em;
+    }
+    
+    .header-nav {
+        display: flex;
+        justify-content: space-between;
+        width: 12vw;
+        margin-right: 4vw;
+        background-color: $primary-color;
+        border-radius: 0.5em;
+    }
+    
+    &.custom {
+        background-image: url('../../assets/images/custom-background.jpg');
+    }
 }

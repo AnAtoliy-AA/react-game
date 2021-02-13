@@ -1,4 +1,5 @@
 import React from 'react';
+import { useStore } from '../../hooks/hooks';
 import { CellState, CellValue } from '../../types';
 import './CellButton.scss';
 
@@ -12,8 +13,11 @@ interface ButtonProps {
     value: CellValue;
 }
 
+const CELL_SIZE = 30;
+
 // eslint-disable-next-line react/prop-types
-const CellButton: React.FC<ButtonProps> = ({ state, value, danger, checked, active }) => {
+const CellButton: React.FC<ButtonProps> = ({ state, value, danger, checked, active, row, col }) => {
+    const gameSettingsStore = useStore('gameSettingsStore');
     const renderContent = (): React.ReactNode => {
         if (state === CellState.visible) {
             if (value === CellValue.bomb) {
@@ -41,7 +45,10 @@ const CellButton: React.FC<ButtonProps> = ({ state, value, danger, checked, acti
     return (
         <div
             className={`Button ${state === CellState.visible && 'visible'} value-${value} ${danger ? 'danger' : ''}
-             ${active ? 'active' : ''} ${checked ? 'checked' : ''}`}
+             ${active ? 'active' : ''} ${checked ? 'checked' : ''} ${
+                gameSettingsStore.gameSettings.fieldStyle === 'Custom' ? 'custom' : ''
+            }`}
+            style={{ backgroundPosition: `-${col * CELL_SIZE}px -${row * CELL_SIZE}px` }}
         >
             {renderContent()}
         </div>

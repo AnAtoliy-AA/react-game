@@ -4,11 +4,13 @@ import Alert from '@material-ui/lab/Alert';
 import { useStore } from '../../hooks/hooks';
 import './Header.scss';
 import logo from '../../assets/images/mines_logo.bmp';
+import { observer } from 'mobx-react-lite';
 
 const Header: React.FC = () => {
     const authStore = useStore('authStore');
+    const gameSettingsStore = useStore('gameSettingsStore');
     return (
-        <div className="header">
+        <div className={`header ${gameSettingsStore.gameSettings.fieldStyle === 'Custom' ? 'custom' : ''}`}>
             <div>
                 <NavLink to="/main">
                     <img className="logo" src={logo} alt="Minesweeper" />
@@ -29,10 +31,14 @@ const Header: React.FC = () => {
                     </NavLink>
                 </div>
             ) : (
-                <NavLink to="/logout">Logout</NavLink>
+                <div className="header-nav">
+                    <NavLink to="/logout" style={{ textDecoration: 'none' }}>
+                        Logout
+                    </NavLink>
+                </div>
             )}
         </div>
     );
 };
 
-export default Header;
+export default observer(Header);

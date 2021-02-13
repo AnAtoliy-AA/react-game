@@ -9,21 +9,25 @@
   border: 1px solid $additional-border-color;
   // margin: 5px;
   background-color: $primary-color;
-}
 
-.footer-logo {
-  height: 25px;
-  pointer-events: none;
-}
-
-.about-me {
-
-  a {
-    text-decoration: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 14vw;
+  .footer-logo {
+    height: 25px;
+    pointer-events: none;
   }
+  
+  .about-me {
+  
+    a {
+      text-decoration: none;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 14vw;
+    }
+  }
+
+  &.custom {
+    background-image: url('../../assets/images/custom-background.jpg');
+}
 }

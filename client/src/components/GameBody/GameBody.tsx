@@ -14,7 +14,6 @@ import winSound from '../../assets/sounds/success.mp3';
 import bombSound from '../../assets/sounds/error.mp3';
 import clickSound from '../../assets/sounds/correct.mp3';
 import { toJS } from 'mobx';
-import { GameSettingsStore } from '../../stores/GameSettingsStore';
 
 enum MouseButtons {
     LeftButton = 1,

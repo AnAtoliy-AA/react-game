@@ -2,18 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import './MainMenu.scss';
 import { useTransition, animated, config } from 'react-spring';
+import { Spring } from 'react-spring/renderprops';
+import bgImgFirst from '../../assets/images/menu_bg_1.jpg';
+import bgImgSec from '../../assets/images/menu_bg_2.jpg';
+import bgImgThird from '../../assets/images/menu_bg-3.jpg';
+import bgImgFourth from '../../assets/images/menu_bg_4.jpg';
 
 const slides = [
-    { id: 0, url: 'https://rusvesna.su/sites/default/files/styles/orign_wm/public/saper_vsu.jpg' },
+    { id: 0, url: bgImgFirst },
     {
         id: 1,
-        url:
-            'https://lh3.googleusercontent.com/proxy/3Kif24CN3ql2HZLt-vOOBn4vhv9ETtkluXmnI6OAluJ2t38yBaafR1CE24atw0TT3IVlPHabB8izG8eU42AenYggPgdFeg8MnpWJxA',
+        url: bgImgSec,
     },
-    { id: 2, url: 'https://oksait.ru/wp-content/uploads/2018/08/0101.jpg' },
-    { id: 3, url: 'https://i1.wp.com/fb.ru/misc/i/gallery/27963/1235868.jpg' },
+    { id: 2, url: bgImgThird },
+    { id: 3, url: bgImgFourth },
 ];
-import { Spring } from 'react-spring/renderprops';
 
 const MainMenu: React.FC = () => {
     const [index, set] = useState(0);
