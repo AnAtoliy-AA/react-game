@@ -1,3 +1,4 @@
+@import "../../styles/index.scss";
 .GameStatistic {
     display: flex;
     flex-direction: column;
@@ -7,12 +8,32 @@
 
 .statisitcs-card {
     display: flex;
+    width: 80%;
+    justify-content:space-between;
+    align-items: center;
+    text-align: center;
+    height: 5vh;
+    border-bottom: 1px solid $additional-border-color;
+}
+
+.card-date {
+    width: 9em;
 }
 
 .pagination {
     display: flex;
+    justify-content: space-around;
+    width: 60vw;
 }
 
 .selected-page {
     font-weight: bold;
+    font-size: 1.5em;
+}
+
+.statisics-controls {
+    display: flex;
+    width: 20vw;
+    justify-content: space-between;
+    margin-top: 2vh;
 }

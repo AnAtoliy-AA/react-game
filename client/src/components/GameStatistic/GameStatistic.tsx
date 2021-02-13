@@ -4,9 +4,14 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import BackspaceIcon from '@material-ui/icons/Backspace';
+import ThreeSixtyIcon from '@material-ui/icons/ThreeSixty';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { useStore } from '../../hooks/hooks';
 import { GameStatistics } from '../../shared/interfaces';
+import moment from 'moment';
 import './GameStatistic.scss';
+import { toJS } from 'mobx';
 
 const PAGE_SIZE = 10;
 const PAGES_PORTION = 3;
@@ -51,7 +56,17 @@ const GameStatistic: React.FC = () => {
             GameStatistic Component
             <div className="pagination">
                 <span>Page: </span>
-                {portionNumber > 1 && <button onClick={() => setPortionNumber(portionNumber - 1)}>Previous</button>}
+                {portionNumber > 1 && (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        onClick={() => setPortionNumber(portionNumber - 1)}
+                        startIcon={<ArrowBackIcon />}
+                    >
+                        Previous
+                    </Button>
+                )}
                 {pages
                     .filter((p) => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
                     .map((p) => {
@@ -67,20 +82,37 @@ const GameStatistic: React.FC = () => {
                             </span>
                         );
                     })}
+                <span> of {pagesCount}</span>
                 {portionCount > portionNumber && (
-                    <button onClick={() => setPortionNumber(portionNumber + 1)}>Next</button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        onClick={() => setPortionNumber(portionNumber + 1)}
+                        startIcon={<ArrowForwardIcon />}
+                    >
+                        Next
+                    </Button>
                 )}
+            </div>
+            <div className="statisitcs-card">
+                <div>Level</div>
+                <div>Finished</div>
+                <div>Moves</div>
+                <div>Time</div>
+                <div className="card-date">Date</div>
             </div>
             {gameStatisticsStore.gameStatistics
                 .slice((currentPage - 1) * PAGE_SIZE, PAGE_SIZE * currentPage)
                 .map((el) => {
                     return (
                         <div className="statisitcs-card" key={el._id}>
-                            <div>Level: {el.level}</div>
-                            {!!el.statusWin ? <div>Win</div> : 'null'}
-                            {!!el.statusLost && <div>Lost </div>}
-                            <div>Moves: {el.gameMoves}</div>
-                            <div>Time: {el.time}</div>
+                            <div>{el.level}</div>
+                            {el.statusWin === 'true' && <div>Win</div>}
+                            {el.statusLost === 'true' && <div>Lost </div>}
+                            <div>{el.gameMoves}</div>
+                            <div>{el.time}</div>
+                            <div>{moment(el.date).format('DD MMM yyyy HH:mm')}</div>
                         </div>
                     );
                 })}
@@ -90,7 +122,15 @@ const GameStatistic: React.FC = () => {
                         Back
                     </Button>
                 </NavLink>
-                <button onClick={getStattistics}>refresh</button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={getStattistics}
+                    startIcon={<ThreeSixtyIcon />}
+                >
+                    Refresh
+                </Button>
             </div>
         </div>
     );

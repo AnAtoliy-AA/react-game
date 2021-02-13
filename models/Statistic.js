@@ -27,6 +27,10 @@ const statisticsSchema = new Schema({
       time: {
         type: Number
       },
+      date: {
+        type: Date,
+        default: Date.now
+      },
     },
   ],
   user: {

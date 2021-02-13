@@ -16,8 +16,9 @@ export interface GameSettings {
 export interface GameStatistics {
     _id?: string;
     level: string;
-    statusWin: boolean;
-    statusLost: boolean;
+    statusWin: string;
+    statusLost: string;
     gameMoves: number;
     time: number;
+    date: Date;
 }
