@@ -45,8 +45,8 @@ const CellButton: React.FC<ButtonProps> = ({ state, value, danger, checked, acti
     return (
         <div
             className={`Button ${state === CellState.visible && 'visible'} value-${value} ${danger ? 'danger' : ''}
-             ${active ? 'active' : ''} ${checked ? 'checked' : ''} ${
-                gameSettingsStore.gameSettings.fieldStyle === 'Custom' ? 'custom' : ''
+             ${active ? 'active' : ''}  ${gameSettingsStore.gameSettings.fieldStyle === 'Custom' ? 'custom' : ''} ${
+                checked ? 'checked' : ''
             }`}
             style={{ backgroundPosition: `-${col * CELL_SIZE}px -${row * CELL_SIZE}px` }}
         >

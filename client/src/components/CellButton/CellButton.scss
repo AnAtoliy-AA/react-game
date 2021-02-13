@@ -52,14 +52,14 @@
   &.touched {
     background-color: $second-button-value;
   }
-  &.checked {
-    background-color: $second-button-value;
-  }
   &.active {
     background-color: $display-color;
   }
   &.custom {
-    // background-color: $custom-primary-color;
     background-image: url('../../assets/images/custom-background.jpg');
+  }
+  &.checked {
+    background-image: none;
+    background-color: $second-button-value;
   }
 }
