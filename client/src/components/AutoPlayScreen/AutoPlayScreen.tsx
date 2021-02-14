@@ -14,6 +14,8 @@ import {
     openMultipleEmptyCells,
     toggleStyleAllAdjacentCells,
 } from '../../utils';
+import { Button } from '@material-ui/core';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
 
 const AUTO_PLAY_PARAMS = {
     FIELD_WIDTH: 9,
@@ -547,7 +549,15 @@ const AutoPlayScreen: React.FC = () => {
     // useKey(KEYBOARD_KEYS.RIGHT_CLICK, handleRightClick);
     return (
         <div className="AutoPlayScreen">
-            <button onClick={handle.enter}>Enter fullscreen</button>
+            <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<FullscreenIcon />}
+                onClick={handle.enter}
+            >
+                Full screen
+            </Button>
             <FullScreen handle={handle}>
                 <AutoPlayGameHeader />
                 <AutoPlayGameBody />

@@ -9,6 +9,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { useStore } from '../../hooks/hooks';
 import { GameStatistics } from '../../shared/interfaces';
+import { DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
 import moment from 'moment';
 import './GameStatistic.scss';
 
@@ -17,6 +18,7 @@ const PAGES_PORTION = 3;
 
 const GameStatistic: React.FC = () => {
     const authStore = useStore('authStore');
+    const gameSettingsStore = useStore('gameSettingsStore');
     const gameStatisticsStore = useStore('gameStatisticsStore');
 
     const getStatistics = async () => {
@@ -52,9 +54,13 @@ const GameStatistic: React.FC = () => {
 
     return (
         <div className="GameStatistic">
-            GameStatistic Component
+            {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                ? WORDS_CONFIG.STATISTICS_BUTTON.foreign
+                : WORDS_CONFIG.STATISTICS_BUTTON.native}
             <div className="pagination">
-                <span>Page: </span>
+                {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                    ? WORDS_CONFIG.PAGE_FIELD.foreign
+                    : WORDS_CONFIG.PAGE_FIELD.native}
                 {portionNumber > 1 && (
                     <Button
                         variant="contained"
@@ -63,7 +69,9 @@ const GameStatistic: React.FC = () => {
                         onClick={() => setPortionNumber(portionNumber - 1)}
                         startIcon={<ArrowBackIcon />}
                     >
-                        Previous
+                        {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                            ? WORDS_CONFIG.PREVIOUS_BUTTON.foreign
+                            : WORDS_CONFIG.PREVIOUS_BUTTON.native}
                     </Button>
                 )}
                 {pages
@@ -90,16 +98,38 @@ const GameStatistic: React.FC = () => {
                         onClick={() => setPortionNumber(portionNumber + 1)}
                         startIcon={<ArrowForwardIcon />}
                     >
-                        Next
+                        {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                            ? WORDS_CONFIG.NEXT_BUTTON.foreign
+                            : WORDS_CONFIG.NEXT_BUTTON.native}
                     </Button>
                 )}
             </div>
             <div className="statistics-card">
-                <div>Level</div>
-                <div>Finished</div>
-                <div>Moves</div>
-                <div>Time</div>
-                <div className="card-date">Date</div>
+                <div>
+                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                        ? WORDS_CONFIG.LEVEL_FIELD.foreign
+                        : WORDS_CONFIG.LEVEL_FIELD.native}
+                </div>
+                <div>
+                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                        ? WORDS_CONFIG.FINISHED_FIELD.foreign
+                        : WORDS_CONFIG.FINISHED_FIELD.native}
+                </div>
+                <div>
+                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                        ? WORDS_CONFIG.MOVES_FIELD.foreign
+                        : WORDS_CONFIG.MOVES_FIELD.native}
+                </div>
+                <div>
+                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                        ? WORDS_CONFIG.TIME_FIELD.foreign
+                        : WORDS_CONFIG.TIME_FIELD.native}
+                </div>
+                <div className="card-date">
+                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                        ? WORDS_CONFIG.DATE_FIELD.foreign
+                        : WORDS_CONFIG.DATE_FIELD.native}
+                </div>
             </div>
             {gameStatisticsStore.gameStatistics
                 .slice((currentPage - 1) * PAGE_SIZE, PAGE_SIZE * currentPage)
@@ -107,18 +137,20 @@ const GameStatistic: React.FC = () => {
                     return (
                         <div className="statistics-card" key={el._id}>
                             <div>{el.level}</div>
-                            {el.statusWin === 'true' && <div>Win</div>}
-                            {el.statusLost === 'true' && <div>Lost </div>}
+                            {el.statusWin === 'true' && <div>🥳</div>}
+                            {el.statusLost === 'true' && <div>😭</div>}
                             <div>{el.gameMoves}</div>
                             <div>{el.time}</div>
-                            <div>{moment(el.date).format('DD MMM yyyy HH:mm')}</div>
+                            <div>{moment(el.date).format('DD MM yyyy HH:mm')}</div>
                         </div>
                     );
                 })}
             <div className="statistics-controls">
                 <NavLink to="/main" style={{ textDecoration: 'none' }}>
                     <Button variant="contained" color="primary" size="small" startIcon={<BackspaceIcon />}>
-                        Back
+                        {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                            ? WORDS_CONFIG.BACK_BUTTON.foreign
+                            : WORDS_CONFIG.BACK_BUTTON.native}
                     </Button>
                 </NavLink>
                 <Button
@@ -128,7 +160,9 @@ const GameStatistic: React.FC = () => {
                     onClick={getStatistics}
                     startIcon={<ThreeSixtyIcon />}
                 >
-                    Refresh
+                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                        ? WORDS_CONFIG.REFRESH_BUTTON.foreign
+                        : WORDS_CONFIG.REFRESH_BUTTON.native}
                 </Button>
             </div>
         </div>

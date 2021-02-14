@@ -7,7 +7,9 @@ const initialState = {
     fieldHeight: 9,
     bombsQuantity: 10,
     fieldStyle: '',
-    gameSoundVolume: 0,
+    gameSoundVolume: 1,
+    gameMusicVolume: 1,
+    gameLanguage: 'eng',
 };
 export class GameSettingsStore {
     @observable

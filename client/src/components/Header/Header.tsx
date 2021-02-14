@@ -7,6 +7,7 @@ import logo from '../../assets/images/mines_logo.bmp';
 import { observer } from 'mobx-react-lite';
 import { Button } from '@material-ui/core';
 import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
+import { DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
 
 const Header: React.FC = () => {
     const authStore = useStore('authStore');
@@ -22,9 +23,17 @@ const Header: React.FC = () => {
                 </NavLink>
             </div>
             {authStore.isAuth ? (
-                <Alert severity="success">You were authorized</Alert>
+                <Alert severity="success">
+                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                        ? WORDS_CONFIG.AUTH_SUCCESS.foreign
+                        : WORDS_CONFIG.AUTH_SUCCESS.native}
+                </Alert>
             ) : (
-                <Alert severity="error">Please login or register!</Alert>
+                <Alert severity="error">
+                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                        ? WORDS_CONFIG.AUTH_FAIL.foreign
+                        : WORDS_CONFIG.AUTH_FAIL.native}
+                </Alert>
             )}
             {!authStore.isAuth ? (
                 <div className="header-nav">
@@ -36,7 +45,9 @@ const Header: React.FC = () => {
                             type="submit"
                             startIcon={<ExitToAppTwoToneIcon />}
                         >
-                            Login
+                            {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                ? WORDS_CONFIG.LOGIN_BUTTON.foreign
+                                : WORDS_CONFIG.LOGIN_BUTTON.native}
                         </Button>
                     </NavLink>
                     <NavLink to="/register" style={{ textDecoration: 'none' }}>
@@ -61,7 +72,9 @@ const Header: React.FC = () => {
                         onClick={logOut}
                         startIcon={<ExitToAppTwoToneIcon />}
                     >
-                        Logout
+                        {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                            ? WORDS_CONFIG.LOGOUT_BUTTON.foreign
+                            : WORDS_CONFIG.LOGOUT_BUTTON.native}
                     </Button>
                 </div>
             )}

@@ -2,6 +2,10 @@ import React from 'react';
 import { Button, FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@material-ui/core';
 import BackspaceIcon from '@material-ui/icons/Backspace';
 import SaveIcon from '@material-ui/icons/Save';
+import VolumeDownIcon from '@material-ui/icons/VolumeDown';
+import VolumeMuteIcon from '@material-ui/icons/VolumeMute';
+import VolumeOffIcon from '@material-ui/icons/VolumeOff';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import './GameSettings.scss';
@@ -9,6 +13,7 @@ import { useStore } from '../../hooks/hooks';
 import { FIELD_SIZES } from '../../constants';
 import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
 
 const GameSettings: React.FC = () => {
     return (
@@ -31,6 +36,8 @@ export const GameSettingsForm = observer(() => {
     const [fieldStyle, setFieldStyle] = React.useState(gameSettingsStore.gameSettings.fieldStyle);
     //TODO
     const [gameSoundVolume, setGameSoundVolume] = React.useState(gameSettingsStore.gameSettings.gameSoundVolume);
+    const [gameMusicVolume, setGameMusicVolume] = React.useState(gameSettingsStore.gameSettings.gameMusicVolume);
+    const [gameLanguage, setGameLanguage] = React.useState(gameSettingsStore.gameSettings.gameLanguage);
 
     const { handleSubmit } = useForm();
     const onSubmit = () => {
@@ -44,7 +51,9 @@ export const GameSettingsForm = observer(() => {
                         fieldHeight: fieldHeight,
                         bombsQuantity: bombsQuantity,
                         fieldStyle: fieldStyle,
-                        gameSoundVolume: gameSettingsStore.gameSettings.gameSoundVolume,
+                        gameSoundVolume: gameSoundVolume,
+                        gameMusicVolume: gameMusicVolume,
+                        gameLanguage: gameLanguage,
                     },
                 },
                 {
@@ -92,28 +101,61 @@ export const GameSettingsForm = observer(() => {
         setFieldStyle(event.target.value);
     };
 
+    const handleLanguageChange = (event: any) => {
+        setGameLanguage(event.target.value);
+    };
+
     const handleSoundOn = () => {
-        gameSettingsStore.turnSoundOn();
+        setGameSoundVolume(gameSettingsStore.gameSettings.gameSoundVolume);
+        // gameSettingsStore.turnSoundOn();
     };
 
     const handleSoundOff = () => {
-        gameSettingsStore.turnSoundOff();
+        setGameSoundVolume(0);
+        // gameSettingsStore.turnSoundOff();
     };
 
     const handleSoundUp = () => {
-        gameSettingsStore.incrementSoundVolume();
+        // gameSettingsStore.incrementSoundVolume();
+        setGameSoundVolume(+(gameSoundVolume + 0.1).toFixed(1));
     };
 
     const handleSoundDown = () => {
-        gameSettingsStore.decrementSoundVolume();
+        // gameSettingsStore.decrementSoundVolume();
+        setGameSoundVolume(+(gameSoundVolume - 0.1).toFixed(1));
+    };
+    const handleMusicOn = () => {
+        setGameMusicVolume(gameSettingsStore.gameSettings.gameSoundVolume);
+        // gameSettingsStore.turnSoundOn();
+    };
+
+    const handleMusicOff = () => {
+        setGameMusicVolume(0);
+        // gameSettingsStore.turnSoundOff();
+    };
+
+    const handleMusicUp = () => {
+        // gameSettingsStore.incrementSoundVolume();
+        setGameMusicVolume(+(gameMusicVolume + 0.1).toFixed(1));
+    };
+
+    const handleMusicDown = () => {
+        // gameSettingsStore.decrementSoundVolume();
+        setGameMusicVolume(+(gameMusicVolume - 0.1).toFixed(1));
     };
     return (
         <div>
-            Settings
+            {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                ? WORDS_CONFIG.SETTINGS_BUTTON.foreign
+                : WORDS_CONFIG.SETTINGS_BUTTON.native}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="field">
                     <FormControl variant="filled">
-                        <InputLabel id="demo-simple-select-filled-label">FieldSize</InputLabel>
+                        <InputLabel id="demo-simple-select-filled-label">
+                            {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                ? WORDS_CONFIG.FIELD_SIZE_NAME.foreign
+                                : WORDS_CONFIG.FIELD_SIZE_NAME.native}
+                        </InputLabel>
                         <Select
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -125,12 +167,20 @@ export const GameSettingsForm = observer(() => {
                             <MenuItem value={FIELD_SIZES.MEDIUM.name}>16x16</MenuItem>
                             <MenuItem value={FIELD_SIZES.LARGE.name}>30X16</MenuItem>
                         </Select>
-                        <FormHelperText>Select field size</FormHelperText>
+                        <FormHelperText>
+                            {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                ? WORDS_CONFIG.FIELD_SIZE_NAME_ADD.foreign
+                                : WORDS_CONFIG.FIELD_STYLE_NAME_ADD.native}
+                        </FormHelperText>
                     </FormControl>
                 </div>
                 <div className="field">
                     <FormControl variant="filled">
-                        <InputLabel id="demo-simple-select-filled-label">Style</InputLabel>
+                        <InputLabel id="demo-simple-select-filled-label">
+                            {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                ? WORDS_CONFIG.FIELD_STYLE_NAME.foreign
+                                : WORDS_CONFIG.FIELD_STYLE_NAME.native}
+                        </InputLabel>
                         <Select
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -138,28 +188,155 @@ export const GameSettingsForm = observer(() => {
                             value={fieldStyle || gameSettingsStore.gameSettings.fieldStyle}
                             onChange={handleStyleChange}
                         >
-                            <MenuItem value={'Classic'}>Classic</MenuItem>
-                            <MenuItem value={'Custom'}>Custom</MenuItem>
+                            <MenuItem value={'Classic'}>
+                                {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                    ? WORDS_CONFIG.FIELD_STYLE_NAME_CLASSIC.foreign
+                                    : WORDS_CONFIG.FIELD_STYLE_NAME_CLASSIC.native}
+                            </MenuItem>
+                            <MenuItem value={'Custom'}>
+                                {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                    ? WORDS_CONFIG.FIELD_STYLE_NAME_CUSTOM.foreign
+                                    : WORDS_CONFIG.FIELD_STYLE_NAME_CUSTOM.native}
+                            </MenuItem>
                         </Select>
-                        <FormHelperText>Select field style</FormHelperText>
+                        <FormHelperText>
+                            {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                ? WORDS_CONFIG.FIELD_STYLE_NAME_ADD.foreign
+                                : WORDS_CONFIG.FIELD_STYLE_NAME_ADD.native}
+                        </FormHelperText>
                     </FormControl>
                 </div>
                 <div>
-                    TODO
-                    {gameSettingsStore.gameSettings.gameSoundVolume}
-                    <button onClick={handleSoundOn}>on</button>
-                    <button onClick={handleSoundOff}>off</button>
-                    <button onClick={handleSoundUp}>+</button>
-                    <button onClick={handleSoundDown}>-</button>
+                    <div>
+                        {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                            ? WORDS_CONFIG.GAME_SOUND.foreign
+                            : WORDS_CONFIG.GAME_SOUND.native}
+                    </div>
+                    {gameSoundVolume}
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        startIcon={<VolumeMuteIcon />}
+                        onClick={handleSoundOn}
+                    >
+                        on
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        startIcon={<VolumeOffIcon />}
+                        onClick={handleSoundOff}
+                    >
+                        off
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        startIcon={<VolumeDownIcon />}
+                        onClick={handleSoundDown}
+                    >
+                        -
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        startIcon={<VolumeUpIcon />}
+                        onClick={handleSoundUp}
+                    >
+                        +
+                    </Button>
                 </div>
-                <div>Language</div>
+                <div>
+                    <div>
+                        {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                            ? WORDS_CONFIG.GAME_MUSIC.foreign
+                            : WORDS_CONFIG.GAME_MUSIC.native}
+                    </div>
+                    {gameMusicVolume}
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        startIcon={<VolumeMuteIcon />}
+                        onClick={handleMusicOn}
+                    >
+                        on
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        startIcon={<VolumeOffIcon />}
+                        onClick={handleMusicOff}
+                    >
+                        off
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        startIcon={<VolumeDownIcon />}
+                        onClick={handleMusicDown}
+                    >
+                        -
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        startIcon={<VolumeUpIcon />}
+                        onClick={handleMusicUp}
+                    >
+                        +
+                    </Button>
+                </div>
+                <div className="field">
+                    <FormControl variant="filled">
+                        <InputLabel id="demo-simple-select-filled-label">
+                            {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                ? WORDS_CONFIG.FIELD_LANGUAGE_NAME.foreign
+                                : WORDS_CONFIG.FIELD_LANGUAGE_NAME.native}
+                        </InputLabel>
+                        <Select
+                            labelId="demo-simple-select-filled-label"
+                            id="demo-simple-select-filled"
+                            name="gameLanguage"
+                            value={gameLanguage || gameSettingsStore.gameSettings.gameLanguage}
+                            onChange={handleLanguageChange}
+                        >
+                            <MenuItem value={'eng'}>
+                                {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                    ? WORDS_CONFIG.FIELD_LANGUAGE_NAME_FOREIGN.foreign
+                                    : WORDS_CONFIG.FIELD_LANGUAGE_NAME_FOREIGN.native}
+                            </MenuItem>
+                            <MenuItem value={'ru'}>
+                                {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                    ? WORDS_CONFIG.FIELD_LANGUAGE_NAME_NATIVE.foreign
+                                    : WORDS_CONFIG.FIELD_LANGUAGE_NAME_NATIVE.native}
+                            </MenuItem>
+                        </Select>
+                        <FormHelperText>
+                            {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                ? WORDS_CONFIG.FIELD_LANGUAGE_NAME_ADD.foreign
+                                : WORDS_CONFIG.FIELD_LANGUAGE_NAME_ADD.native}
+                        </FormHelperText>
+                    </FormControl>
+                </div>
                 <NavLink to="/main" style={{ textDecoration: 'none' }}>
                     <Button variant="contained" color="primary" size="small" startIcon={<BackspaceIcon />}>
-                        Back
+                        {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                            ? WORDS_CONFIG.BACK_BUTTON.foreign
+                            : WORDS_CONFIG.BACK_BUTTON.native}
                     </Button>
                 </NavLink>
                 <Button variant="contained" color="primary" size="small" type="submit" startIcon={<SaveIcon />}>
-                    Save
+                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                        ? WORDS_CONFIG.SAVE_BUTTON.foreign
+                        : WORDS_CONFIG.SAVE_BUTTON.native}
                 </Button>
             </form>
         </div>

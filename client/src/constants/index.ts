@@ -1,5 +1,7 @@
 export const DEFAULT_FIELD_STYLE = 'Custom';
-export const DEFAULT_LANGUAGE = 'English';
+export const DEFAULT_FOREIGN_LANGUAGE = 'eng';
+export const DEFAULT_SOUND_VOLUME = 1;
+export const DEFAULT_MUSIC_VOLUME = 1;
 
 export const FIELD_SIZES = {
     SMALL: {
@@ -19,5 +21,148 @@ export const FIELD_SIZES = {
         fieldWidth: 30,
         fieldHeight: 16,
         bombsQuantity: 99,
+    },
+};
+
+export const WORDS_CONFIG = {
+    START_BUTTON: {
+        foreign: 'Start game',
+        native: 'Начать игру',
+    },
+    AUTOPLAY_BUTTON: {
+        foreign: 'AUTOPLAY',
+        native: 'Автоигра',
+    },
+    SETTINGS_BUTTON: {
+        foreign: 'Settings',
+        native: 'Настройки',
+    },
+    STATISTICS_BUTTON: {
+        foreign: 'Statistics',
+        native: 'Статистика',
+    },
+    LOGIN_BUTTON: {
+        foreign: 'Login',
+        native: 'Авторизация',
+    },
+    REGISTER_BUTTON: {
+        foreign: 'Register',
+        native: 'Регистрация',
+    },
+    LOGOUT_BUTTON: {
+        foreign: 'Logout',
+        native: 'Выход',
+    },
+    BACK_BUTTON: {
+        foreign: 'Back',
+        native: 'Назад',
+    },
+    SAVE_BUTTON: {
+        foreign: 'Save',
+        native: 'Сохранить',
+    },
+    BACK_TO_MAIN_BUTTON: {
+        foreign: 'Back to main',
+        native: 'Назад к главному',
+    },
+    REFRESH_BUTTON: {
+        foreign: 'Refresh',
+        native: 'Обновить',
+    },
+    PREVIOUS_BUTTON: {
+        foreign: 'Previous',
+        native: 'Предыдущие',
+    },
+    NEXT_BUTTON: {
+        foreign: 'Next',
+        native: 'Следующие',
+    },
+    AUTH_SUCCESS: {
+        foreign: 'You were authorized',
+        native: 'Вы были авторизированы',
+    },
+    AUTH_FAIL: {
+        foreign: 'Please, login or register!',
+        native: 'Пожалуйста, зарегистрируйтесь или авторизируйтесь!',
+    },
+    FIELD_SIZE_NAME: {
+        foreign: 'Field size',
+        native: 'Размер поля',
+    },
+    FIELD_SIZE_NAME_ADD: {
+        foreign: 'Select field size',
+        native: 'Выберите размер поля',
+    },
+    FIELD_STYLE_NAME: {
+        foreign: 'Style',
+        native: 'Стиль',
+    },
+    FIELD_STYLE_NAME_ADD: {
+        foreign: 'Select field style',
+        native: 'Выберите стиль игрового поля',
+    },
+    FIELD_STYLE_NAME_CLASSIC: {
+        foreign: 'Classic',
+        native: 'Классический',
+    },
+    FIELD_STYLE_NAME_CUSTOM: {
+        foreign: 'Custom',
+        native: 'Настроенный',
+    },
+    GAME_SOUND: {
+        foreign: 'Sound',
+        native: 'Звук',
+    },
+    GAME_MUSIC: {
+        foreign: 'Music',
+        native: 'Музыка',
+    },
+    FIELD_LANGUAGE_NAME: {
+        foreign: 'Language',
+        native: 'Язык',
+    },
+    FIELD_LANGUAGE_NAME_ADD: {
+        foreign: 'Select language',
+        native: 'Выберите язык',
+    },
+    FIELD_LANGUAGE_NAME_FOREIGN: {
+        foreign: 'English',
+        native: 'Английский',
+    },
+    FIELD_LANGUAGE_NAME_NATIVE: {
+        foreign: 'Russian',
+        native: 'Русский',
+    },
+    PAGE_FIELD: {
+        foreign: 'Page',
+        native: 'Следующие',
+    },
+    LEVEL_FIELD: {
+        foreign: 'Level',
+        native: 'Уровень',
+    },
+    FINISHED_FIELD: {
+        foreign: 'Finished',
+        native: 'Результат',
+    },
+    MOVES_FIELD: {
+        foreign: 'Moves',
+        native: 'Ходы',
+    },
+    TIME_FIELD: {
+        foreign: 'Time',
+        native: 'Время',
+    },
+    DATE_FIELD: {
+        foreign: 'Date',
+        native: 'Дата',
+    },
+    WIN_FIELD: {
+        foreign: 'Win',
+        native: 'Победа',
+    },
+    LOST_FIELD: {
+        foreign: 'Lost',
+        native: 'Проигрыш',
     },
 };

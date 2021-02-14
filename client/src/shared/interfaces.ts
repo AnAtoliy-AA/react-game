@@ -11,6 +11,8 @@ export interface GameSettings {
     bombsQuantity: number;
     fieldStyle: string;
     gameSoundVolume: number;
+    gameMusicVolume: number;
+    gameLanguage: string;
 }
 
 export interface GameStatistics {

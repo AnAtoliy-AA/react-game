@@ -11,8 +11,7 @@ import axios from 'axios';
 import useSound from 'use-sound';
 import lostSound from '../../assets/sounds/failure.mp3';
 import winSound from '../../assets/sounds/success.mp3';
-import bombSound from '../../assets/sounds/error.mp3';
-import clickSound from '../../assets/sounds/correct.mp3';
+import checkSound from '../../assets/sounds/correct.mp3';
 import { toJS } from 'mobx';
 
 enum MouseButtons {
@@ -38,6 +37,7 @@ const GameBody: React.FC = () => {
     const authStore = useStore('authStore');
     const [playLostSound] = useSound(lostSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
     const [playWinSound] = useSound(winSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
+    const [playCheckSound] = useSound(checkSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
 
     const handleMouseDown = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -128,6 +128,7 @@ const GameBody: React.FC = () => {
             gameStore.setCells(newCells);
         }
         gameStore.incrementGameMoves();
+        playCheckSound();
         saveGame(newCells);
         checkIfGameIsWon(newCells);
 

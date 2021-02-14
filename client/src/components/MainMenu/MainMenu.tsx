@@ -12,6 +12,9 @@ import bgImgSec from '../../assets/images/menu_bg_2.jpg';
 import bgImgThird from '../../assets/images/menu_bg-3.jpg';
 import bgImgFourth from '../../assets/images/menu_bg_4.jpg';
 import { Button } from '@material-ui/core';
+import { useStore } from '../../hooks/hooks';
+import { DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
+import { observer } from 'mobx-react-lite';
 
 const slides = [
     { id: 0, url: bgImgFirst },
@@ -24,6 +27,7 @@ const slides = [
 ];
 
 const MainMenu: React.FC = () => {
+    const gameSettingsStore = useStore('gameSettingsStore');
     const [index, set] = useState(0);
     const transitions = useTransition(slides[index], (item) => item.id, {
         from: { opacity: 0 },
@@ -53,7 +57,9 @@ const MainMenu: React.FC = () => {
                     <div style={props}>
                         <NavLink to="/game" className="menu-nav">
                             <Button variant="contained" color="primary" size="large" startIcon={<BrightnessHighIcon />}>
-                                START GAME
+                                {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                    ? WORDS_CONFIG.START_BUTTON.foreign
+                                    : WORDS_CONFIG.START_BUTTON.native}
                             </Button>
                         </NavLink>
                     </div>
@@ -68,7 +74,9 @@ const MainMenu: React.FC = () => {
                     <div style={props}>
                         <NavLink to="/autoplay" className="menu-nav">
                             <Button variant="contained" color="primary" size="large" startIcon={<BrightnessAutoIcon />}>
-                                Autoplay
+                                {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                    ? WORDS_CONFIG.AUTOPLAY_BUTTON.foreign
+                                    : WORDS_CONFIG.AUTOPLAY_BUTTON.native}
                             </Button>
                         </NavLink>
                     </div>
@@ -83,7 +91,9 @@ const MainMenu: React.FC = () => {
                     <div style={props}>
                         <NavLink to="/settings" className="menu-nav">
                             <Button variant="contained" color="primary" size="large" startIcon={<SettingsIcon />}>
-                                Settings
+                                {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                    ? WORDS_CONFIG.SETTINGS_BUTTON.foreign
+                                    : WORDS_CONFIG.SETTINGS_BUTTON.native}
                             </Button>
                         </NavLink>
                     </div>
@@ -98,7 +108,9 @@ const MainMenu: React.FC = () => {
                     <div style={props}>
                         <NavLink to="/statistics" className="menu-nav">
                             <Button variant="contained" color="primary" size="large" startIcon={<EqualizerIcon />}>
-                                Statistics
+                                {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                    ? WORDS_CONFIG.STATISTICS_BUTTON.foreign
+                                    : WORDS_CONFIG.STATISTICS_BUTTON.native}
                             </Button>
                         </NavLink>
                     </div>
@@ -108,4 +120,4 @@ const MainMenu: React.FC = () => {
     );
 };
 
-export default MainMenu;
+export default observer(MainMenu);
