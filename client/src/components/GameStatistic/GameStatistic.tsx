@@ -11,7 +11,6 @@ import { useStore } from '../../hooks/hooks';
 import { GameStatistics } from '../../shared/interfaces';
 import moment from 'moment';
 import './GameStatistic.scss';
-import { toJS } from 'mobx';
 
 const PAGE_SIZE = 10;
 const PAGES_PORTION = 3;
@@ -20,7 +19,7 @@ const GameStatistic: React.FC = () => {
     const authStore = useStore('authStore');
     const gameStatisticsStore = useStore('gameStatisticsStore');
 
-    const getStattistics = async () => {
+    const getStatistics = async () => {
         axios
             .get('/api/statistics', {
                 headers: {
@@ -95,7 +94,7 @@ const GameStatistic: React.FC = () => {
                     </Button>
                 )}
             </div>
-            <div className="statisitcs-card">
+            <div className="statistics-card">
                 <div>Level</div>
                 <div>Finished</div>
                 <div>Moves</div>
@@ -106,7 +105,7 @@ const GameStatistic: React.FC = () => {
                 .slice((currentPage - 1) * PAGE_SIZE, PAGE_SIZE * currentPage)
                 .map((el) => {
                     return (
-                        <div className="statisitcs-card" key={el._id}>
+                        <div className="statistics-card" key={el._id}>
                             <div>{el.level}</div>
                             {el.statusWin === 'true' && <div>Win</div>}
                             {el.statusLost === 'true' && <div>Lost </div>}
@@ -116,7 +115,7 @@ const GameStatistic: React.FC = () => {
                         </div>
                     );
                 })}
-            <div className="statisics-controls">
+            <div className="statistics-controls">
                 <NavLink to="/main" style={{ textDecoration: 'none' }}>
                     <Button variant="contained" color="primary" size="small" startIcon={<BackspaceIcon />}>
                         Back
@@ -126,7 +125,7 @@ const GameStatistic: React.FC = () => {
                     variant="contained"
                     color="primary"
                     size="small"
-                    onClick={getStattistics}
+                    onClick={getStatistics}
                     startIcon={<ThreeSixtyIcon />}
                 >
                     Refresh

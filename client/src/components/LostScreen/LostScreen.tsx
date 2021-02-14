@@ -13,11 +13,6 @@ const LostScreen = () => {
     };
     return (
         <div className="LostScreen">
-            {/* <NavLink to="/main" style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="primary" size="small" startIcon={<BackspaceIcon />}>
-                    Back
-                </Button>
-            </NavLink> */}
             <Spring
                 from={{ transform: 'translate3d(0,-40vh,0)' }}
                 to={{ transform: 'translate3d(0,0vh,0)' }}
