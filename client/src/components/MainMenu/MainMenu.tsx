@@ -3,10 +3,15 @@ import { NavLink } from 'react-router-dom';
 import './MainMenu.scss';
 import { useTransition, animated, config } from 'react-spring';
 import { Spring } from 'react-spring/renderprops';
+import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh';
+import BrightnessAutoIcon from '@material-ui/icons/BrightnessAuto';
+import SettingsIcon from '@material-ui/icons/Settings';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 import bgImgFirst from '../../assets/images/menu_bg_1.jpg';
 import bgImgSec from '../../assets/images/menu_bg_2.jpg';
 import bgImgThird from '../../assets/images/menu_bg-3.jpg';
 import bgImgFourth from '../../assets/images/menu_bg_4.jpg';
+import { Button } from '@material-ui/core';
 
 const slides = [
     { id: 0, url: bgImgFirst },
@@ -46,11 +51,11 @@ const MainMenu: React.FC = () => {
             >
                 {(props) => (
                     <div style={props}>
-                        <div className="menu-container">
-                            <NavLink to="/game" className="menu-nav">
-                                START
-                            </NavLink>
-                        </div>
+                        <NavLink to="/game" className="menu-nav">
+                            <Button variant="contained" color="primary" size="large" startIcon={<BrightnessHighIcon />}>
+                                START GAME
+                            </Button>
+                        </NavLink>
                     </div>
                 )}
             </Spring>
@@ -61,11 +66,11 @@ const MainMenu: React.FC = () => {
             >
                 {(props) => (
                     <div style={props}>
-                        <div className="menu-container">
-                            <NavLink to="/autoplay" className="menu-nav">
+                        <NavLink to="/autoplay" className="menu-nav">
+                            <Button variant="contained" color="primary" size="large" startIcon={<BrightnessAutoIcon />}>
                                 Autoplay
-                            </NavLink>
-                        </div>
+                            </Button>
+                        </NavLink>
                     </div>
                 )}
             </Spring>
@@ -76,11 +81,11 @@ const MainMenu: React.FC = () => {
             >
                 {(props) => (
                     <div style={props}>
-                        <div className="menu-container">
-                            <NavLink to="/settings" className="menu-nav">
+                        <NavLink to="/settings" className="menu-nav">
+                            <Button variant="contained" color="primary" size="large" startIcon={<SettingsIcon />}>
                                 Settings
-                            </NavLink>
-                        </div>
+                            </Button>
+                        </NavLink>
                     </div>
                 )}
             </Spring>
@@ -91,11 +96,11 @@ const MainMenu: React.FC = () => {
             >
                 {(props) => (
                     <div style={props}>
-                        <div className="menu-container">
-                            <NavLink to="/statistics" className="menu-nav">
+                        <NavLink to="/statistics" className="menu-nav">
+                            <Button variant="contained" color="primary" size="large" startIcon={<EqualizerIcon />}>
                                 Statistics
-                            </NavLink>
-                        </div>
+                            </Button>
+                        </NavLink>
                     </div>
                 )}
             </Spring>

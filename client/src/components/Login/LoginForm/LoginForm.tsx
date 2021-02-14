@@ -8,7 +8,7 @@ import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
 import './LoginForm.scss';
 import { User } from '../../../shared/interfaces';
 import { useStore } from '../../../hooks/hooks';
-import { DEFAULT_FIELD_STYLE, FIELD_SIZES } from '../../../constants';
+import { DEFAULT_FIELD_STYLE, DEFAULT_LANGUAGE, FIELD_SIZES } from '../../../constants';
 
 const LoginForm = observer(() => {
     const authStore = useStore('authStore');
@@ -16,7 +16,6 @@ const LoginForm = observer(() => {
     const gameSettingsStore = useStore('gameSettingsStore');
 
     const getSettings = async () => {
-        console.log('sss');
         axios
             .get('/api/settings', {
                 headers: {
@@ -71,6 +70,7 @@ const LoginForm = observer(() => {
                         fieldHeight: FIELD_SIZES.SMALL.fieldHeight,
                         bombsQuantity: FIELD_SIZES.SMALL.bombsQuantity,
                         fieldStyle: DEFAULT_FIELD_STYLE,
+                        language: DEFAULT_LANGUAGE,
                     },
                 },
                 {

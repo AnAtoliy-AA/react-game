@@ -1,4 +1,5 @@
-export const DEFAULT_FIELD_STYLE = 'Classic';
+export const DEFAULT_FIELD_STYLE = 'Custom';
+export const DEFAULT_LANGUAGE = 'English';
 
 export const FIELD_SIZES = {
     SMALL: {

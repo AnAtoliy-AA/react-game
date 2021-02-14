@@ -37,13 +37,21 @@ const App: React.FC = () => {
                     <Route path="/register" component={Register} />
                     <Route exact path="/game">
                         {!authStore.isAuth ? <Redirect to="/login" /> : <GameScreen />}
-                        {gameStore.isGameLost && <LostScreen />}
-                        {gameStore.isGameWon && <WinScreen />}
+                        {gameStore.isGameLost && <Redirect to="/lost" />}
+                        {gameStore.isGameWon && <Redirect to="/win" />}
+                    </Route>
+                    <Route exact path="/win">
+                        {!authStore.isAuth ? <Redirect to="/login" /> : <WinScreen />}
+                        {!gameStore.isGameWon && <Redirect to="/game" />}
+                    </Route>
+                    <Route exact path="/lost">
+                        {!authStore.isAuth ? <Redirect to="/login" /> : <LostScreen />}
+                        {!gameStore.isGameLost && <Redirect to="/game" />}
                     </Route>
                     <Route exact path="/autoplay">
                         {!authStore.isAuth ? <Redirect to="/login" /> : <AutoPlayScreen />}
-                        {gameStore.isGameLost && <LostScreen />}
-                        {gameStore.isGameWon && <WinScreen />}
+                        {gameStore.isGameLost && <Redirect to="/lost" />}
+                        {gameStore.isGameWon && <Redirect to="/win" />}
                     </Route>
                     <Route exact path="/settings">
                         {!authStore.isAuth ? <Redirect to="/login" /> : <GameSettings />}

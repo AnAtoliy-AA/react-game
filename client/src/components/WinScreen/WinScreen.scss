@@ -1,3 +1,10 @@
 .WinScreen {
     grid-area: main;
+    background: url('../../assets/images/win-game.jpg') no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    transition: all 0.7s ease-out;
+    flex-direction: column;
 }
