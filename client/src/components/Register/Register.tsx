@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Register.scss';
 import { Button, TextField } from '@material-ui/core';
 import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
@@ -16,6 +16,7 @@ export default Register;
 
 export const RegisterForm = () => {
     const { register, handleSubmit, errors } = useForm<User>();
+    const [responseMessage, setResponseMessage] = useState('');
     const onSubmit = (data: User) => {
         axios
             .post('/api/auth/register', {
@@ -23,7 +24,11 @@ export const RegisterForm = () => {
                 password: data.password,
             })
             .then((response) => {
-                console.log(response);
+                setResponseMessage(response.statusText);
+                console.log(response.statusText);
+            })
+            .catch((er) => {
+                console.log('er', er.message);
             });
     };
     return (
@@ -71,6 +76,7 @@ export const RegisterForm = () => {
                     Register
                 </Button>
             </form>
+            {responseMessage}
         </div>
     );
 };

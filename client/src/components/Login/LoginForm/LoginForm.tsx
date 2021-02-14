@@ -43,14 +43,19 @@ const LoginForm = observer(() => {
             })
             .then((response) => {
                 if (!response.data) {
-                    // setDefaultSettings();
+                    gameStore.setDefaultStartGameValues(
+                        gameSettingsStore.gameSettings.fieldHeight,
+                        gameSettingsStore.gameSettings.fieldWidth,
+                        gameSettingsStore.gameSettings.bombsQuantity,
+                    );
+                } else {
+                    const lastSavedGame = response.data.list[0].savedGame;
+                    const lastGameTime = response.data.list[0].gameTime;
+                    const lastGameBombsCount = response.data.list[0].bombsCount;
+                    gameStore.setCells(lastSavedGame);
+                    gameStore.setGameTime(lastGameTime);
+                    gameStore.setBombCount(lastGameBombsCount);
                 }
-                const lastSavedGame = response.data.list[0].savedGame;
-                const lastGameTime = response.data.list[0].gameTime;
-                const lastGameBombsCount = response.data.list[0].bombsCount;
-                gameStore.setCells(lastSavedGame);
-                gameStore.setGameTime(lastGameTime);
-                gameStore.setBombCount(lastGameBombsCount);
                 // gameStore.setDefaultStartGameValues(
                 //     gameSettingsStore.gameSettings.fieldHeight,
                 //     gameSettingsStore.gameSettings.fieldWidth,
@@ -71,6 +76,7 @@ const LoginForm = observer(() => {
                         bombsQuantity: FIELD_SIZES.SMALL.bombsQuantity,
                         fieldStyle: DEFAULT_FIELD_STYLE,
                         gameSoundVolume: DEFAULT_SOUND_VOLUME,
+                        gameMusicVolume: DEFAULT_SOUND_VOLUME,
                         gameLanguage: DEFAULT_FOREIGN_LANGUAGE,
                     },
                 },
@@ -81,6 +87,7 @@ const LoginForm = observer(() => {
                 },
             )
             .then((response) => {
+                gameSettingsStore.setGameSettings(response.data.list[0]);
                 // sendRequest();
                 // mainScreenStore.toggleIsNewTaskFormOpen();
             });

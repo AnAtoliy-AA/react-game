@@ -1,10 +1,37 @@
 .LostScreen {
     grid-area: main;
-    background: url('../../assets//images/lost-game.jpg') no-repeat;
+    background: url('../../assets/images/lost-game-1.jpg') no-repeat;
     background-size: cover;
     display: flex;
     justify-content: space-around;
     align-items: center;
     transition: all 0.7s ease-out;
     flex-direction: column;
+    animation: exploit ease-in-out 10s;
+
+    @keyframes exploit {
+        0% {
+            opacity: 1;
+            background: url('../../assets//images/lost-game.jpg') no-repeat;
+            background-size: cover;
+        }
+
+        25% {
+            opacity: 0.2;
+        }
+
+        50% {
+            opacity: 0;
+            background: url('../../assets/images/lost-game-1.jpg') no-repeat;
+            background-size: cover;
+        }
+
+        75% {
+            opacity: 0.5;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
 }
