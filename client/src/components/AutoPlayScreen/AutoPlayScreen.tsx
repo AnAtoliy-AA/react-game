@@ -37,9 +37,10 @@ const AutoPlayScreen: React.FC = () => {
             AUTO_PLAY_PARAMS.FIELD_WIDTH,
             AUTO_PLAY_PARAMS.BOMBS_COUNT,
         );
-        handleAutoCellClick(gameStore.activeCellRow, gameStore.activeCellCol);
+        handleAutoCellClick(5, 5);
 
         // const currentCells = gameStore.gameCells.slice();
+        let iterationIndex = 0;
         const timer = setInterval(() => {
             const currentCells = gameStore.gameCells.slice();
             currentCells.forEach((row, rowIndex) => {
@@ -76,11 +77,12 @@ const AutoPlayScreen: React.FC = () => {
                         ) {
                             currentCells[rowIndex][colIndex].state = CellState.visible;
                         }
-                        gameStore.setCells(currentCells);
                     });
                 });
+                gameStore.setCells(currentCells);
                 clearInterval(timer);
             }
+            iterationIndex++;
         }, 1000);
         // while (!gameStore.isGameWon || gameStore.bombCount !== 0) {
         //     const currentCells = gameStore.gameCells.slice();

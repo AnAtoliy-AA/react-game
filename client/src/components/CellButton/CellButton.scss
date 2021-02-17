@@ -7,11 +7,11 @@
   height: 30px;
   font-weight: bold;
   font-size: 1.5em;
-  transition: all 0.7s ease-out;
-
+  
   &.visible {
     border-color: $display-background-color;
     border-width: 1px;
+    transition: all 0.7s ease-out;
   }
 
   &.value-1 {
@@ -52,11 +52,15 @@
   &.touched {
     background-color: $second-button-value;
   }
-  &.active {
-    background-color: $display-color;
-  }
   &.custom {
     background-image: url('../../assets/images/custom-background.jpg');
+  }
+  &.active {
+    // background-color: $display-color;
+    background-image: url('../../assets/images/minesweeper.jpg');
+    background-position: 0px 0px !important;
+    transition: none;
+    background-size: cover;
   }
   &.checked {
     background-image: none;

@@ -65,7 +65,7 @@ const MainMenu: React.FC = () => {
                     </div>
                 )}
             </Spring>
-            <Spring
+            {/* <Spring
                 from={{ transform: 'translate3d(0,-40vh,0)' }}
                 to={{ transform: 'translate3d(0,0vh,0)' }}
                 config={{ duration: 1500 }}
@@ -81,7 +81,7 @@ const MainMenu: React.FC = () => {
                         </NavLink>
                     </div>
                 )}
-            </Spring>
+            </Spring> */}
             <Spring
                 from={{ transform: 'translate3d(0,-60vh,0)' }}
                 to={{ transform: 'translate3d(0,0vh,0)' }}
