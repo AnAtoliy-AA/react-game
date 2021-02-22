@@ -8,12 +8,7 @@ import useSound from 'use-sound';
 import lostSound from '../../assets/sounds/failure.mp3';
 import winSound from '../../assets/sounds/success.mp3';
 import { Cell, CellState, CellValue } from '../../types';
-import {
-    checkMultipleVisibleCells,
-    grabAllAdjacentCells,
-    openMultipleEmptyCells,
-    toggleStyleAllAdjacentCells,
-} from '../../utils';
+import { checkMultipleVisibleCells, grabAllAdjacentCells, openMultipleEmptyCells } from '../../utils';
 import { Button } from '@material-ui/core';
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
 
@@ -27,7 +22,6 @@ const AutoPlayScreen: React.FC = () => {
     const handle = useFullScreenHandle();
     const gameStore = useStore('gameStore');
     const gameSettingsStore = useStore('gameSettingsStore');
-    const authStore = useStore('authStore');
     const [playLostSound] = useSound(lostSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
     const [playWinSound] = useSound(winSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
     const handleAutoplay = () => {
@@ -37,18 +31,18 @@ const AutoPlayScreen: React.FC = () => {
             AUTO_PLAY_PARAMS.FIELD_WIDTH,
             AUTO_PLAY_PARAMS.BOMBS_COUNT,
         );
-        handleAutoCellClick(5, 5);
+        setTimeout(() => {
+            handleAutoCellClick(
+                Math.round(AUTO_PLAY_PARAMS.FIELD_HEIGHT / 2),
+                Math.round(AUTO_PLAY_PARAMS.FIELD_WIDTH / 2),
+            );
+        }, 1000);
 
-        // const currentCells = gameStore.gameCells.slice();
-        let iterationIndex = 0;
         const timer = setInterval(() => {
             const currentCells = gameStore.gameCells.slice();
             currentCells.forEach((row, rowIndex) => {
                 row.forEach((col, colIndex) => {
-                    if (
-                        // currentCells[rowIndex][colIndex].value === 1 &&
-                        currentCells[rowIndex][colIndex].state === CellState.visible
-                    ) {
+                    if (currentCells[rowIndex][colIndex].state === CellState.visible) {
                         checkAutoMultipleDefaultCells(
                             currentCells,
                             rowIndex,
@@ -63,18 +57,15 @@ const AutoPlayScreen: React.FC = () => {
                             AUTO_PLAY_PARAMS.FIELD_HEIGHT,
                             AUTO_PLAY_PARAMS.FIELD_WIDTH,
                         );
-                        gameStore.setCells(currentCells);
-                        checkIfGameIsWon(currentCells);
                     }
                 });
             });
+            gameStore.setCells(currentCells);
+            checkIfGameIsWon(currentCells);
             if (gameStore.isGameWon || gameStore.bombCount === 0) {
                 currentCells.map((row, rowIndex) => {
                     row.map((col, colIndex) => {
-                        if (
-                            // currentCells[rowIndex][colIndex].value === 1 &&
-                            currentCells[rowIndex][colIndex].state === CellState.default
-                        ) {
+                        if (currentCells[rowIndex][colIndex].state === CellState.default) {
                             currentCells[rowIndex][colIndex].state = CellState.visible;
                         }
                     });
@@ -82,35 +73,7 @@ const AutoPlayScreen: React.FC = () => {
                 gameStore.setCells(currentCells);
                 clearInterval(timer);
             }
-            iterationIndex++;
-        }, 1000);
-        // while (!gameStore.isGameWon || gameStore.bombCount !== 0) {
-        //     const currentCells = gameStore.gameCells.slice();
-        //     currentCells.forEach((row, rowIndex) => {
-        //         row.forEach((col, colIndex) => {
-        //             if (
-        //                 // currentCells[rowIndex][colIndex].value === 1 &&
-        //                 currentCells[rowIndex][colIndex].state === CellState.visible
-        //             ) {
-        //                 checkAutoMultipleDefaultCells(
-        //                     currentCells,
-        //                     rowIndex,
-        //                     colIndex,
-        //                     AUTO_PLAY_PARAMS.FIELD_HEIGHT,
-        //                     AUTO_PLAY_PARAMS.FIELD_WIDTH,
-        //                 );
-        //                 checkMultipleVisibleCells(
-        //                     currentCells,
-        //                     rowIndex,
-        //                     colIndex,
-        //                     AUTO_PLAY_PARAMS.FIELD_HEIGHT,
-        //                     AUTO_PLAY_PARAMS.FIELD_WIDTH,
-        //                 );
-        //                 gameStore.setCells(currentCells);
-        //                 checkIfGameIsWon(currentCells);
-        //             }
-        //         });
-        //     });
+        }, 3000);
     };
 
     const checkAutoMultipleDefaultCells = (
@@ -198,41 +161,6 @@ const AutoPlayScreen: React.FC = () => {
 
         return newCells;
     };
-    // const handleMouseDown = (
-    //     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    //     rowParam: number,
-    //     colParam: number,
-    // ): void => {
-    //     gameStore.setFaceButtonValue(Face.find);
-    //     if (event.button === MouseButtons.RightButton) {
-    //         handleRightMouseButton(rowParam, colParam, true);
-    //     }
-    // };
-    // const handleMouseUp = (
-    //     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    //     rowParam: number,
-    //     colParam: number,
-    // ): void => {
-    //     gameStore.setFaceButtonValue(Face.smile);
-    //     if (event.button === MouseButtons.RightButton) {
-    //         handleRightMouseButton(rowParam, colParam, false);
-    //     }
-    // };
-
-    const handleRightMouseButton = (rowParam: number, colParam: number, value: boolean) => {
-        if (!gameStore.isGameStarted) {
-            return;
-        } else
-            toggleStyleAllAdjacentCells(
-                gameStore.gameCells,
-                rowParam,
-                colParam,
-                value,
-                gameSettingsStore.gameSettings.fieldHeight,
-                gameSettingsStore.gameSettings.fieldWidth,
-            );
-        checkIfGameIsWon(gameStore.gameCells);
-    };
 
     const handleAutoCellClick = (rowParam: number, colParam: number): void => {
         if (!gameStore.isGameStarted && !gameStore.isGameLost && !gameStore.isGameWon) {
@@ -269,7 +197,6 @@ const AutoPlayScreen: React.FC = () => {
             gameStore.setGameLostValues();
             newCells[rowParam][colParam].danger = true;
             newCells = showAllBombs();
-            // sendStatistics();
             playLostSound();
             gameStore.setCells(newCells);
             return;
@@ -287,10 +214,7 @@ const AutoPlayScreen: React.FC = () => {
             gameStore.setCells(newCells);
         }
         gameStore.incrementGameMoves();
-        // saveGame(newCells);
         checkIfGameIsWon(newCells);
-
-        // gameStore.setCells(newCells);
     };
 
     const checkIfGameIsWon = (cells: Cell[][]) => {
@@ -321,45 +245,9 @@ const AutoPlayScreen: React.FC = () => {
                 }),
             );
             gameStore.setIsGameWon(true);
-            // sendStatistics();
             playWinSound();
         }
         gameStore.setCells(cells);
-    };
-
-    const handleAutoRightCLick = (rowParam: number, colParam: number) => (
-        e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    ): void => {
-        // e.preventDefault();
-
-        if (!gameStore.isGameStarted || gameStore.isGameLost || gameStore.isGameWon) {
-            return;
-        }
-
-        const currentCells = gameStore.gameCells.slice();
-        const currentCell = gameStore.gameCells[rowParam][colParam];
-
-        if (currentCell.state === CellState.visible) {
-            checkMultipleVisibleCells(
-                currentCells,
-                rowParam,
-                colParam,
-                gameSettingsStore.gameSettings.fieldHeight,
-                gameSettingsStore.gameSettings.fieldWidth,
-            );
-            checkIfGameLost();
-            return;
-        } else if (currentCell.state === CellState.default) {
-            currentCells[rowParam][colParam].state = CellState.flagged;
-            gameStore.setCells(currentCells);
-            gameStore.decrementBombCounter();
-        } else if (currentCell.state === CellState.flagged) {
-            currentCells[rowParam][colParam].state = CellState.default;
-            gameStore.setCells(currentCells);
-            gameStore.incrementBombCounter();
-        }
-        gameStore.incrementGameMoves();
-        checkIfGameIsWon(gameStore.gameCells);
     };
 
     const showAllBombs = (): Cell[][] => {
@@ -379,176 +267,6 @@ const AutoPlayScreen: React.FC = () => {
         );
     };
 
-    const checkIfGameLost = (): void => {
-        const currentCells = gameStore.gameCells.slice();
-
-        currentCells.forEach((row) =>
-            // eslint-disable-next-line react/prop-types
-            row.forEach((cell) => {
-                if (cell.value === CellValue.bomb && cell.state === CellState.visible) {
-                    // sendStatistics();
-                    gameStore.setGameLostValues();
-                }
-            }),
-        );
-    };
-
-    // const sendStatistics = () => {
-    //     axios.post(
-    //         'api/statistics',
-    //         {
-    //             list: {
-    //                 level: gameSettingsStore.gameSettings.fieldSize,
-    //                 statusWin: gameStore.isGameWon,
-    //                 statusLost: gameStore.isGameLost,
-    //                 gameMoves: gameStore.gameMoves,
-    //                 time: gameStore.gameTime,
-    //             },
-    //         },
-    //         {
-    //             headers: {
-    //                 authorization: authStore.token,
-    //             },
-    //         },
-    //     );
-    // };
-
-    // const saveGame = (newCells: Cell[][]) => {
-    //     const savedGame = newCells.map((row) => {
-    //         return row.map((col) => {
-    //             return toJS(col);
-    //         });
-    //     });
-    //     const bombsCount = toJS(gameStore.bombCount);
-    //     const gameTime = toJS(gameStore.gameTime);
-    //     axios
-    //         .patch(
-    //             'api/gamesave',
-    //             {
-    //                 list: {
-    //                     savedGame: savedGame,
-    //                     bombsCount: bombsCount,
-    //                     gameTime: gameTime,
-    //                 },
-    //             },
-    //             {
-    //                 headers: {
-    //                     authorization: authStore.token,
-    //                 },
-    //             },
-    //         )
-    //         .then((response) => {
-    //             // gameSettingsStore.setGameSettings(response.data.list[0]);
-    //             // gameStore.setDefaultStartGameValues(
-    //             //     gameSettingsStore.gameSettings.fieldHeight,
-    //             //     gameSettingsStore.gameSettings.fieldWidth,
-    //             //     gameSettingsStore.gameSettings.bombsQuantity,
-    //             // );    // sendRequest();
-    //         });
-    // };
-
-    // const useKey = (key: any, cb: any) => {
-    //     const callbackRef = useRef(cb);
-
-    //     useEffect(() => {
-    //         callbackRef.current = cb;
-    //     });
-
-    //     useEffect(() => {
-    //         const handle = (event: { code: any }) => {
-    //             if (event.code === key) {
-    //                 callbackRef.current(event);
-    //             }
-    //         };
-    //         document.addEventListener('keypress', handle);
-    //         return () => document.removeEventListener('keypress', handle);
-    //     }, [key]);
-    // };
-
-    // const handleRestartGame = () => {
-    //     console.log('ENTER');
-    //     gameStore.setDefaultStartGameValues(
-    //         gameSettingsStore.gameSettings.fieldHeight,
-    //         gameSettingsStore.gameSettings.fieldWidth,
-    //         gameSettingsStore.gameSettings.bombsQuantity,
-    //     );
-    // };
-
-    // const handleStartKeyboardUse = () => {
-    //     console.log('Start');
-    //     const newCells = gameStore.gameCells.slice();
-    //     newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = true;
-    //     gameStore.setCells(newCells);
-    // };
-
-    // const handleStopKeyboardUse = () => {
-    //     const newCells = gameStore.gameCells.slice();
-    //     newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = false;
-    //     gameStore.setCells(newCells);
-    //     console.log('Stop');
-    // };
-
-    // const handleMoveUp = () => {
-    //     if (gameStore.activeCellRow === 0) {
-    //         return;
-    //     } else {
-    //         const newCells = gameStore.gameCells.slice();
-    //         newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = false;
-    //         newCells[--gameStore.activeCellRow][gameStore.activeCellCol].active = true;
-    //         gameStore.setCells(newCells);
-    //     }
-    // };
-    // const handleMoveDown = () => {
-    //     if (gameStore.activeCellRow === gameSettingsStore.gameSettings.fieldHeight - 1) {
-    //         return;
-    //     } else {
-    //         const newCells = gameStore.gameCells.slice();
-    //         newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = false;
-    //         newCells[++gameStore.activeCellRow][gameStore.activeCellCol].active = true;
-    //         gameStore.setCells(newCells);
-    //     }
-    // };
-
-    // const handleMoveLeft = () => {
-    //     if (gameStore.activeCellCol === 0) {
-    //         return;
-    //     } else {
-    //         const newCells = gameStore.gameCells.slice();
-    //         newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = false;
-    //         newCells[gameStore.activeCellRow][--gameStore.activeCellCol].active = true;
-    //         gameStore.setCells(newCells);
-    //     }
-    // };
-    // const handleMoveRight = () => {
-    //     if (gameStore.activeCellCol === gameSettingsStore.gameSettings.fieldWidth - 1) {
-    //         return;
-    //     } else {
-    //         const newCells = gameStore.gameCells.slice();
-    //         newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = false;
-    //         newCells[gameStore.activeCellRow][++gameStore.activeCellCol].active = true;
-    //         gameStore.setCells(newCells);
-    //     }
-    // };
-
-    // const handleLeftClick = () => {
-    //     handleCellClick(gameStore.activeCellRow, gameStore.activeCellCol);
-    // };
-
-    // //TODO
-    // const handleRightClick = () => {
-    //     handleCellContext(gameStore.activeCellRow, gameStore.activeCellCol);
-    // };
-
-    // useKey(KEYBOARD_KEYS.RESTART_GAME, handleRestartGame);
-    // useKey(KEYBOARD_KEYS.START_KEYBOARD_USE, handleStartKeyboardUse);
-
-    // useKey(KEYBOARD_KEYS.STOP_KEYBOARD_USE, handleStopKeyboardUse);
-    // useKey(KEYBOARD_KEYS.MOVE_UP, handleMoveUp);
-    // useKey(KEYBOARD_KEYS.MOVE_DOWN, handleMoveDown);
-    // useKey(KEYBOARD_KEYS.MOVE_LEFT, handleMoveLeft);
-    // useKey(KEYBOARD_KEYS.MOVE_RIGHT, handleMoveRight);
-    // useKey(KEYBOARD_KEYS.LEFT_CLICK, handleLeftClick);
-    // useKey(KEYBOARD_KEYS.RIGHT_CLICK, handleRightClick);
     return (
         <div className="AutoPlayScreen">
             <Button
