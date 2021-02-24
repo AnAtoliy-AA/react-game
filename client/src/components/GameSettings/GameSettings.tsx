@@ -145,11 +145,13 @@ export const GameSettingsForm = observer(() => {
     };
     return (
         <div>
-            {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
-                ? WORDS_CONFIG.SETTINGS_BUTTON.foreign
-                : WORDS_CONFIG.SETTINGS_BUTTON.native}
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="field">
+            <h2 className="">
+                {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                    ? WORDS_CONFIG.SETTINGS_BUTTON.foreign
+                    : WORDS_CONFIG.SETTINGS_BUTTON.native}
+            </h2>
+            <form onSubmit={handleSubmit(onSubmit)} className="settings-form">
+                <div className="settings-field">
                     <FormControl variant="filled">
                         <InputLabel id="demo-simple-select-filled-label">
                             {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
@@ -174,7 +176,7 @@ export const GameSettingsForm = observer(() => {
                         </FormHelperText>
                     </FormControl>
                 </div>
-                <div className="field">
+                <div className="settings-field">
                     <FormControl variant="filled">
                         <InputLabel id="demo-simple-select-filled-label">
                             {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
@@ -206,95 +208,99 @@ export const GameSettingsForm = observer(() => {
                         </FormHelperText>
                     </FormControl>
                 </div>
-                <div>
+                <div className="sound-container">
                     <div>
                         {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
                             ? WORDS_CONFIG.GAME_SOUND.foreign
                             : WORDS_CONFIG.GAME_SOUND.native}
                     </div>
-                    {gameSoundVolume}
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        startIcon={<VolumeMuteIcon />}
-                        onClick={handleSoundOn}
-                    >
-                        on
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        startIcon={<VolumeOffIcon />}
-                        onClick={handleSoundOff}
-                    >
-                        off
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        startIcon={<VolumeDownIcon />}
-                        onClick={handleSoundDown}
-                    >
-                        -
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        startIcon={<VolumeUpIcon />}
-                        onClick={handleSoundUp}
-                    >
-                        +
-                    </Button>
+                    <div className="sound-controls">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            startIcon={<VolumeMuteIcon />}
+                            onClick={handleSoundOn}
+                        >
+                            on
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            startIcon={<VolumeOffIcon />}
+                            onClick={handleSoundOff}
+                        >
+                            off
+                        </Button>
+                        <div className="volume-number">{gameSoundVolume}</div>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            startIcon={<VolumeDownIcon />}
+                            onClick={handleSoundDown}
+                        >
+                            -
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            startIcon={<VolumeUpIcon />}
+                            onClick={handleSoundUp}
+                        >
+                            +
+                        </Button>
+                    </div>
                 </div>
-                <div>
+                <div className="sound-container">
                     <div>
                         {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
                             ? WORDS_CONFIG.GAME_MUSIC.foreign
                             : WORDS_CONFIG.GAME_MUSIC.native}
                     </div>
-                    {gameMusicVolume}
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        startIcon={<VolumeMuteIcon />}
-                        onClick={handleMusicOn}
-                    >
-                        on
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        startIcon={<VolumeOffIcon />}
-                        onClick={handleMusicOff}
-                    >
-                        off
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        startIcon={<VolumeDownIcon />}
-                        onClick={handleMusicDown}
-                    >
-                        -
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        startIcon={<VolumeUpIcon />}
-                        onClick={handleMusicUp}
-                    >
-                        +
-                    </Button>
+                    <div className="sound-controls">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            startIcon={<VolumeMuteIcon />}
+                            onClick={handleMusicOn}
+                        >
+                            on
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            startIcon={<VolumeOffIcon />}
+                            onClick={handleMusicOff}
+                        >
+                            off
+                        </Button>
+                        <div className="volume-number">{gameMusicVolume}</div>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            startIcon={<VolumeDownIcon />}
+                            onClick={handleMusicDown}
+                        >
+                            -
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            startIcon={<VolumeUpIcon />}
+                            onClick={handleMusicUp}
+                        >
+                            +
+                        </Button>
+                    </div>
                 </div>
-                <div className="field">
+                <div className="settings-field">
                     <FormControl variant="filled">
                         <InputLabel id="demo-simple-select-filled-label">
                             {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
@@ -326,18 +332,20 @@ export const GameSettingsForm = observer(() => {
                         </FormHelperText>
                     </FormControl>
                 </div>
-                <NavLink to="/main" style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" color="primary" size="small" startIcon={<BackspaceIcon />}>
+                <div className="settings-nav">
+                    <NavLink to="/main" style={{ textDecoration: 'none' }}>
+                        <Button variant="contained" color="primary" size="small" startIcon={<BackspaceIcon />}>
+                            {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                ? WORDS_CONFIG.BACK_BUTTON.foreign
+                                : WORDS_CONFIG.BACK_BUTTON.native}
+                        </Button>
+                    </NavLink>
+                    <Button variant="contained" color="primary" size="small" type="submit" startIcon={<SaveIcon />}>
                         {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
-                            ? WORDS_CONFIG.BACK_BUTTON.foreign
-                            : WORDS_CONFIG.BACK_BUTTON.native}
+                            ? WORDS_CONFIG.SAVE_BUTTON.foreign
+                            : WORDS_CONFIG.SAVE_BUTTON.native}
                     </Button>
-                </NavLink>
-                <Button variant="contained" color="primary" size="small" type="submit" startIcon={<SaveIcon />}>
-                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
-                        ? WORDS_CONFIG.SAVE_BUTTON.foreign
-                        : WORDS_CONFIG.SAVE_BUTTON.native}
-                </Button>
+                </div>
             </form>
         </div>
     );
