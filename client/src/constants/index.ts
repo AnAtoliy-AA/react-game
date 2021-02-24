@@ -53,6 +53,10 @@ export const WORDS_CONFIG = {
         foreign: 'Logout',
         native: 'Выход',
     },
+    FULL_SCREEN_BUTTON: {
+        foreign: 'Full screen',
+        native: 'На весь экран',
+    },
     BACK_BUTTON: {
         foreign: 'Back',
         native: 'Назад',
