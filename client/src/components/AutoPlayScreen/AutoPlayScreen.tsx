@@ -11,6 +11,8 @@ import { Cell, CellState, CellValue } from '../../types';
 import { checkMultipleVisibleCells, grabAllAdjacentCells, openMultipleEmptyCells } from '../../utils';
 import { Button } from '@material-ui/core';
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
+import BrightnessAutoIcon from '@material-ui/icons/BrightnessAuto';
+import { DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
 
 const AUTO_PLAY_PARAMS = {
     FIELD_WIDTH: 9,
@@ -281,7 +283,17 @@ const AutoPlayScreen: React.FC = () => {
             <FullScreen handle={handle}>
                 <AutoPlayGameHeader />
                 <AutoPlayGameBody />
-                <button onClick={handleAutoplay}>handleAutoplay</button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    onClick={handleAutoplay}
+                    startIcon={<BrightnessAutoIcon />}
+                >
+                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                        ? WORDS_CONFIG.AUTOPLAY_BUTTON.foreign
+                        : WORDS_CONFIG.AUTOPLAY_BUTTON.native}
+                </Button>
             </FullScreen>
         </div>
     );

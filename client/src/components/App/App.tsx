@@ -1,12 +1,11 @@
-import { observer } from 'mobx-react-lite';
 import React from 'react';
-
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
+
+import { observer } from 'mobx-react-lite';
 import { useStore } from '../../hooks/hooks';
 
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import './App.scss';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import GameSettings from '../GameSettings/GameSettings';
@@ -16,6 +15,7 @@ import MainMenu from '../MainMenu/MainMenu';
 import GameScreen from '../GameScreen/GameScreen';
 import GameStatistic from '../GameStatistic/GameStatistic';
 import AutoPlayScreen from '../AutoPlayScreen/AutoPlayScreen';
+import './App.scss';
 
 const App: React.FC = () => {
     const gameStore = useStore('gameStore');
