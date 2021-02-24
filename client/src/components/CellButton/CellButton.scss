@@ -62,7 +62,8 @@
     background-size: cover;
   }
   &.checked {
-    background-image: none;
-    background-color: $second-button-value;
+    @include borders($additional-border-color, $primary-border-color);
+    // background-image: none;
+    // background-color: $second-button-value;
   }
 }
