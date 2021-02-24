@@ -7,6 +7,7 @@ import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh';
 import BrightnessAutoIcon from '@material-ui/icons/BrightnessAuto';
 import SettingsIcon from '@material-ui/icons/Settings';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import bgImgFirst from '../../assets/images/menu_bg_1.jpg';
 import bgImgSec from '../../assets/images/menu_bg_2.jpg';
 import bgImgThird from '../../assets/images/menu_bg-3.jpg';
@@ -111,6 +112,23 @@ const MainMenu: React.FC = () => {
                                 {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
                                     ? WORDS_CONFIG.STATISTICS_BUTTON.foreign
                                     : WORDS_CONFIG.STATISTICS_BUTTON.native}
+                            </Button>
+                        </NavLink>
+                    </div>
+                )}
+            </Spring>
+            <Spring
+                from={{ transform: 'translate3d(0,-100vh,0)' }}
+                to={{ transform: 'translate3d(0,0vh,0)' }}
+                config={{ duration: 3000 }}
+            >
+                {(props) => (
+                    <div style={props}>
+                        <NavLink to="/help" className="menu-nav">
+                            <Button variant="contained" color="primary" size="large" startIcon={<HelpOutlineIcon />}>
+                                {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                    ? WORDS_CONFIG.HELP_BUTTON.foreign
+                                    : WORDS_CONFIG.HELP_BUTTON.native}
                             </Button>
                         </NavLink>
                     </div>

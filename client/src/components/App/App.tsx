@@ -16,6 +16,7 @@ import GameScreen from '../GameScreen/GameScreen';
 import GameStatistic from '../GameStatistic/GameStatistic';
 import AutoPlayScreen from '../AutoPlayScreen/AutoPlayScreen';
 import './App.scss';
+import HelpScreen from '../HelpScreen/HelpScreen';
 
 const App: React.FC = () => {
     const gameStore = useStore('gameStore');
@@ -59,6 +60,9 @@ const App: React.FC = () => {
                     </Route>
                     <Route exact path="/statistics">
                         {!authStore.isAuth ? <Redirect to="/login" /> : <GameStatistic />}
+                    </Route>
+                    <Route exact path="/help">
+                        {!authStore.isAuth ? <Redirect to="/login" /> : <HelpScreen />}
                     </Route>
                     <Footer />
                 </BrowserRouter>

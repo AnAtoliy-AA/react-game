@@ -308,7 +308,6 @@ const GameBody: React.FC = () => {
     };
 
     const handleRestartGame = () => {
-        console.log('ENTER');
         gameStore.setDefaultStartGameValues(
             gameSettingsStore.gameSettings.fieldHeight,
             gameSettingsStore.gameSettings.fieldWidth,
@@ -317,7 +316,6 @@ const GameBody: React.FC = () => {
     };
 
     const handleStartKeyboardUse = () => {
-        console.log('Start');
         const newCells = gameStore.gameCells.slice();
         newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = true;
         gameStore.setCells(newCells);
@@ -327,7 +325,6 @@ const GameBody: React.FC = () => {
         const newCells = gameStore.gameCells.slice();
         newCells[gameStore.activeCellRow][gameStore.activeCellCol].active = false;
         gameStore.setCells(newCells);
-        console.log('Stop');
     };
 
     const handleMoveUp = () => {

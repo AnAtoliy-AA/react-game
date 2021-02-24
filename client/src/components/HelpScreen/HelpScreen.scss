@@ -1,0 +1,10 @@
+.HelpScreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    .help-text {
+        max-width: 80vw;
+    }
+}

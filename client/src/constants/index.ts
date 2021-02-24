@@ -77,6 +77,10 @@ export const WORDS_CONFIG = {
         foreign: 'Next',
         native: 'Следующие',
     },
+    HELP_BUTTON: {
+        foreign: 'Help',
+        native: 'Помощь',
+    },
     AUTH_SUCCESS: {
         foreign: 'You were authorized',
         native: 'Вы были авторизированы',
@@ -164,5 +168,47 @@ export const WORDS_CONFIG = {
     LOST_FIELD: {
         foreign: 'Lost',
         native: 'Проигрыш',
+    },
+    GAME_RULES: {
+        foreign:
+            'The rule of the game is simple, the number on a block shows the number of mines adjacent to it and you have to flag all the mines. Some terms: Flag: Put a flag in a zone when you have confirmed that there is a mine.',
+        native:
+            'Правила игры просты: число на блоке показывает количество мин, примыкающих к нему, и вы должны отметить все мины. Некоторые термины: Флаг: установите флаг в зоне, когда вы подтвердили, что есть мина.',
+    },
+    START_KEYBOARD_USE: {
+        foreign: 'Start use keyboard',
+        native: 'Начать использовать клавиатуру',
+    },
+    STOP_KEYBOARD_USE: {
+        foreign: 'Stop use keyboard',
+        native: 'Перестать использовать клавиатуру',
+    },
+    RESTART_GAME: {
+        foreign: 'Restart game',
+        native: 'Начать заново',
+    },
+    MOVE_UP: {
+        foreign: 'Move up',
+        native: 'Вверх',
+    },
+    MOVE_DOWN: {
+        foreign: 'Move down',
+        native: 'Вниз',
+    },
+    MOVE_LEFT: {
+        foreign: 'Move left',
+        native: 'Влево',
+    },
+    MOVE_RIGHT: {
+        foreign: 'Move right',
+        native: 'Вправо',
+    },
+    LEFT_CLICK: {
+        foreign: 'Imitate left mouse click',
+        native: 'Симулирует щелчок левой кнопкой мыши',
+    },
+    RIGHT_CLICK: {
+        foreign: 'Imitate right mouse click',
+        native: 'Симулирует щелчок правой кнопкой мыши',
     },
 };
