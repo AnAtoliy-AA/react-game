@@ -13,57 +13,56 @@ const HelpScreen: React.FC = () => {
                     : WORDS_CONFIG.GAME_RULES.native}
             </div>
             <div className="help-controls">
-                TODO
                 <div className="help-controls-keys">
-                    NumpadDivide:
+                    <div className="help-control-key">/</div>
                     {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
                         ? WORDS_CONFIG.START_KEYBOARD_USE.foreign
                         : WORDS_CONFIG.START_KEYBOARD_USE.native}
                 </div>
                 <div className="help-controls-keys">
-                    NumpadMultiply:
+                    <div className="help-control-key">*</div>
                     {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
                         ? WORDS_CONFIG.STOP_KEYBOARD_USE.foreign
                         : WORDS_CONFIG.STOP_KEYBOARD_USE.native}
                 </div>
                 <div className="help-controls-keys">
-                    NumpadEnter
+                    <div className="help-control-key control-key-advanced">Enter</div>
                     {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
                         ? WORDS_CONFIG.RESTART_GAME.foreign
                         : WORDS_CONFIG.RESTART_GAME.native}
                 </div>
                 <div className="help-controls-keys">
-                    Numpad8
+                    <div className="help-control-key">8</div>
                     {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
                         ? WORDS_CONFIG.MOVE_UP.foreign
                         : WORDS_CONFIG.MOVE_UP.native}
                 </div>
                 <div className="help-controls-keys">
-                    Numpad2
+                    <div className="help-control-key">2</div>
                     {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
                         ? WORDS_CONFIG.MOVE_DOWN.foreign
                         : WORDS_CONFIG.MOVE_DOWN.native}
                 </div>
                 <div className="help-controls-keys">
-                    Numpad4
+                    <div className="help-control-key">4</div>
                     {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
                         ? WORDS_CONFIG.MOVE_LEFT.foreign
                         : WORDS_CONFIG.MOVE_LEFT.native}
                 </div>
                 <div className="help-controls-keys">
-                    Numpad6
+                    <div className="help-control-key">6</div>
                     {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
                         ? WORDS_CONFIG.MOVE_RIGHT.foreign
                         : WORDS_CONFIG.MOVE_RIGHT.native}
                 </div>
                 <div className="help-controls-keys">
-                    Numpad5
+                    <div className="help-control-key">5</div>
                     {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
                         ? WORDS_CONFIG.LEFT_CLICK.foreign
                         : WORDS_CONFIG.LEFT_CLICK.native}
                 </div>
                 <div className="help-controls-keys">
-                    Numpad0
+                    <div className="help-control-key">0</div>
                     {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
                         ? WORDS_CONFIG.RIGHT_CLICK.foreign
                         : WORDS_CONFIG.RIGHT_CLICK.native}

@@ -179,9 +179,9 @@ export const WORDS_CONFIG = {
     },
     GAME_RULES: {
         foreign:
-            'The rule of the game is simple, the number on a block shows the number of mines adjacent to it and you have to flag all the mines. Some terms: Flag: Put a flag in a zone when you have confirmed that there is a mine.',
+            'The rule of the game is simple, the number on a block shows the number of mines adjacent to it and you have to flag all the mines. Some terms: Flag: Put a flag in a zone when you have confirmed that there is a mine. To use keyboard Num Lock must be enabled.',
         native:
-            'Правила игры просты: число на блоке показывает количество мин, примыкающих к нему, и вы должны отметить все мины. Некоторые термины: Флаг: установите флаг в зоне, когда вы подтвердили, что есть мина.',
+            'Правила игры просты: число на блоке показывает количество мин, примыкающих к нему, и вы должны отметить все мины. Некоторые термины: Флаг: установите флаг в зоне, когда вы подтвердили, что есть мина. Чтобы использовать клавиатуру Num Lock  должен быть включен.',
     },
     START_KEYBOARD_USE: {
         foreign: 'Start use keyboard',
