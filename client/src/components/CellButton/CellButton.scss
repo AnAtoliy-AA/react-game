@@ -7,11 +7,14 @@
   height: 30px;
   font-weight: bold;
   font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
   &.visible {
     border-color: $display-background-color;
     border-width: 1px;
-    transition: all 0.7s ease-out;
+    // transition: all 0.7s ease-out;
   }
 
   &.value-1 {
@@ -66,5 +69,20 @@
     @include borders($additional-border-color, $primary-border-color);
     // background-image: none;
     // background-color: $second-button-value;
+  }
+}
+
+.fullscreen-enabled .Button {
+  font-size: 2em;
+}
+
+@media screen and (max-width: 950px) {
+  .Button {
+    width: 15px;
+    height: 15px;
+    font-size: 0.8em;
+  }
+  .fullscreen-enabled .Button {
+    font-size: 0.8em;
   }
 }

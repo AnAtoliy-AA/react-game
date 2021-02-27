@@ -47,8 +47,10 @@ const GameScreen: React.FC = () => {
                 )}
             </div>
             <FullScreen handle={handle}>
-                <GameHeader />
-                <GameBody />
+                <div className="game-container">
+                    <GameHeader />
+                    <GameBody />
+                </div>
             </FullScreen>
             {isPlayerVisible && (
                 <AudioPlayer
