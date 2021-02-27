@@ -75,8 +75,19 @@
 .fullscreen-enabled .Button {
   font-size: 2em;
 }
-
 @media screen and (max-width: 950px) {
+  .Button {
+    width: 25px;
+    height: 25px;
+    font-size: 1em;
+  }
+  .fullscreen-enabled .Button {
+    font-size: 1em;
+  }
+}
+
+
+@media screen and (max-width: 800px) {
   .Button {
     width: 15px;
     height: 15px;
