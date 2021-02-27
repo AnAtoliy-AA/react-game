@@ -12,6 +12,8 @@ import useSound from 'use-sound';
 import lostSound from '../../assets/sounds/failure.mp3';
 import winSound from '../../assets/sounds/success.mp3';
 import checkSound from '../../assets/sounds/correct.mp3';
+// import gameMusic from '../../assets/sounds/music.mp3';
+
 import { toJS } from 'mobx';
 
 enum MouseButtons {
@@ -38,6 +40,7 @@ const GameBody: React.FC = () => {
     const [playLostSound] = useSound(lostSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
     const [playWinSound] = useSound(winSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
     const [playCheckSound] = useSound(checkSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
+    // const [playGameMusic] = useSound(gameMusic, { volume: gameSettingsStore.gameSettings.gameMusicVolume });
 
     const handleMouseDown = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -92,6 +95,7 @@ const GameBody: React.FC = () => {
             }
 
             gameStore.setGameStartedValues();
+            // playGameMusic();
         }
 
         //TODO NEED IT??

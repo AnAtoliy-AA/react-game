@@ -46,14 +46,15 @@
     color: $eights-button-value;
   }
 
-  &.danger {
-    background-color: $display-color;
-  }
   &.touched {
     background-color: $second-button-value;
   }
   &.custom {
     background-image: url('../../assets/images/custom-background.jpg');
+  }
+  &.danger {
+    background-image: none;
+    background-color: $display-color;
   }
   &.active {
     background-image: url('../../assets/images/minesweeper.jpg');

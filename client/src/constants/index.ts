@@ -85,6 +85,10 @@ export const WORDS_CONFIG = {
         foreign: 'Help',
         native: 'Помощь',
     },
+    PLAY_BACKGROUND_MUSIC_BUTTON: {
+        foreign: 'Play background music',
+        native: 'Играть фоновую музыку',
+    },
     AUTH_SUCCESS: {
         foreign: 'You were authorized',
         native: 'Вы были авторизированы',

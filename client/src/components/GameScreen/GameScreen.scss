@@ -11,3 +11,9 @@
     background: $primary-color;
     padding: 16px;
 }
+
+.game-controls {
+    display: flex;
+    justify-content: space-around;
+    width: 50vw;
+}
