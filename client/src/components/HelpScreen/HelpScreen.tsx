@@ -1,6 +1,9 @@
 import React from 'react';
-import { DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
+import { NavLink } from 'react-router-dom';
+import { Button } from '@material-ui/core';
+import BackspaceIcon from '@material-ui/icons/Backspace';
 import { useStore } from '../../hooks/hooks';
+import { DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
 import './HelpScreen.scss';
 
 const HelpScreen: React.FC = () => {
@@ -68,6 +71,13 @@ const HelpScreen: React.FC = () => {
                         : WORDS_CONFIG.RIGHT_CLICK.native}
                 </div>
             </div>
+            <NavLink to="/main" style={{ textDecoration: 'none' }}>
+                <Button variant="contained" color="primary" size="small" startIcon={<BackspaceIcon />}>
+                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                        ? WORDS_CONFIG.BACK_BUTTON.foreign
+                        : WORDS_CONFIG.BACK_BUTTON.native}
+                </Button>
+            </NavLink>
         </div>
     );
 };
