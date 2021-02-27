@@ -72,6 +72,7 @@ const AutoPlayScreen: React.FC = () => {
                         }
                     });
                 });
+                gameStore.setIsGameStarted(false);
                 gameStore.setCells(currentCells);
                 clearInterval(timer);
             }

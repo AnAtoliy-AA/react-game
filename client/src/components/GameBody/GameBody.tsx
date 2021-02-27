@@ -166,6 +166,7 @@ const GameBody: React.FC = () => {
                     return cell;
                 }),
             );
+            gameStore.setIsGameStarted(false);
             gameStore.setIsGameWon(true);
             sendStatistics();
             playWinSound();
@@ -379,7 +380,36 @@ const GameBody: React.FC = () => {
 
     //TODO
     const handleRightClick = () => {
-        handleCellContext(gameStore.activeCellRow, gameStore.activeCellCol);
+        // handleRightMouseButton(gameStore.activeCellRow, gameStore.activeCellCol, true);
+        // handleCellContext(gameStore.activeCellRow, gameStore.activeCellCol);
+        if (!gameStore.isGameStarted || gameStore.isGameLost || gameStore.isGameWon) {
+            return;
+        }
+
+        const currentCells = gameStore.gameCells.slice();
+        const currentCell = gameStore.gameCells[gameStore.activeCellRow][gameStore.activeCellCol];
+
+        if (currentCell.state === CellState.visible) {
+            checkMultipleVisibleCells(
+                currentCells,
+                gameStore.activeCellRow,
+                gameStore.activeCellCol,
+                gameSettingsStore.gameSettings.fieldHeight,
+                gameSettingsStore.gameSettings.fieldWidth,
+            );
+            checkIfGameLost();
+            return;
+        } else if (currentCell.state === CellState.default) {
+            currentCells[gameStore.activeCellRow][gameStore.activeCellCol].state = CellState.flagged;
+            gameStore.setCells(currentCells);
+            gameStore.decrementBombCounter();
+        } else if (currentCell.state === CellState.flagged) {
+            currentCells[gameStore.activeCellRow][gameStore.activeCellCol].state = CellState.default;
+            gameStore.setCells(currentCells);
+            gameStore.incrementBombCounter();
+        }
+        gameStore.incrementGameMoves();
+        checkIfGameIsWon(gameStore.gameCells);
     };
 
     useKey(KEYBOARD_KEYS.RESTART_GAME, handleRestartGame);
