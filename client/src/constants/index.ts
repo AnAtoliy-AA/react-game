@@ -174,8 +174,8 @@ export const WORDS_CONFIG = {
         native: 'Победа',
     },
     LOST_FIELD: {
-        foreign: 'Lost',
-        native: 'Проигрыш',
+        foreign: 'Game over',
+        native: 'Потрачено',
     },
     GAME_RULES: {
         foreign:

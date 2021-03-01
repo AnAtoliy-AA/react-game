@@ -28,7 +28,7 @@ const App: React.FC = () => {
                 <BrowserRouter basename={process.env.PUBLIC_URL}>
                     <Header />
                     <Route exact path="/">
-                        <span className="text">minesweeper</span>
+                        <span className="voluminos-text">minesweeper</span>
                     </Route>
                     <Route exact path="/main">
                         {!authStore.isAuth ? <Redirect to="/login" /> : <MainMenu />}

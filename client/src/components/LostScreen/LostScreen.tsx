@@ -5,9 +5,11 @@ import './LostScreen.scss';
 import { useStore } from '../../hooks/hooks';
 import { NavLink } from 'react-router-dom';
 import { Spring } from 'react-spring/renderprops';
+import { DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
 
 const LostScreen = () => {
     const gameStore = useStore('gameStore');
+    const gameSettingsStore = useStore('gameSettingsStore');
     const handleClick = () => {
         gameStore.setIsGameLost(false);
     };
@@ -27,13 +29,31 @@ const LostScreen = () => {
                             onClick={handleClick}
                             startIcon={<BackspaceIcon />}
                         >
-                            Back to game
+                            {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                ? WORDS_CONFIG.BACK_BUTTON.foreign
+                                : WORDS_CONFIG.BACK_BUTTON.native}
                         </Button>
                     </div>
                 )}
             </Spring>
             <Spring
                 from={{ transform: 'translate3d(0,-60vh,0)' }}
+                to={{ transform: 'translate3d(0,0vh,0)' }}
+                config={{ duration: 2000 }}
+            >
+                {(props) => (
+                    <div style={props}>
+                        {' '}
+                        <div className="voluminos-text">
+                            {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                ? WORDS_CONFIG.LOST_FIELD.foreign
+                                : WORDS_CONFIG.LOST_FIELD.native}
+                        </div>
+                    </div>
+                )}
+            </Spring>
+            <Spring
+                from={{ transform: 'translate3d(0,-80vh,0)' }}
                 to={{ transform: 'translate3d(0,0vh,0)' }}
                 config={{ duration: 2000 }}
             >
@@ -47,7 +67,9 @@ const LostScreen = () => {
                                 onClick={handleClick}
                                 startIcon={<BackspaceIcon />}
                             >
-                                Main menu
+                                {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                                    ? WORDS_CONFIG.BACK_TO_MAIN_BUTTON.foreign
+                                    : WORDS_CONFIG.BACK_TO_MAIN_BUTTON.native}
                             </Button>
                         </NavLink>
                     </div>
