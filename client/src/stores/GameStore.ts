@@ -146,4 +146,12 @@ export class GameStore {
     incrementActiveCellRow(): void {
         this.activeCellRow++;
     }
+
+    @observable
+    isAutoGameChanged = false;
+
+    @action
+    setIsAutoplayGameChanged(value: boolean): void {
+        this.isAutoGameChanged = value;
+    }
 }

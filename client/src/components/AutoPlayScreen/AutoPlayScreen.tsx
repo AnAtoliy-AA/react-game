@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './AutoPlayScreen.scss';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 import AutoPlayGameHeader from './AutoPlayGameHeader/AutoPlayGameHeader';
@@ -41,9 +41,10 @@ const AutoPlayScreen: React.FC = () => {
         }, 1000);
 
         const timer = setInterval(() => {
+            gameStore.setIsAutoplayGameChanged(false);
             const currentCells = gameStore.gameCells.slice();
-            currentCells.forEach((row, rowIndex) => {
-                row.forEach((col, colIndex) => {
+            currentCells.map((row, rowIndex) => {
+                row.map((col, colIndex) => {
                     if (currentCells[rowIndex][colIndex].state === CellState.visible) {
                         checkAutoMultipleDefaultCells(
                             currentCells,
@@ -52,7 +53,7 @@ const AutoPlayScreen: React.FC = () => {
                             AUTO_PLAY_PARAMS.FIELD_HEIGHT,
                             AUTO_PLAY_PARAMS.FIELD_WIDTH,
                         );
-                        checkMultipleVisibleCells(
+                        checkAutoMultipleVisibleCells(
                             currentCells,
                             rowIndex,
                             colIndex,
@@ -62,8 +63,13 @@ const AutoPlayScreen: React.FC = () => {
                     }
                 });
             });
-            gameStore.setCells(currentCells);
+            // gameStore.setCells(currentCells);
             checkIfGameIsWon(currentCells);
+            if (!gameStore.isAutoGameChanged) {
+                gameStore.setIsGameStarted(false);
+                clearInterval(timer);
+                console.log('aa');
+            }
             if (gameStore.isGameWon || gameStore.bombCount === 0) {
                 currentCells.map((row, rowIndex) => {
                     row.map((col, colIndex) => {
@@ -78,6 +84,10 @@ const AutoPlayScreen: React.FC = () => {
             }
         }, 3000);
     };
+
+    useEffect(() => {
+        console.log('changed');
+    }, [gameStore.gameCells]);
 
     const checkAutoMultipleDefaultCells = (
         cells: Cell[][],
@@ -131,34 +141,42 @@ const AutoPlayScreen: React.FC = () => {
             if (topLeftCell?.state === CellState.default) {
                 newCells[rowParam - 1][colParam - 1].state = CellState.flagged;
                 gameStore.decrementBombCounter();
+                gameStore.setIsAutoplayGameChanged(true);
             }
             if (topCell?.state === CellState.default) {
                 newCells[rowParam - 1][colParam].state = CellState.flagged;
                 gameStore.decrementBombCounter();
+                gameStore.setIsAutoplayGameChanged(true);
             }
             if (topRightCell?.state === CellState.default) {
                 newCells[rowParam - 1][colParam + 1].state = CellState.flagged;
                 gameStore.decrementBombCounter();
+                gameStore.setIsAutoplayGameChanged(true);
             }
             if (leftCell?.state === CellState.default) {
                 newCells[rowParam][colParam - 1].state = CellState.flagged;
                 gameStore.decrementBombCounter();
+                gameStore.setIsAutoplayGameChanged(true);
             }
             if (rightCell?.state === CellState.default) {
                 newCells[rowParam][colParam + 1].state = CellState.flagged;
                 gameStore.decrementBombCounter();
+                gameStore.setIsAutoplayGameChanged(true);
             }
             if (bottomLeftCell?.state === CellState.default) {
                 newCells[rowParam + 1][colParam - 1].state = CellState.flagged;
                 gameStore.decrementBombCounter();
+                gameStore.setIsAutoplayGameChanged(true);
             }
             if (bottomCell?.state === CellState.default) {
                 newCells[rowParam + 1][colParam].state = CellState.flagged;
                 gameStore.decrementBombCounter();
+                gameStore.setIsAutoplayGameChanged(true);
             }
             if (bottomRightCell?.state === CellState.default) {
                 newCells[rowParam + 1][colParam + 1].state = CellState.flagged;
                 gameStore.decrementBombCounter();
+                gameStore.setIsAutoplayGameChanged(true);
             }
         }
 
@@ -216,6 +234,7 @@ const AutoPlayScreen: React.FC = () => {
             newCells[rowParam][colParam].state = CellState.visible;
             gameStore.setCells(newCells);
         }
+        gameStore.setIsAutoplayGameChanged(true);
         gameStore.incrementGameMoves();
         checkIfGameIsWon(newCells);
     };
@@ -270,6 +289,62 @@ const AutoPlayScreen: React.FC = () => {
         );
     };
 
+    const checkAutoMultipleVisibleCells = (
+        cells: Cell[][],
+        rowParam: number,
+        colParam: number,
+        fieldHeight: number,
+        fieldWidth: number,
+    ): Cell[][] => {
+        const currentCell = cells[rowParam][colParam];
+        const newCells = cells.slice();
+
+        const {
+            topLeftCell,
+            topCell,
+            topRightCell,
+            leftCell,
+            rightCell,
+            bottomLeftCell,
+            bottomCell,
+            bottomRightCell,
+        } = grabAllAdjacentCells(cells, rowParam, colParam, fieldHeight, fieldWidth);
+
+        let numberOfFlags = 0;
+
+        if (topLeftCell?.state === CellState.flagged) {
+            numberOfFlags++;
+        }
+        if (topCell?.state === CellState.flagged) {
+            numberOfFlags++;
+        }
+        if (topRightCell?.state === CellState.flagged) {
+            numberOfFlags++;
+        }
+        if (leftCell?.state === CellState.flagged) {
+            numberOfFlags++;
+        }
+        if (rightCell?.state === CellState.flagged) {
+            numberOfFlags++;
+        }
+        if (bottomLeftCell?.state === CellState.flagged) {
+            numberOfFlags++;
+        }
+        if (bottomCell?.state === CellState.flagged) {
+            numberOfFlags++;
+        }
+        if (bottomRightCell?.state === CellState.flagged) {
+            numberOfFlags++;
+        }
+
+        if (numberOfFlags < currentCell.value) {
+            // console.log('LOOK Better');
+            //TODO
+        } else openMultipleEmptyCells(cells, rowParam, colParam, fieldHeight, fieldWidth);
+
+        return newCells;
+    };
+
     return (
         <div className="AutoPlayScreen">
             <Button
@@ -295,6 +370,8 @@ const AutoPlayScreen: React.FC = () => {
                         ? WORDS_CONFIG.AUTOPLAY_BUTTON.foreign
                         : WORDS_CONFIG.AUTOPLAY_BUTTON.native}
                 </Button>
+                {gameStore.isAutoGameChanged && <div>Changed</div>}
+                {!gameStore.isAutoGameChanged && <div>No more moves</div>}
             </FullScreen>
         </div>
     );
