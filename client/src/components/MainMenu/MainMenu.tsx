@@ -14,7 +14,7 @@ import bgImgThird from '../../assets/images/menu_bg-3.jpg';
 import bgImgFourth from '../../assets/images/menu_bg_4.jpg';
 import { Button } from '@material-ui/core';
 import { useStore } from '../../hooks/hooks';
-import { DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
+import { DEFAULT_FIELD_STYLE, DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
 import { observer } from 'mobx-react-lite';
 
 const slides = [
@@ -39,16 +39,17 @@ const MainMenu: React.FC = () => {
     useEffect(() => void setInterval(() => set((state) => (state + 1) % 4), 5000), []);
     return (
         <div className="main-menu">
-            {transitions.map(({ item, props, key }) => (
-                <animated.div
-                    key={key}
-                    className="bg"
-                    style={{
-                        ...props,
-                        backgroundImage: `url(${item.url})`,
-                    }}
-                />
-            ))}
+            {gameSettingsStore.gameSettings.fieldStyle === DEFAULT_FIELD_STYLE &&
+                transitions.map(({ item, props, key }) => (
+                    <animated.div
+                        key={key}
+                        className="bg"
+                        style={{
+                            ...props,
+                            backgroundImage: `url(${item.url})`,
+                        }}
+                    />
+                ))}
             <Spring
                 from={{ transform: 'translate3d(0,-20vh,0)' }}
                 to={{ transform: 'translate3d(0,0vh,0)' }}
