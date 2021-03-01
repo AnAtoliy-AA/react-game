@@ -6,7 +6,7 @@ import { Button, TextField } from '@material-ui/core';
 import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
 
 import './LoginForm.scss';
-import { User } from '../../../shared/interfaces';
+import { GameStatistics, User } from '../../../shared/interfaces';
 import { useStore } from '../../../hooks/hooks';
 import { DEFAULT_FIELD_STYLE, DEFAULT_FOREIGN_LANGUAGE, DEFAULT_SOUND_VOLUME, FIELD_SIZES } from '../../../constants';
 
@@ -14,6 +14,7 @@ const LoginForm = observer(() => {
     const authStore = useStore('authStore');
     const gameStore = useStore('gameStore');
     const gameSettingsStore = useStore('gameSettingsStore');
+    const gameStatisticsStore = useStore('gameStatisticsStore');
 
     const getSettings = async () => {
         axios
@@ -61,6 +62,19 @@ const LoginForm = observer(() => {
                 //     gameSettingsStore.gameSettings.fieldWidth,
                 //     gameSettingsStore.gameSettings.bombsQuantity,
                 // );
+            });
+    };
+
+    const getStatistics = async () => {
+        axios
+            .get('/api/statistics', {
+                headers: {
+                    authorization: authStore.token,
+                },
+            })
+            .then((response) => {
+                const responseStatistics = response.data.map((el: { list: GameStatistics[] }) => el.list[0]);
+                gameStatisticsStore.setGameStatistics(responseStatistics);
             });
     };
     //TODO
@@ -113,6 +127,7 @@ const LoginForm = observer(() => {
                 authStore.setIsAuth(true);
                 getSettings();
                 getLastGame();
+                getStatistics();
             });
     };
     return (
