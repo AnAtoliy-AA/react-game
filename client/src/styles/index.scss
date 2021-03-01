@@ -1,7 +1,7 @@
-$primary-color: grey;
+$primary-color: #c6c6c6;
 $secondary-color:white;
 $primary-border-color: #fff;
-$additional-border-color: #7b7b7b;
+$additional-border-color: #808080;
 $display-color: red;
 $display-background-color: black;
 $custom-primary-color: green;
@@ -20,7 +20,7 @@ $eights-button-value: gray;
     border-bottom-color: $right-bottom;
     border-left-color: $left-top;
     border-style: solid;
-    border-width: 4px;
+    border-width: 3px;
 }
 
 @mixin buttons {
