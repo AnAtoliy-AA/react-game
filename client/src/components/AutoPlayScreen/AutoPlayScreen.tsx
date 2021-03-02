@@ -13,6 +13,8 @@ import { Button } from '@material-ui/core';
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import BrightnessAutoIcon from '@material-ui/icons/BrightnessAuto';
 import { DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
 
 const AUTO_PLAY_PARAMS = {
     FIELD_WIDTH: 9,
@@ -27,6 +29,7 @@ const AutoPlayScreen: React.FC = () => {
     const [playLostSound] = useSound(lostSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
     const [playWinSound] = useSound(winSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
     const handleAutoplay = () => {
+        gameStore.setIsAutoplayGameChanged(true);
         console.log('auto');
         gameStore.setDefaultStartGameValues(
             AUTO_PLAY_PARAMS.FIELD_HEIGHT,
@@ -41,8 +44,9 @@ const AutoPlayScreen: React.FC = () => {
         }, 1000);
 
         const timer = setInterval(() => {
-            gameStore.setIsAutoplayGameChanged(false);
             const currentCells = gameStore.gameCells.slice();
+            const cellsArrayJsBeforeIteration = toJS(gameStore.gameCells);
+            const cellsArrayJsonBeforeIteration = JSON.stringify(cellsArrayJsBeforeIteration);
             currentCells.map((row, rowIndex) => {
                 row.map((col, colIndex) => {
                     if (currentCells[rowIndex][colIndex].state === CellState.visible) {
@@ -63,12 +67,22 @@ const AutoPlayScreen: React.FC = () => {
                     }
                 });
             });
+
             // gameStore.setCells(currentCells);
             checkIfGameIsWon(currentCells);
-            if (!gameStore.isAutoGameChanged) {
+            // if (!gameStore.isAutoGameChanged) {
+            //     gameStore.setIsGameStarted(false);
+            //     clearInterval(timer);
+            //     console.log('aa');
+            // }
+
+            const cellsArrayJsAfterIteration = toJS(gameStore.gameCells);
+            const chcellsArrayJsonAfterIteration = JSON.stringify(cellsArrayJsAfterIteration);
+            if (chcellsArrayJsonAfterIteration === cellsArrayJsonBeforeIteration) {
+                gameStore.setIsAutoplayGameChanged(false);
                 gameStore.setIsGameStarted(false);
                 clearInterval(timer);
-                console.log('aa');
+                console.log('No more moves');
             }
             if (gameStore.isGameWon || gameStore.bombCount === 0) {
                 currentCells.map((row, rowIndex) => {
@@ -85,9 +99,9 @@ const AutoPlayScreen: React.FC = () => {
         }, 3000);
     };
 
-    useEffect(() => {
-        console.log('changed');
-    }, [gameStore.gameCells]);
+    // useEffect(() => {
+    //     console.log('changed');
+    // }, [gameStore.gameCells]);
 
     const checkAutoMultipleDefaultCells = (
         cells: Cell[][],
@@ -370,11 +384,11 @@ const AutoPlayScreen: React.FC = () => {
                         ? WORDS_CONFIG.AUTOPLAY_BUTTON.foreign
                         : WORDS_CONFIG.AUTOPLAY_BUTTON.native}
                 </Button>
-                {gameStore.isAutoGameChanged && <div>Changed</div>}
+                {/* {gameStore.isAutoGameChanged && <div>Changed</div>} */}
                 {!gameStore.isAutoGameChanged && <div>No more moves</div>}
             </FullScreen>
         </div>
     );
 };
 
-export default AutoPlayScreen;
+export default observer(AutoPlayScreen);

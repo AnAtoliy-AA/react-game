@@ -148,7 +148,7 @@ export class GameStore {
     }
 
     @observable
-    isAutoGameChanged = false;
+    isAutoGameChanged = true;
 
     @action
     setIsAutoplayGameChanged(value: boolean): void {
