@@ -266,8 +266,10 @@ const AutoPlayScreen: React.FC = () => {
                     return cell;
                 }),
             );
-            gameStore.setIsGameWon(true);
-            playWinSound();
+            setTimeout(() => {
+                gameStore.setIsGameWon(true);
+                playWinSound();
+            }, 1000);
         }
         gameStore.setCells(cells);
     };
