@@ -15,6 +15,8 @@ import BrightnessAutoIcon from '@material-ui/icons/BrightnessAuto';
 import { DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
+import GameBody from '../GameBody/GameBody';
+import GameHeader from '../GameHeader/GameHeader';
 
 const AutoPlayScreen: React.FC = () => {
     const handle = useFullScreenHandle();
@@ -289,32 +291,25 @@ const AutoPlayScreen: React.FC = () => {
 
     return (
         <div className="AutoPlayScreen">
+            <div className="game-container">
+                <GameHeader />
+                <GameBody />
+                {/* <AutoPlayGameHeader />
+                <AutoPlayGameBody /> */}
+            </div>
+            {!gameStore.isAutoGameChanged && <div>No more moves</div>}
             <Button
                 variant="contained"
                 color="primary"
-                size="small"
-                startIcon={<FullscreenIcon />}
-                onClick={handle.enter}
+                size="large"
+                onClick={handleAutoplay}
+                startIcon={<BrightnessAutoIcon />}
             >
-                Full screen
+                {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                    ? WORDS_CONFIG.AUTOPLAY_BUTTON.foreign
+                    : WORDS_CONFIG.AUTOPLAY_BUTTON.native}
             </Button>
-            <FullScreen handle={handle}>
-                <AutoPlayGameHeader />
-                <AutoPlayGameBody />
-                <Button
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    onClick={handleAutoplay}
-                    startIcon={<BrightnessAutoIcon />}
-                >
-                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
-                        ? WORDS_CONFIG.AUTOPLAY_BUTTON.foreign
-                        : WORDS_CONFIG.AUTOPLAY_BUTTON.native}
-                </Button>
-                {/* {gameStore.isAutoGameChanged && <div>Changed</div>} */}
-                {!gameStore.isAutoGameChanged && <div>No more moves</div>}
-            </FullScreen>
+            {/* {gameStore.isAutoGameChanged && <div>Changed</div>} */}
         </div>
     );
 };

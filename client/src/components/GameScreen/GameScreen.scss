@@ -10,17 +10,19 @@
     text-align: center;
     // background: $primary-color;
     padding: 16px;
+    flex-grow: 2 1;
 }
 
 .game-container {
     @include borders;
-    margin: 2em 2em ;
+    margin: 1em 1em ;
     padding: 1em 1em;
     background: $primary-color;
 }
 
 .game-controls {
     display: flex;
+    // flex-direction: column;
     justify-content: space-around;
     width: 50vw;
 }
@@ -31,4 +33,13 @@
     align-items: center;
     justify-content: center;
     margin-top: 8vh;
+}
+
+.audioplayer-container {
+   width: 80vw;
+}
+
+.hidden {
+    position: absolute;
+    visibility: hidden;
 }

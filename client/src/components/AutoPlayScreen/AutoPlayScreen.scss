@@ -1,13 +1,21 @@
 @import "../../styles/index.scss";
 
 .AutoPlayScreen {
-    @include borders;
+    // @include borders;
     grid-area: main;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: $primary-color;
+    // background: $primary-color;
     padding: 16px;
+}
+
+.autogame-container {
+    @include borders;
+    margin: 2em 2em ;
+    padding: 1em 1em;
+    background: $primary-color;
+    // width: 30vw;
 }

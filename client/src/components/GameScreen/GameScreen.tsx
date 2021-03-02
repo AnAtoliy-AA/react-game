@@ -30,18 +30,20 @@ const GameScreen: React.FC = () => {
                             : WORDS_CONFIG.BACK_BUTTON.native}
                     </Button>
                 </NavLink>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    startIcon={<FullscreenIcon />}
-                    onClick={handle.enter}
-                >
-                    {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
-                        ? WORDS_CONFIG.FULL_SCREEN_BUTTON.foreign
-                        : WORDS_CONFIG.FULL_SCREEN_BUTTON.native}
-                </Button>
-                {gameSettingsStore.gameSettings.fieldSize !== FIELD_SIZES.LARGE.name && (
+                <div>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        startIcon={<FullscreenIcon />}
+                        onClick={handle.enter}
+                    >
+                        {gameSettingsStore.gameSettings.gameLanguage === DEFAULT_FOREIGN_LANGUAGE
+                            ? WORDS_CONFIG.FULL_SCREEN_BUTTON.foreign
+                            : WORDS_CONFIG.FULL_SCREEN_BUTTON.native}
+                    </Button>
+                </div>
+                <div>
                     <Button
                         variant="contained"
                         color="primary"
@@ -53,7 +55,7 @@ const GameScreen: React.FC = () => {
                             ? WORDS_CONFIG.PLAY_BACKGROUND_MUSIC_BUTTON.foreign
                             : WORDS_CONFIG.PLAY_BACKGROUND_MUSIC_BUTTON.native}
                     </Button>
-                )}
+                </div>
             </div>
             <FullScreen handle={handle}>
                 <div className="game-container">
@@ -62,14 +64,21 @@ const GameScreen: React.FC = () => {
                 </div>
             </FullScreen>
             {isPlayerVisible && (
-                <AudioPlayer
-                    autoPlay
-                    loop
-                    src={gameMusic}
-                    onPlay={(e) => console.log('onPlay')}
-                    volume={gameSettingsStore.gameSettings.gameMusicVolume}
-                    // other props here
-                />
+                <div
+                    className={
+                        gameSettingsStore.gameSettings.fieldSize === FIELD_SIZES.SMALL.name
+                            ? `audioplayer-container`
+                            : `hidden`
+                    }
+                >
+                    <AudioPlayer
+                        autoPlay
+                        loop
+                        src={gameMusic}
+                        onPlay={(e) => console.log('onPlay')}
+                        volume={gameSettingsStore.gameSettings.gameMusicVolume}
+                    />
+                </div>
             )}
         </div>
     );

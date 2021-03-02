@@ -450,11 +450,7 @@ const GameBody: React.FC = () => {
         ));
     };
 
-    return (
-        <Grid className="GameBody" justify="center">
-            {renderCells()}
-        </Grid>
-    );
+    return <Grid className="GameBody">{renderCells()}</Grid>;
 };
 
 export default observer(GameBody);

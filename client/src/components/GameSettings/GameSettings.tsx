@@ -14,6 +14,7 @@ import { FIELD_SIZES } from '../../constants';
 import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
+import { useState } from 'react';
 
 const GameSettings: React.FC = () => {
     return (
@@ -39,6 +40,7 @@ export const GameSettingsForm = observer(() => {
     const [gameMusicVolume, setGameMusicVolume] = React.useState(gameSettingsStore.gameSettings.gameMusicVolume);
     const [gameLanguage, setGameLanguage] = React.useState(gameSettingsStore.gameSettings.gameLanguage);
 
+    const [responseMessage, setResponseMessage] = useState('');
     const { handleSubmit } = useForm();
     const onSubmit = () => {
         axios
@@ -70,6 +72,7 @@ export const GameSettingsForm = observer(() => {
                     gameSettingsStore.gameSettings.fieldWidth,
                     gameSettingsStore.gameSettings.bombsQuantity,
                 );
+                setResponseMessage(response.statusText);
             });
     };
 
@@ -347,6 +350,7 @@ export const GameSettingsForm = observer(() => {
                     </Button>
                 </div>
             </form>
+            {responseMessage}
         </div>
     );
 });
