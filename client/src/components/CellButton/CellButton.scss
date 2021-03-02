@@ -87,7 +87,7 @@
 }
 
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 860px) {
   .Button {
     width: 15px;
     height: 15px;
@@ -95,5 +95,17 @@
   }
   .fullscreen-enabled .Button {
     font-size: 0.8em;
+  }
+}
+
+
+@media screen and (max-width: 560px) {
+  .Button {
+    width: 10px;
+    height: 10px;
+    font-size: 0.5em;
+  }
+  .fullscreen-enabled .Button {
+    font-size: 0.5em;
   }
 }
