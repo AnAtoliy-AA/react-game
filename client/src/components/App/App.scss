@@ -72,3 +72,21 @@
     1px 25px 35px rgba(16,16,16,0.2),
     1px 30px 60px rgba(16,16,16,0.4);
 }
+
+@media screen and (max-width: 1200px) {
+  .voluminos-text {
+    font-size: 6em;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .voluminos-text {
+    font-size: 4em;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .voluminos-text {
+    font-size: 3em;
+  }
+}
