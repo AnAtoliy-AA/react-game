@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './AutoPlayScreen.scss';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 import AutoPlayGameHeader from './AutoPlayGameHeader/AutoPlayGameHeader';
@@ -16,12 +16,6 @@ import { DEFAULT_FOREIGN_LANGUAGE, WORDS_CONFIG } from '../../constants';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 
-const AUTO_PLAY_PARAMS = {
-    FIELD_WIDTH: 9,
-    FIELD_HEIGHT: 9,
-    BOMBS_COUNT: 10,
-};
-
 const AutoPlayScreen: React.FC = () => {
     const handle = useFullScreenHandle();
     const gameStore = useStore('gameStore');
@@ -32,14 +26,14 @@ const AutoPlayScreen: React.FC = () => {
         gameStore.setIsAutoplayGameChanged(true);
         console.log('auto');
         gameStore.setDefaultStartGameValues(
-            AUTO_PLAY_PARAMS.FIELD_HEIGHT,
-            AUTO_PLAY_PARAMS.FIELD_WIDTH,
-            AUTO_PLAY_PARAMS.BOMBS_COUNT,
+            gameSettingsStore.gameSettings.fieldHeight,
+            gameSettingsStore.gameSettings.fieldWidth,
+            gameSettingsStore.gameSettings.bombsQuantity,
         );
         setTimeout(() => {
             handleAutoCellClick(
-                Math.round(AUTO_PLAY_PARAMS.FIELD_HEIGHT / 2),
-                Math.round(AUTO_PLAY_PARAMS.FIELD_WIDTH / 2),
+                Math.round(gameSettingsStore.gameSettings.fieldHeight / 2),
+                Math.round(gameSettingsStore.gameSettings.fieldWidth / 2),
             );
         }, 1000);
 
@@ -54,27 +48,21 @@ const AutoPlayScreen: React.FC = () => {
                             currentCells,
                             rowIndex,
                             colIndex,
-                            AUTO_PLAY_PARAMS.FIELD_HEIGHT,
-                            AUTO_PLAY_PARAMS.FIELD_WIDTH,
+                            gameSettingsStore.gameSettings.fieldHeight,
+                            gameSettingsStore.gameSettings.fieldWidth,
                         );
-                        checkAutoMultipleVisibleCells(
+                        checkMultipleVisibleCells(
                             currentCells,
                             rowIndex,
                             colIndex,
-                            AUTO_PLAY_PARAMS.FIELD_HEIGHT,
-                            AUTO_PLAY_PARAMS.FIELD_WIDTH,
+                            gameSettingsStore.gameSettings.fieldHeight,
+                            gameSettingsStore.gameSettings.fieldWidth,
                         );
                     }
                 });
             });
 
-            // gameStore.setCells(currentCells);
             checkIfGameIsWon(currentCells);
-            // if (!gameStore.isAutoGameChanged) {
-            //     gameStore.setIsGameStarted(false);
-            //     clearInterval(timer);
-            //     console.log('aa');
-            // }
 
             const cellsArrayJsAfterIteration = toJS(gameStore.gameCells);
             const chcellsArrayJsonAfterIteration = JSON.stringify(cellsArrayJsAfterIteration);
@@ -98,10 +86,6 @@ const AutoPlayScreen: React.FC = () => {
             }
         }, 3000);
     };
-
-    // useEffect(() => {
-    //     console.log('changed');
-    // }, [gameStore.gameCells]);
 
     const checkAutoMultipleDefaultCells = (
         cells: Cell[][],
@@ -301,62 +285,6 @@ const AutoPlayScreen: React.FC = () => {
                 return cell;
             }),
         );
-    };
-
-    const checkAutoMultipleVisibleCells = (
-        cells: Cell[][],
-        rowParam: number,
-        colParam: number,
-        fieldHeight: number,
-        fieldWidth: number,
-    ): Cell[][] => {
-        const currentCell = cells[rowParam][colParam];
-        const newCells = cells.slice();
-
-        const {
-            topLeftCell,
-            topCell,
-            topRightCell,
-            leftCell,
-            rightCell,
-            bottomLeftCell,
-            bottomCell,
-            bottomRightCell,
-        } = grabAllAdjacentCells(cells, rowParam, colParam, fieldHeight, fieldWidth);
-
-        let numberOfFlags = 0;
-
-        if (topLeftCell?.state === CellState.flagged) {
-            numberOfFlags++;
-        }
-        if (topCell?.state === CellState.flagged) {
-            numberOfFlags++;
-        }
-        if (topRightCell?.state === CellState.flagged) {
-            numberOfFlags++;
-        }
-        if (leftCell?.state === CellState.flagged) {
-            numberOfFlags++;
-        }
-        if (rightCell?.state === CellState.flagged) {
-            numberOfFlags++;
-        }
-        if (bottomLeftCell?.state === CellState.flagged) {
-            numberOfFlags++;
-        }
-        if (bottomCell?.state === CellState.flagged) {
-            numberOfFlags++;
-        }
-        if (bottomRightCell?.state === CellState.flagged) {
-            numberOfFlags++;
-        }
-
-        if (numberOfFlags < currentCell.value) {
-            // console.log('LOOK Better');
-            //TODO
-        } else openMultipleEmptyCells(cells, rowParam, colParam, fieldHeight, fieldWidth);
-
-        return newCells;
     };
 
     return (
