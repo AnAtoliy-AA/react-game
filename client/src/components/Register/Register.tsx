@@ -17,6 +17,8 @@ export default Register;
 export const RegisterForm = () => {
     const { register, handleSubmit, errors } = useForm<User>();
     const [responseMessage, setResponseMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
     const onSubmit = (data: User) => {
         axios
             .post('/api/auth/register', {
@@ -28,7 +30,8 @@ export const RegisterForm = () => {
                 console.log(response.statusText);
             })
             .catch((er) => {
-                console.log('er', er.message);
+                console.log('error: ', er.message);
+                setErrorMessage(er.message);
             });
     };
     return (
@@ -76,7 +79,8 @@ export const RegisterForm = () => {
                     Register
                 </Button>
             </form>
-            {responseMessage}
+            <div className="response-message">{responseMessage}</div>
+            <div className="error-message">{errorMessage}</div>
         </div>
     );
 };

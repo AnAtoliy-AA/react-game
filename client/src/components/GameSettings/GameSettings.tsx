@@ -42,6 +42,7 @@ export const GameSettingsForm = observer(() => {
 
     const [responseMessage, setResponseMessage] = useState('');
     const { handleSubmit } = useForm();
+    const [errorMessage, setErrorMessage] = useState('');
     const onSubmit = () => {
         axios
             .patch(
@@ -72,6 +73,10 @@ export const GameSettingsForm = observer(() => {
                     gameSettingsStore.gameSettings.bombsQuantity,
                 );
                 setResponseMessage(response.statusText);
+            })
+            .catch((er) => {
+                console.log('error: ', er.message);
+                setErrorMessage(er.message);
             });
     };
 
@@ -341,7 +346,8 @@ export const GameSettingsForm = observer(() => {
                     </Button>
                 </div>
             </form>
-            {responseMessage}
+            <div className="response-message">{responseMessage}</div>
+            <div className="error-message">{errorMessage}</div>
         </div>
     );
 });

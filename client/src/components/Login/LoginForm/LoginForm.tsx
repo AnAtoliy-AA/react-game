@@ -29,11 +29,6 @@ const LoginForm = observer(() => {
                 if (!response.data) {
                     setDefaultSettings();
                 } else gameSettingsStore.setGameSettings(response.data.list[0]);
-                // gameStore.setDefaultStartGameValues(
-                //     gameSettingsStore.gameSettings.fieldHeight,
-                //     gameSettingsStore.gameSettings.fieldWidth,
-                //     gameSettingsStore.gameSettings.bombsQuantity,
-                // );
             })
             .catch((er) => {
                 console.log('error: ', er.message);
@@ -63,11 +58,6 @@ const LoginForm = observer(() => {
                     gameStore.setGameTime(lastGameTime);
                     gameStore.setBombCount(lastGameBombsCount);
                 }
-                // gameStore.setDefaultStartGameValues(
-                //     gameSettingsStore.gameSettings.fieldHeight,
-                //     gameSettingsStore.gameSettings.fieldWidth,
-                //     gameSettingsStore.gameSettings.bombsQuantity,
-                // );
             })
             .catch((er) => {
                 console.log('error: ', er.message);
@@ -116,21 +106,11 @@ const LoginForm = observer(() => {
             )
             .then((response) => {
                 gameSettingsStore.setGameSettings(response.data.list[0]);
-                // sendRequest();
-                // mainScreenStore.toggleIsNewTaskFormOpen();
             })
             .catch((er) => {
                 console.log('error: ', er.message);
                 setErrorMessage(er.message);
             });
-        //TODO
-        // gameSettingsStore.setGameSettings({
-        //     fieldSize: FIELD_SIZES.SMALL.name,
-        //     fieldWidth: FIELD_SIZES.SMALL.fieldWidth,
-        //     fieldHeight: FIELD_SIZES.SMALL.fieldHeight,
-        //     bombsQuantity: FIELD_SIZES.SMALL.bombsQuantity,
-        //     fieldStyle: DEFAULT_FIELD_STYLE,
-        // });
     };
 
     const { register, handleSubmit, errors } = useForm<User>();

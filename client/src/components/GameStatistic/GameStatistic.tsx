@@ -21,6 +21,8 @@ const GameStatistic: React.FC = () => {
     const gameSettingsStore = useStore('gameSettingsStore');
     const gameStatisticsStore = useStore('gameStatisticsStore');
 
+    const [errorMessage, setErrorMessage] = useState('');
+
     const getStatistics = async () => {
         axios
             .get('/api/statistics', {
@@ -31,6 +33,10 @@ const GameStatistic: React.FC = () => {
             .then((response) => {
                 const responseStatistics = response.data.map((el: { list: GameStatistics[] }) => el.list[0]);
                 gameStatisticsStore.setGameStatistics(responseStatistics);
+            })
+            .catch((er) => {
+                console.log('error: ', er.message);
+                setErrorMessage(er.message);
             });
     };
     //TODO
@@ -165,6 +171,7 @@ const GameStatistic: React.FC = () => {
                         : WORDS_CONFIG.REFRESH_BUTTON.native}
                 </Button>
             </div>
+            <div className="error-message">{errorMessage}</div>
         </div>
     );
 };
