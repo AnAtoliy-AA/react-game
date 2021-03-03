@@ -65,7 +65,6 @@ export const GameSettingsForm = observer(() => {
                 },
             )
             .then((response) => {
-                // sendRequest();
                 gameSettingsStore.setGameSettings(response.data.list[0]);
                 gameStore.setDefaultStartGameValues(
                     gameSettingsStore.gameSettings.fieldHeight,
@@ -110,40 +109,32 @@ export const GameSettingsForm = observer(() => {
 
     const handleSoundOn = () => {
         setGameSoundVolume(gameSettingsStore.gameSettings.gameSoundVolume);
-        // gameSettingsStore.turnSoundOn();
     };
 
     const handleSoundOff = () => {
         setGameSoundVolume(0);
-        // gameSettingsStore.turnSoundOff();
     };
 
     const handleSoundUp = () => {
-        // gameSettingsStore.incrementSoundVolume();
         setGameSoundVolume(+(gameSoundVolume + 0.1).toFixed(1));
     };
 
     const handleSoundDown = () => {
-        // gameSettingsStore.decrementSoundVolume();
         setGameSoundVolume(+(gameSoundVolume - 0.1).toFixed(1));
     };
     const handleMusicOn = () => {
         setGameMusicVolume(gameSettingsStore.gameSettings.gameSoundVolume);
-        // gameSettingsStore.turnSoundOn();
     };
 
     const handleMusicOff = () => {
         setGameMusicVolume(0);
-        // gameSettingsStore.turnSoundOff();
     };
 
     const handleMusicUp = () => {
-        // gameSettingsStore.incrementSoundVolume();
         setGameMusicVolume(+(gameMusicVolume + 0.1).toFixed(1));
     };
 
     const handleMusicDown = () => {
-        // gameSettingsStore.decrementSoundVolume();
         setGameMusicVolume(+(gameMusicVolume - 0.1).toFixed(1));
     };
     return (

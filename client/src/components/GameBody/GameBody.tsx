@@ -1,20 +1,17 @@
-import { observer } from 'mobx-react-lite';
 import React, { useEffect, useRef } from 'react';
 import { useStore } from '../../hooks/hooks';
-import CellButton from '../CellButton/CellButton';
-import './GameBody.scss';
-
-import { Cell, CellState, CellValue, Face } from '../../types';
-import { checkMultipleVisibleCells, openMultipleEmptyCells, toggleStyleAllAdjacentCells } from '../../utils';
+import { observer } from 'mobx-react-lite';
+import { toJS } from 'mobx';
 import { Grid } from '@material-ui/core';
 import axios from 'axios';
 import useSound from 'use-sound';
 import lostSound from '../../assets/sounds/failure.mp3';
 import winSound from '../../assets/sounds/success.mp3';
 import checkSound from '../../assets/sounds/correct.mp3';
-// import gameMusic from '../../assets/sounds/music.mp3';
-
-import { toJS } from 'mobx';
+import { checkMultipleVisibleCells, openMultipleEmptyCells, toggleStyleAllAdjacentCells } from '../../utils';
+import { Cell, CellState, CellValue, Face } from '../../types';
+import CellButton from '../CellButton/CellButton';
+import './GameBody.scss';
 
 enum MouseButtons {
     LeftButton = 1,
@@ -40,7 +37,6 @@ const GameBody: React.FC = () => {
     const [playLostSound] = useSound(lostSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
     const [playWinSound] = useSound(winSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
     const [playCheckSound] = useSound(checkSound, { volume: gameSettingsStore.gameSettings.gameSoundVolume });
-    // const [playGameMusic] = useSound(gameMusic, { volume: gameSettingsStore.gameSettings.gameMusicVolume });
 
     const handleMouseDown = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -95,7 +91,6 @@ const GameBody: React.FC = () => {
             }
 
             gameStore.setGameStartedValues();
-            // playGameMusic();
         }
 
         //TODO NEED IT??
@@ -135,8 +130,6 @@ const GameBody: React.FC = () => {
         playCheckSound();
         saveGame(newCells);
         checkIfGameIsWon(newCells);
-
-        // gameStore.setCells(newCells);
     };
 
     const checkIfGameIsWon = (cells: Cell[][]) => {
@@ -233,7 +226,6 @@ const GameBody: React.FC = () => {
             // eslint-disable-next-line react/prop-types
             row.forEach((cell) => {
                 if (cell.value === CellValue.bomb && cell.state === CellState.visible) {
-                    // sendStatistics();
                     gameStore.setGameLostValues();
                 }
             }),
@@ -378,10 +370,7 @@ const GameBody: React.FC = () => {
         handleCellClick(gameStore.activeCellRow, gameStore.activeCellCol);
     };
 
-    //TODO
     const handleRightClick = () => {
-        // handleRightMouseButton(gameStore.activeCellRow, gameStore.activeCellCol, true);
-        // handleCellContext(gameStore.activeCellRow, gameStore.activeCellCol);
         if (!gameStore.isGameStarted || gameStore.isGameLost || gameStore.isGameWon) {
             return;
         }
