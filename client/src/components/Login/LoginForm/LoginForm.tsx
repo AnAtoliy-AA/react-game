@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { observer } from 'mobx-react-lite';
@@ -16,6 +16,8 @@ const LoginForm = observer(() => {
     const gameSettingsStore = useStore('gameSettingsStore');
     const gameStatisticsStore = useStore('gameStatisticsStore');
 
+    const [errorMessage, setErrorMessage] = useState('');
+
     const getSettings = async () => {
         axios
             .get('/api/settings', {
@@ -32,6 +34,10 @@ const LoginForm = observer(() => {
                 //     gameSettingsStore.gameSettings.fieldWidth,
                 //     gameSettingsStore.gameSettings.bombsQuantity,
                 // );
+            })
+            .catch((er) => {
+                console.log('error: ', er.message);
+                setErrorMessage(er.message);
             });
     };
 
@@ -62,6 +68,10 @@ const LoginForm = observer(() => {
                 //     gameSettingsStore.gameSettings.fieldWidth,
                 //     gameSettingsStore.gameSettings.bombsQuantity,
                 // );
+            })
+            .catch((er) => {
+                console.log('error: ', er.message);
+                setErrorMessage(er.message);
             });
     };
 
@@ -75,6 +85,10 @@ const LoginForm = observer(() => {
             .then((response) => {
                 const responseStatistics = response.data.map((el: { list: GameStatistics[] }) => el.list[0]);
                 gameStatisticsStore.setGameStatistics(responseStatistics);
+            })
+            .catch((er) => {
+                console.log('error: ', er.message);
+                setErrorMessage(er.message);
             });
     };
     //TODO
@@ -104,6 +118,10 @@ const LoginForm = observer(() => {
                 gameSettingsStore.setGameSettings(response.data.list[0]);
                 // sendRequest();
                 // mainScreenStore.toggleIsNewTaskFormOpen();
+            })
+            .catch((er) => {
+                console.log('error: ', er.message);
+                setErrorMessage(er.message);
             });
         //TODO
         // gameSettingsStore.setGameSettings({
@@ -128,6 +146,10 @@ const LoginForm = observer(() => {
                 getSettings();
                 getLastGame();
                 getStatistics();
+            })
+            .catch((er) => {
+                console.log('error: ', er.message);
+                setErrorMessage(er.message);
             });
     };
     return (
@@ -175,6 +197,7 @@ const LoginForm = observer(() => {
                     Login
                 </Button>
             </form>
+            <div className="error-message">{errorMessage}</div>
         </div>
     );
 });
