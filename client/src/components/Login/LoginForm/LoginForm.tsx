@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useForm } from 'react-hook-form';
-import { observer } from 'mobx-react-lite';
-import { Button, TextField } from '@material-ui/core';
-import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
-
 import './LoginForm.scss';
-import { GameStatistics, User } from '../../../shared/interfaces';
-import { useStore } from '../../../hooks/hooks';
+
+import { Button, TextField } from '@material-ui/core';
 import { DEFAULT_FIELD_STYLE, DEFAULT_FOREIGN_LANGUAGE, DEFAULT_SOUND_VOLUME, FIELD_SIZES } from '../../../constants';
+import { GameStatistics, User } from '../../../shared/interfaces';
+import React, { useState } from 'react';
+
+import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
+import axios from 'axios';
+import { generateCells } from '../../../utils';
+import { observer } from 'mobx-react-lite';
+import { toJS } from 'mobx';
+import { useForm } from 'react-hook-form';
+import { useStore } from '../../../hooks/hooks';
 
 const LoginForm = observer(() => {
     const authStore = useStore('authStore');
@@ -50,6 +53,7 @@ const LoginForm = observer(() => {
                         gameSettingsStore.gameSettings.fieldWidth,
                         gameSettingsStore.gameSettings.bombsQuantity,
                     );
+                    setDefaultSavedGame();
                 } else {
                     const lastSavedGame = response.data.list[0].savedGame;
                     const lastGameTime = response.data.list[0].gameTime;
@@ -107,6 +111,36 @@ const LoginForm = observer(() => {
             .then((response) => {
                 gameSettingsStore.setGameSettings(response.data.list[0]);
             })
+            .catch((er) => {
+                console.log('error: ', er.message);
+                setErrorMessage(er.message);
+            });
+    };
+
+    const setDefaultSavedGame = () => {
+        const savedGame = generateCells(
+            FIELD_SIZES.SMALL.fieldWidth,
+            FIELD_SIZES.SMALL.fieldHeight,
+            FIELD_SIZES.SMALL.bombsQuantity,
+        );
+        const bombsCount = FIELD_SIZES.SMALL.bombsQuantity;
+        const gameTime = 0;
+        axios
+            .post(
+                'api/gamesave',
+                {
+                    list: {
+                        savedGame: savedGame,
+                        bombsCount: bombsCount,
+                        gameTime: gameTime,
+                    },
+                },
+                {
+                    headers: {
+                        authorization: authStore.token,
+                    },
+                },
+            )
             .catch((er) => {
                 console.log('error: ', er.message);
                 setErrorMessage(er.message);
