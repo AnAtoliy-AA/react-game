@@ -1,0 +1,10 @@
+@import "../../styles/index.scss";
+
+.NumberDisplay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $display-color;
+    background-color: $display-background-color;
+    width: 70px
+}

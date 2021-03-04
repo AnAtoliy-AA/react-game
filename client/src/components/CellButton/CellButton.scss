@@ -1,0 +1,110 @@
+@import "../../styles/index.scss";
+
+.Button {
+  @include borders;
+  @include buttons;
+  width: 25px;
+  height: 25px;
+  font-weight: bold;
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+   
+  &.visible {
+    border-color: $display-background-color;
+    border-width: 1px;
+  }
+
+  &.value-1 {
+    color: $first-button-value;
+  }
+
+  &.value-2 {
+    color: $second-button-value;
+  }
+
+  &.value-3 {
+    color: $third-button-value;
+  }
+
+  &.value-4 {
+    color: $fourth-button-value;
+  }
+
+  &.value-5 {
+    color: $fifth-button-value;
+  }
+
+  &.value-6 {
+    color: $sixth-button-value;
+  }
+
+  &.value-7 {
+    color: $seventh-button-value;
+  }
+
+  &.value-8 {
+    color: $eights-button-value;
+  }
+
+  &.touched {
+    background-color: $second-button-value;
+  }
+  &.custom {
+    background-image: url('../../assets/images/custom-background.jpg');
+  }
+  &.danger {
+    background-image: none;
+    background-color: $display-color;
+  }
+  &.active {
+    background-image: url('../../assets/images/minesweeper.jpg');
+    background-position: 0px 0px !important;
+    transition: none;
+    background-size: cover;
+  }
+  &.checked {
+    @include borders($additional-border-color, $primary-border-color);
+  }
+}
+
+.fullscreen-enabled .Button {
+  width: 40px;
+    height: 40px;
+  font-size: 2em;
+}
+@media screen and (max-width: 950px) {
+  .Button {
+    width: 25px;
+    height: 25px;
+    font-size: 1em;
+  }
+  .fullscreen-enabled .Button {
+    font-size: 1em;
+  }
+}
+
+
+@media screen and (max-width: 860px) {
+  .Button {
+    width: 15px;
+    height: 15px;
+    font-size: 0.8em;
+  }
+  .fullscreen-enabled .Button {
+    font-size: 0.8em;
+  }
+}
+
+
+@media screen and (max-width: 560px) {
+  .Button {
+    width: 10px;
+    height: 10px;
+    font-size: 0.5em;
+  }
+  .fullscreen-enabled .Button {
+    font-size: 0.5em;
+  }
+}

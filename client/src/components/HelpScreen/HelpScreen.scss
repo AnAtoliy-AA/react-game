@@ -1,0 +1,35 @@
+@import "../../styles/index.scss";
+
+.HelpScreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    .help-text {
+        max-width: 80vw;
+    }
+
+    .help-controls-keys {
+        display: flex;
+        align-items: center;
+        margin-top: 1vh;
+    }
+
+    .help-control-key {
+        @include borders;
+        @include buttons;
+        width: 30px;
+        height: 30px;
+        font-weight: bold;
+        font-size: 1.5em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 4vw;
+    }
+
+    .control-key-advanced{
+        width: 80px;
+    }
+}

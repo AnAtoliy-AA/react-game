@@ -1,0 +1,10 @@
+@import "../../../styles/index.scss";
+
+.AutoPlayGameHeader {
+    @include borders($additional-border-color, $primary-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: $primary-color;
+    padding: 10px 12px;
+}

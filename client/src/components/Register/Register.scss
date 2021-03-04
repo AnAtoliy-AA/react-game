@@ -1,0 +1,16 @@
+.register {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.field {
+    margin: 5vh;
+}
+
+.response-message {
+    margin-top: 5vh;
+}

@@ -1,0 +1,42 @@
+@import "../../styles/index.scss";
+
+.GameScreen {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 16px;
+    flex-grow: 2 1;
+}
+
+.game-container {
+    @include borders;
+    margin: 1em 1em ;
+    padding: 1em 1em;
+    background: $primary-color;
+}
+
+.game-controls {
+    display: flex;
+    justify-content: space-around;
+    width: 50vw;
+}
+
+.fullscreen-enabled .game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15vh;
+}
+
+.audioplayer-container {
+   width: 80vw;
+}
+
+.hidden {
+    position: absolute;
+    visibility: hidden;
+}

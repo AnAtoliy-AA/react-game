@@ -1,0 +1,38 @@
+.settings-screen {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.settings-field { 
+ margin: 3vh;
+}
+
+.sound-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sound-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 40vw;
+}
+
+.settings-nav {
+    display: flex;
+    justify-content: space-between;
+    width: 30vw;
+}

@@ -1,0 +1,38 @@
+@import "../../styles/index.scss";
+
+.header {
+    grid-area: header;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $primary-color;
+
+    .logo {
+        max-height: 7vh;
+        margin-left: 4vw;
+        border-radius: 0.5em;
+    }
+
+    .header-nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 15vw;
+        height: 4vh;
+        margin-right: 4vw;
+        border-radius: 0.5em;
+        text-align: center;
+        cursor: pointer;
+        color: $fourth-button-value;
+
+        @media screen and (max-width: 1000px) {
+            flex-direction: column;
+            height: 8vh;
+            margin-right: 2vw;
+        }
+    }
+
+    &.custom {
+        background-image: url('../../assets/images/custom-background.jpg');
+    }
+}

@@ -1,0 +1,6 @@
+@import "../../../styles/index.scss";
+
+.AutoPlayGameBody {
+    @include borders($additional-border-color, $primary-border-color);
+    margin-top: 16px;
+}
